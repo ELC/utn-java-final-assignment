@@ -1,5 +1,46 @@
 package entities;
 
 public class TypeBookable {
+	
+	private int id;
+	private String name;
+	private int hourslimit;
+	private int dayslimit;
+	private int restriction;
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public int getHourslimit() {
+		return hourslimit;
+	}
+	public void setHourslimit(int hourslimit) {
+		this.hourslimit = hourslimit;
+	}
+	
+	public int getDayslimit() {
+		return dayslimit;
+	}
+	public void setDayslimit(int dayslimit) {
+		this.dayslimit = dayslimit;
+	}
+	
+	public int getRestriction() {
+		return restriction;
+	}
+	public void setRestriction(int restriction) {
+		this.restriction = restriction;
+	}
 
 }
