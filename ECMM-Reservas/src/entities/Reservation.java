@@ -8,10 +8,6 @@ public class Reservation {
 	private Bookable bookable;
 	private Timestamp date;
 
-	public Reservation(){
-		this.date = new Timestamp(System.currentTimeMillis());
-	}
-
 	public Person getPerson() {
 		return person;
 	}

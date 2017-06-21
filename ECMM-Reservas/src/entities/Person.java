@@ -11,6 +11,7 @@ public class Person {
 	private String name;
 	private String lastName;
 	private String username;
+	private String email;
 	private String password;
 	private boolean enabled;
 	private List<AccessLevel> privileges;
@@ -45,6 +46,12 @@ public class Person {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	public String getPassword() {
 		return password;
 	}
@@ -64,4 +71,5 @@ public class Person {
 	public void setPrivileges(int privileges) {
 		this.privileges = AccessLevel.parsePermissions(privileges);
 	}
+
 }
