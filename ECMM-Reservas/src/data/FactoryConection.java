@@ -21,20 +21,21 @@ public class FactoryConection {
 	}
 	
 	public static FactoryConection getInstancia(){
-		
-		if (FactoryConection.instancia==null){
-			FactoryConection.instancia=new FactoryConection();
-			
-			}
-		
+		if (FactoryConection.instancia == null){
+			FactoryConection.instancia = new FactoryConection();
+		}
 		return FactoryConection.instancia;
-		
 	}
 	
 	public Connection getConn(){
+		String dbhost = ProjectConfiguration.getProperty("dbhost");
+		String dbuser = ProjectConfiguration.getProperty("dbuser");
+		String dbpassword = ProjectConfiguration.getProperty("dbpassword");
+		String dbport = ProjectConfiguration.getProperty("dbport");
+		String dbname = ProjectConfiguration.getProperty("dbname");
+		
 		try {
-			
-			conn=  DriverManager.getConnection("jdbc:mysql://sql10.freemysqlhosting.net:3306/sql10181254?user=sql10181254&password=eZkGdZyJe8");
+			conn=  DriverManager.getConnection("jdbc:mysql://"+dbhost+":"+dbport+"/"+dbname+"?user="+dbuser+"&password="+dbpassword);
 			
 		} catch (SQLException e) {
 			
