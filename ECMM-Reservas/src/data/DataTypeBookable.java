@@ -25,7 +25,7 @@ public class DataTypeBookable {
 		ArrayList<TypeBookable> typeBookables= new ArrayList<TypeBookable>();
 		try{
 			Statement stmt = FactoryConection.getInstancia().getConn().createStatement();
-			ResultSet rs=stmt.executeQuery("Select * from person");
+			ResultSet rs=stmt.executeQuery("Select * from type_bookable");
 			if(rs!=null){
 				while(rs.next()){
 					TypeBookable tb = buildTypeBookable(rs);

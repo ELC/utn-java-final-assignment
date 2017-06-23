@@ -23,7 +23,7 @@ public class DataUserRoles {
 		ArrayList<UserRole> userRoles= new ArrayList<UserRole>();
 		try{
 			Statement stmt = FactoryConection.getInstancia().getConn().createStatement();
-			ResultSet rs=stmt.executeQuery("Select * from person");
+			ResultSet rs=stmt.executeQuery("Select * from user_roles");
 			if(rs!=null){
 				while(rs.next()){
 					UserRole ur = buildUserRole(rs);
