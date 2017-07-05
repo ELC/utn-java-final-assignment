@@ -1,13 +1,16 @@
 package entities;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 public class Reservation {
 
 	private Person person;
 	private Bookable bookable;
-	private Timestamp date;
+	private Date date;
 
+	public void setDate(Date date) {
+		this.date = date;
+	}
 	public Person getPerson() {
 		return person;
 	}
@@ -22,7 +25,7 @@ public class Reservation {
 		this.bookable = bookable;
 	}
 
-	public Timestamp getDate() {
+	public Date getDate() {
 		return date;
 	}
 }

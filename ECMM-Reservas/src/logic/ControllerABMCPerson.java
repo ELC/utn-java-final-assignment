@@ -55,22 +55,7 @@ public class ControllerABMCPerson {
 	}
 	
 	
-	
-	public void RegisterTypeBookable(TypeBookable p){
-		
-	}
-	
-	public void LoginTypeBookable(TypeBookable p){
-		
-	}
-	
-	public void ModifyTypeBookable(TypeBookable p){
-		
-	}
-	
-	public  void DeleteTypeBookable(TypeBookable p){
-		
-	}
+
 	
 	public void isLoggedIn(){
 		if(activePerson==null){
