@@ -8,7 +8,11 @@ public class FactoryConection {
 	
 	private static FactoryConection instancia;
 	
-	private Connection conn;
+	private String dbhost = ProjectConfiguration.getProperty("dbhost");
+	private String dbuser = ProjectConfiguration.getProperty("dbuser");
+	private String dbpassword = ProjectConfiguration.getProperty("dbpassword");
+	private String dbport = ProjectConfiguration.getProperty("dbport");
+	private String dbname = ProjectConfiguration.getProperty("dbname");
 	
 	private FactoryConection(){
 		
@@ -27,22 +31,30 @@ public class FactoryConection {
 		return FactoryConection.instancia;
 	}
 	
-	public Connection getConn(){
-		String dbhost = ProjectConfiguration.getProperty("dbhost");
-		String dbuser = ProjectConfiguration.getProperty("dbuser");
-		String dbpassword = ProjectConfiguration.getProperty("dbpassword");
-		String dbport = ProjectConfiguration.getProperty("dbport");
-		String dbname = ProjectConfiguration.getProperty("dbname");
-		
-		try {
-			conn=  DriverManager.getConnection("jdbc:mysql://"+dbhost+":"+dbport+"/"+dbname+"?user="+dbuser+"&password="+dbpassword);
-			
+	private Connection conn;
+	private int cantConn=0;
+	
+	public Connection getConn(){		
+		try { 
+			if(conn==null || conn.isClosed()){
+				conn=  DriverManager.getConnection("jdbc:mysql://"+dbhost+":"+dbport+"/"+dbname+"?user="+dbuser+"&password="+dbpassword);
+			}
 		} catch (SQLException e) {
-			
 			e.printStackTrace();
-			
 		}
+		cantConn++;
 		return conn;		
 	}
-
+	
+	public void releaseConn(){
+		try {
+			cantConn--;
+			if(cantConn==0){
+				conn.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	
 }

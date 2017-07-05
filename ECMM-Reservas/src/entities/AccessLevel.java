@@ -4,10 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum AccessLevel{
-	READ	(1 << 0),
-	WRITE	(1 << 1),
-	MODIFY	(1 << 2),
-	DELETE	(1 << 3);
+	DELETE_USER	(1 << 0),
+	CREATE_USER	(1 << 1),
+	MODIFY_USER	(1 << 2),
+	CREATE_BOOKABLE	(1 << 3),
+	MODIFY_BOOKABLE	(1 << 4),
+	DELETE_BOOKABLE	(1 << 5),
+	CREATE_TYPEBOOKABLE	(1 << 6),
+	MODIFY_TYPEBOOKABLE	(1 << 7),
+	DELETE_TYPEBOOKABLE	(1 << 8);
+	
 	
 	private final int _value;
 	AccessLevel(int value){

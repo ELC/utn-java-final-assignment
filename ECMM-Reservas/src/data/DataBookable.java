@@ -50,4 +50,15 @@ public class DataBookable {
 		return null;
 	}
 
+	public void add(Bookable b) {
+		
+	}
+	
+	public void update(Bookable b){
+		
+	}
+
+	public void delete(Bookable b){
+		
+	}
 }

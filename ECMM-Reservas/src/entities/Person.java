@@ -64,8 +64,8 @@ public class Person {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	public int getPrivileges() {
-		return AccessLevel.combinePermissions(this.privileges);	
+	public List<AccessLevel> getPrivileges() {
+		return this.privileges;	
 	}
 	
 	public void setPrivileges(int privileges) {

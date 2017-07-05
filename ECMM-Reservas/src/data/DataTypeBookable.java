@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import entities.Bookable;
 import entities.TypeBookable;
 
 public class DataTypeBookable {
@@ -53,5 +54,15 @@ public class DataTypeBookable {
 	public static List<TypeBookable> getByDayLimit(int DaysLimit){
 		return null;
 	}
+public void add(TypeBookable b) {
+		
+	}
+	
+	public void update(TypeBookable b){
+		
+	}
 
+	public void delete(TypeBookable b){
+		
+	}
 }
