@@ -8,21 +8,11 @@ import java.util.ArrayList;
 
 import entities.Person;
 import entities.UserRole;
-import logic.ControllerABMCPerson;
 import data.DataUserRoles;
 
 
 
 public class DataPerson {
-
-	private ControllerABMCPerson ctrlPer;
-	
-	
-	public DataPerson(){
-		ctrlPer=new ControllerABMCPerson();
-	
-		
-	}
 	
 	
 	private Person buildPerson(ResultSet rs) throws SQLException{
@@ -255,9 +245,7 @@ public class DataPerson {
 		try {
 			stmt=FactoryConection.getInstancia().getConn()
 					.prepareStatement(
-					"delete from person where dni=?",
-					PreparedStatement.RETURN_GENERATED_KEYS
-					);
+					"delete from person where dni=?");
 			stmt.setString(1, p.getDni());
 			stmt.executeUpdate();
 			
@@ -280,10 +268,16 @@ public class DataPerson {
 		try {
 			stmt=FactoryConection.getInstancia().getConn()
 					.prepareStatement(
-					"update person set dni=?", //falta Terminar!
-					PreparedStatement.RETURN_GENERATED_KEYS
-					);
-			stmt.setString(1, p.getDni());
+					"update persona set name_person=?, last_name_person=?, user_person= ?, email=?, password_person=?, enable person=? where dni=?");
+			stmt.setString(1, p.getName());
+			stmt.setString(2, p.getLastName());
+			stmt.setString(3, p.getUsername());
+			stmt.setString(4, p.getDni());
+			stmt.setString(5, p.getEmail());
+			stmt.setString(6, p.getPassword());
+			stmt.setBoolean(7, p.isEnabled());
+			stmt.setString(8, p.getDni());
+			
 			stmt.executeUpdate();
 			
 		
@@ -296,8 +290,7 @@ public class DataPerson {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
+				
 		
 		
 	}
