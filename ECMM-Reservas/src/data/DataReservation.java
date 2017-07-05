@@ -67,7 +67,7 @@ public class DataReservation {
 			stmt.executeUpdate();
 			keyResultSet=stmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){
-			//	p.setId(keyResultSet.getInt(1));
+				re.setId(keyResultSet.getInt(1));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
