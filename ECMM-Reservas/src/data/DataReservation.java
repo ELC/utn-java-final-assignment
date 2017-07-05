@@ -111,4 +111,59 @@ public class DataReservation {
 		return r;
 	}
 	
+	public void delete(Reservation re) {
+		PreparedStatement stmt=null;
+		try {
+			stmt=FactoryConection.getInstancia().getConn()
+					.prepareStatement(
+					"delete from reservation where id_persona=?"); //cambiar argumento para borrar
+			stmt.setInt(1, re.getPerson().getId());
+			stmt.executeUpdate();
+			
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			if(stmt!=null)stmt.close();
+			FactoryConection.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+	}
+	
+	public void update(Reservation re){
+		
+		PreparedStatement stmt=null;
+		try {
+			stmt=FactoryConection.getInstancia().getConn()
+					.prepareStatement(
+					"update reservation set id_bookable=?, id_persona=?, time= ? where id_persona=?"); //validar
+			stmt.setInt(1, re.getPerson().getId());
+			stmt.setInt(2, re.getBookable().getId());
+			stmt.setLong(3, re.getDate().getTime());
+			stmt.setInt(4, re.getPerson().getId());
+			stmt.executeUpdate();
+			
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			if(stmt!=null)stmt.close();
+			FactoryConection.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+				
+		
+		
+		
+		
+	}
+	
 }

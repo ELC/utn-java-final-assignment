@@ -11,15 +11,20 @@ public class ControllerABMCReservation {
 	private ControllerABMCBookable ctrlBookable;
 	private ControllerABMCTypeBookable ctrlTypeBookable;
 	private DataReservation dataRes;
-	
+	private Person activePerson=null;
 	public ControllerABMCReservation(){
 		ctrlPer= new ControllerABMCPerson();
 		ctrlBookable= new ControllerABMCBookable();
 		ctrlTypeBookable= new ControllerABMCTypeBookable();
 		dataRes= new DataReservation();
+		activePerson=ctrlPer.getActivePerson();
 	}
 	
-	public void createReservation() {
+	public void RegisterReservation() {
+		ctrlPer.isLoggedIn();	
+		if(!activePerson.getPrivileges().contains(AccessLevel.CREATE_RESERVATION)){
+			//lanzo exepción
+		}
 		
 		TypeBookable type=ctrlTypeBookable.selectType();
 		Date date=selectDateTime();
@@ -32,7 +37,22 @@ public class ControllerABMCReservation {
 		dataRes.add(re);
 	}
 
-	public void deleteReservation(){}
+
+	public void ModifyReservation(Reservation re){
+		ctrlPer.isLoggedIn();	
+		if(!activePerson.getPrivileges().contains(AccessLevel.MODIFY_RESERVATION)){
+			//lanzo exepción
+		}
+		dataRes.update(re);
+	}
+	
+	public void DeleteReservation(Reservation re){
+		ctrlPer.isLoggedIn();
+		if(!activePerson.getPrivileges().contains(AccessLevel.DELETE_RESERVATION)){
+			//lanzo exepción
+		}
+		dataRes.delete(re);
+	}
 		
 
 

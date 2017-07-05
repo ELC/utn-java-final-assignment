@@ -12,7 +12,10 @@ public enum AccessLevel{
 	DELETE_BOOKABLE	(1 << 5),
 	CREATE_TYPEBOOKABLE	(1 << 6),
 	MODIFY_TYPEBOOKABLE	(1 << 7),
-	DELETE_TYPEBOOKABLE	(1 << 8);
+	DELETE_TYPEBOOKABLE	(1 << 8),
+	CREATE_RESERVATION (1 << 9),
+	MODIFY_RESERVATION (1 << 10),
+	DELETE_RESERVATION (1 << 11);
 	
 	
 	private final int _value;
