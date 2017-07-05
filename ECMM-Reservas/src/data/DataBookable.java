@@ -38,7 +38,7 @@ public class DataBookable {
 		return bookables;
 	}
 	
-	public static Bookable getById(int id){
+	public  Bookable getById(int id){
 		return null;
 	}
 	

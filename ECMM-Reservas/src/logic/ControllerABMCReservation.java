@@ -3,16 +3,20 @@ package logic;
 import java.sql.Date;
 import java.util.List;
 
+import data.DataReservation;
 import entities.*;
 
 public class ControllerABMCReservation {
 	private ControllerABMCPerson ctrlPer;
 	private ControllerABMCBookable ctrlBookable;
 	private ControllerABMCTypeBookable ctrlTypeBookable;
+	private DataReservation dataRes;
+	
 	public ControllerABMCReservation(){
 		ctrlPer= new ControllerABMCPerson();
 		ctrlBookable= new ControllerABMCBookable();
 		ctrlTypeBookable= new ControllerABMCTypeBookable();
+		dataRes= new DataReservation();
 	}
 	
 	public void createReservation() {

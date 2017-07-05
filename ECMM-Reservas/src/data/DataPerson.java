@@ -8,9 +8,22 @@ import java.util.ArrayList;
 
 import entities.Person;
 import entities.UserRole;
+import logic.ControllerABMCPerson;
 import data.DataUserRoles;
 
+
+
 public class DataPerson {
+
+	private ControllerABMCPerson ctrlPer;
+	
+	
+	public DataPerson(){
+		ctrlPer=new ControllerABMCPerson();
+	
+		
+	}
+	
 	
 	private Person buildPerson(ResultSet rs) throws SQLException{
 		Person p=new Person();
@@ -20,7 +33,7 @@ public class DataPerson {
 		p.setDni(rs.getString("dni"));
 		p.setEnabled(rs.getBoolean("enable_person"));
 		p.setUsername(rs.getString("user_person"));
-		p.setEmail(rs.getString("email_person"));
+		p.setEmail(rs.getString("email"));
 		UserRole user_role = DataUserRoles.getById(rs.getInt("privileges"));
 		p.setPrivileges(user_role.getPrivileges());
 		return p;
@@ -55,7 +68,38 @@ public class DataPerson {
 	}
 	
 	public  Person getById(int id){
-		return null;
+		
+		
+		Person p=null;
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		try {
+			stmt=FactoryConection.getInstancia().getConn().prepareStatement(
+					"select * from person where id_person=?");
+			stmt.setInt(1, id);
+			rs=stmt.executeQuery();
+			if(rs!=null && rs.next()){
+				p=buildPerson(rs);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			if(rs!=null)rs.close();
+			if(stmt!=null)stmt.close();
+			FactoryConection.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return p;
+		
+		
+		
+		
+		
 	}
 	
 	public ArrayList<Person> getByPermission(int permission){
@@ -63,11 +107,59 @@ public class DataPerson {
 	}
 	
 	public Person getByEmail(String email){
-		return null;
+		Person p=null;
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		try {
+			stmt=FactoryConection.getInstancia().getConn().prepareStatement(
+					"select * from person where email=?");
+			stmt.setString(1, email);
+			rs=stmt.executeQuery();
+			if(rs!=null && rs.next()){
+				p=buildPerson(rs);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			if(rs!=null)rs.close();
+			if(stmt!=null)stmt.close();
+			FactoryConection.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return p;
 	}
 	
 	public ArrayList<Person> getAllEnable(){
-		return null;
+		Statement stmt=null;
+		ResultSet rs=null;
+		ArrayList<Person> pers= new ArrayList<Person>();
+		try{
+			stmt= FactoryConection.getInstancia().getConn().createStatement();
+			rs=stmt.executeQuery("Select * from person where enable_person=1");
+			if(rs!=null){
+				while(rs.next()){
+					Person p = buildPerson(rs);
+					pers.add(p);
+				}			
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();		
+		}
+		
+		try {
+			if(rs!=null) rs.close();
+			if(stmt!=null) stmt.close();
+			FactoryConection.getInstancia().releaseConn();
+		} catch (SQLException e) {	
+			e.printStackTrace();
+		}
+		
+		return pers;
 	}
 	
 	public ArrayList<Person> getAllwithUserRole(UserRole userRole){
@@ -75,7 +167,31 @@ public class DataPerson {
 	}
 	
 	public Person getByUsername(String username){
-		return null;
+		Person p=null;
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		try {
+			stmt=FactoryConection.getInstancia().getConn().prepareStatement(
+					"select * from person where user_person=?");
+			stmt.setString(1,username);
+			rs=stmt.executeQuery();
+			if(rs!=null && rs.next()){
+				p=buildPerson(rs);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			if(rs!=null)rs.close();
+			if(stmt!=null)stmt.close();
+			FactoryConection.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return p;
 	}
 	
 	public Person getByDni(Person per){
@@ -84,7 +200,7 @@ public class DataPerson {
 		ResultSet rs=null;
 		try {
 			stmt=FactoryConection.getInstancia().getConn().prepareStatement(
-					"select * from person where person_dni=?");
+					"select * from person where dni=?");
 			stmt.setString(1, per.getDni());
 			rs=stmt.executeQuery();
 			if(rs!=null && rs.next()){
@@ -111,7 +227,7 @@ public class DataPerson {
 		try {
 			stmt=FactoryConection.getInstancia().getConn()
 					.prepareStatement(
-					"insert into persona(dni, nombre, apellido, habilitado) values (?,?,?,?)",
+					"insert into person(dni, nombre, apellido, habilitado) values (?,?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			stmt.setString(1, p.getDni());
@@ -135,8 +251,56 @@ public class DataPerson {
 		}
 	}
 	public void delete(Person p) {
+		PreparedStatement stmt=null;
+		try {
+			stmt=FactoryConection.getInstancia().getConn()
+					.prepareStatement(
+					"delete from person where dni=?",
+					PreparedStatement.RETURN_GENERATED_KEYS
+					);
+			stmt.setString(1, p.getDni());
+			stmt.executeUpdate();
+			
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			if(stmt!=null)stmt.close();
+			FactoryConection.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
 		
 	}
-	public void update(Person p){}
+	public void update(Person p){
+		PreparedStatement stmt=null;
+		try {
+			stmt=FactoryConection.getInstancia().getConn()
+					.prepareStatement(
+					"update person set dni=?", //falta Terminar!
+					PreparedStatement.RETURN_GENERATED_KEYS
+					);
+			stmt.setString(1, p.getDni());
+			stmt.executeUpdate();
+			
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			if(stmt!=null)stmt.close();
+			FactoryConection.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+	}
+	
 	
 }
