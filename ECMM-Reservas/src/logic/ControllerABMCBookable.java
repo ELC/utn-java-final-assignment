@@ -7,15 +7,18 @@ public class ControllerABMCBookable {
 	private ControllerABMCPerson ctrlPer;
 	private Person activePerson=null;
 	private DataBookable dataBookable;
+	private Application app;
+	
 	public ControllerABMCBookable(){
 		ctrlPer= new ControllerABMCPerson(); //Preguntar al profe si debe ser Singleton//
-		activePerson= ctrlPer.getActivePerson(); 
+		app = Application.getInstancia();
+		activePerson= app.getActivePerson(); 
 		dataBookable= new DataBookable();
 	}
 	
 	
 	public void RegisterBookable(Bookable b){
-		ctrlPer.isLoggedIn();
+		app.isLoggedIn();
 		if(!activePerson.getPrivileges().contains(AccessLevel.CREATE_BOOKABLE)){
 			//lanzo exepción
 		}
@@ -23,7 +26,7 @@ public class ControllerABMCBookable {
 	}
 	
 	public void ModifyBookable(Bookable b){
-		ctrlPer.isLoggedIn();	
+		app.isLoggedIn();	
 		if(!activePerson.getPrivileges().contains(AccessLevel.MODIFY_BOOKABLE)){
 			//lanzo exepción
 		}
@@ -31,7 +34,7 @@ public class ControllerABMCBookable {
 	}
 	
 	public void DeleteBookable(Bookable b){
-		ctrlPer.isLoggedIn();
+		app.isLoggedIn();
 		if(!activePerson.getPrivileges().contains(AccessLevel.DELETE_BOOKABLE)){
 			//lanzo exepción
 		}

@@ -11,35 +11,39 @@ public class ControllerABMCReservation {
 	private ControllerABMCBookable ctrlBookable;
 	private ControllerABMCTypeBookable ctrlTypeBookable;
 	private DataReservation dataRes;
-	private Person activePerson=null;
+	private Person activePerson;
+	private Application app;
+	
 	public ControllerABMCReservation(){
 		ctrlPer= new ControllerABMCPerson();
 		ctrlBookable= new ControllerABMCBookable();
 		ctrlTypeBookable= new ControllerABMCTypeBookable();
+		Application app = Application.getInstancia();
 		dataRes= new DataReservation();
-		activePerson=ctrlPer.getActivePerson();
+		activePerson=app.getActivePerson();
+		app = Application.getInstancia();
 	}
 	
-	public void RegisterReservation() {
-		ctrlPer.isLoggedIn();	
+	public void RegisterReservation(TypeBookable type, Date date, Bookable book) {
+		app.isLoggedIn();	
 		if(!activePerson.getPrivileges().contains(AccessLevel.CREATE_RESERVATION)){
 			//lanzo exepción
 		}
-		
-		TypeBookable type=ctrlTypeBookable.selectType();
-		Date date=selectDateTime();
-		List<Bookable> books= ctrlBookable.getAllAvailableByDateAndType(date,type);
-		Bookable book= selectItem();
 		Reservation re= new Reservation();
-		re.setPerson(ctrlPer.getActivePerson());
+		re.setPerson(app.getActivePerson());
 		re.setBookable(book);
 		re.setDate(date);
 		dataRes.add(re);
+//		select *
+//		from bookable
+//		inner join reservas
+//			on reservas.cod_bookable = bookable.cod_bookable
+//		where reservas.date <> ? or (reservas.date == ? and (reservas.time + ? < ? or ? + ? < reservas.time))
 	}
 
 
 	public void ModifyReservation(Reservation re){
-		ctrlPer.isLoggedIn();	
+		app.isLoggedIn();	
 		if(!activePerson.getPrivileges().contains(AccessLevel.MODIFY_RESERVATION)){
 			//lanzo exepción
 		}
@@ -47,7 +51,7 @@ public class ControllerABMCReservation {
 	}
 	
 	public void DeleteReservation(Reservation re){
-		ctrlPer.isLoggedIn();
+		app.isLoggedIn();
 		if(!activePerson.getPrivileges().contains(AccessLevel.DELETE_RESERVATION)){
 			//lanzo exepción
 		}

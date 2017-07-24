@@ -11,7 +11,6 @@ import entities.UserRole;
 import data.DataUserRoles;
 
 
-
 public class DataPerson {
 	
 	
@@ -86,14 +85,6 @@ public class DataPerson {
 		
 		return p;
 		
-		
-		
-		
-		
-	}
-	
-	public ArrayList<Person> getByPermission(int permission){
-		return null;
 	}
 	
 	public Person getByEmail(String email){
@@ -152,9 +143,6 @@ public class DataPerson {
 		return pers;
 	}
 	
-	public ArrayList<Person> getAllwithUserRole(UserRole userRole){
-		return null;
-	}
 	
 	public Person getByUsername(String username){
 		Person p=null;
@@ -245,8 +233,8 @@ public class DataPerson {
 		try {
 			stmt=FactoryConection.getInstancia().getConn()
 					.prepareStatement(
-					"delete from person where dni=?");
-			stmt.setString(1, p.getDni());
+					"delete from person where id_person=?");
+			stmt.setInt(1, p.getId());
 			stmt.executeUpdate();
 			
 		
@@ -259,8 +247,6 @@ public class DataPerson {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
 		
 	}
 	public void update(Person p){
@@ -268,7 +254,7 @@ public class DataPerson {
 		try {
 			stmt=FactoryConection.getInstancia().getConn()
 					.prepareStatement(
-					"update persona set name_person=?, last_name_person=?, user_person= ?, email=?, password_person=?, enable person=? where dni=?");
+					"update persona set name_person=?, last_name_person=?, user_person= ?, email=?, password_person=?, enable person=? where id_person=?");
 			stmt.setString(1, p.getName());
 			stmt.setString(2, p.getLastName());
 			stmt.setString(3, p.getUsername());
@@ -276,10 +262,9 @@ public class DataPerson {
 			stmt.setString(5, p.getEmail());
 			stmt.setString(6, p.getPassword());
 			stmt.setBoolean(7, p.isEnabled());
-			stmt.setString(8, p.getDni());
+			stmt.setInt(8, p.getId());
 			
 			stmt.executeUpdate();
-			
 		
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -290,10 +275,7 @@ public class DataPerson {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-				
-		
-		
+
 	}
-	
 	
 }
