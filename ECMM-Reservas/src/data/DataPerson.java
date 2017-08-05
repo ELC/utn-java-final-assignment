@@ -24,8 +24,8 @@ public class DataPerson {
 		p.setEnabled(rs.getBoolean("enable_person"));
 		p.setUsername(rs.getString("user_person"));
 		p.setEmail(rs.getString("email"));
-		UserRole user_role = DataUserRoles.getById(rs.getInt("privileges"));
-		p.setPrivileges(user_role.getPrivileges());
+		//UserRole user_role = DataUserRoles.getById(rs.getInt("privileges"));
+		//p.setPrivileges(user_role.getPrivileges());
 		return p;
 	}
 	
@@ -206,13 +206,16 @@ public class DataPerson {
 		try {
 			stmt=FactoryConection.getInstancia().getConn()
 					.prepareStatement(
-					"insert into person(dni, nombre, apellido, habilitado) values (?,?,?,?)",
+					"insert into person(dni, name_person,last_name_person, enable_person,user_person,password_person,email) values (?,?,?,?,?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			stmt.setString(1, p.getDni());
 			stmt.setString(2, p.getName());
 			stmt.setString(3, p.getLastName());
 			stmt.setBoolean(4, p.isEnabled());
+			stmt.setString(5, p.getUsername());
+			stmt.setString(6, p.getPassword());
+			stmt.setString(7, p.getEmail());
 			stmt.executeUpdate();
 			keyResultSet=stmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){
@@ -255,15 +258,14 @@ public class DataPerson {
 		try {
 			stmt=FactoryConection.getInstancia().getConn()
 					.prepareStatement(
-					"update persona set name_person=?, last_name_person=?, user_person= ?, email=?, password_person=?, enable person=? where id_person=?");
+					"update person set name_person=?, last_name_person=?, user_person=?, email=?, password_person=?, enable_person=? where id_person=?");
 			stmt.setString(1, p.getName());
 			stmt.setString(2, p.getLastName());
 			stmt.setString(3, p.getUsername());
-			stmt.setString(4, p.getDni());
-			stmt.setString(5, p.getEmail());
-			stmt.setString(6, p.getPassword());
-			stmt.setBoolean(7, p.isEnabled());
-			stmt.setInt(8, p.getId());
+			stmt.setString(4, p.getEmail());
+			stmt.setString(5, p.getPassword());
+			stmt.setBoolean(6, p.isEnabled());
+			stmt.setInt(7, p.getId());
 			
 			stmt.executeUpdate();
 		
