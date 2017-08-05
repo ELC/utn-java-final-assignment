@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import entities.Person;
 import entities.UserRole;
@@ -28,10 +29,10 @@ public class DataPerson {
 		return p;
 	}
 	
-	public ArrayList<Person> getAll(){
+	public List<Person> getAll(){
 		Statement stmt=null;
 		ResultSet rs=null;
-		ArrayList<Person> pers= new ArrayList<Person>();
+		List<Person> pers= new ArrayList<Person>();
 		try{
 			stmt= FactoryConection.getInstancia().getConn().createStatement();
 			rs=stmt.executeQuery("Select * from person");
@@ -56,7 +57,7 @@ public class DataPerson {
 		return pers;
 	}
 	
-	public  Person getById(int id){
+	public Person getById(int id){
 		
 		
 		Person p=null;

@@ -1,5 +1,6 @@
 package data;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,13 +17,12 @@ public class DataBookable {
 		Bookable b= new Bookable();
 		b.setId(rs.getInt("id_bookable"));
 		b.setName(rs.getString("name_bookable"));
-		TypeBookable type_bookable = DataTypeBookable.getById(rs.getInt("id_type_bookable "));
+		TypeBookable type_bookable = DataTypeBookable.getById(rs.getInt("id_type_bookable"));
 		b.setType(type_bookable);
 		return b;
 	}
 	
 	public static ArrayList<Bookable> getAll(){
-		
 		ArrayList<Bookable> bookables= new ArrayList<Bookable>();
 		try{
 			Statement stmt = FactoryConection.getInstancia().getConn().createStatement();
@@ -45,27 +45,26 @@ public class DataBookable {
 		PreparedStatement stmt=null;
 		ResultSet rs=null;
 		try {
-		stmt= FactoryConection.getInstancia().getConn().prepareStatement(		
-				"select * from bookable where id_bookable=?");
-		stmt.setInt(1, id); 
-		rs = stmt.executeQuery();
-		if(rs!=null && rs.next()){
-			b=buildBookable(rs);
+			stmt= FactoryConection.getInstancia().getConn().prepareStatement(		
+					"select * from bookable where id_bookable=?");
+			stmt.setInt(1, id); 
+			rs = stmt.executeQuery();
+			if(rs!=null && rs.next()){
+				b=buildBookable(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		
-	} catch (SQLException e) {
-		e.printStackTrace();
-	}
-	
-	try {
-		if(rs!=null) rs.close();
-		if(stmt!=null) stmt.close();
-		FactoryConection.getInstancia().releaseConn();
-	} catch (SQLException e) {
-		
-		e.printStackTrace();
-	}
-	return b;
+		try {
+			if(rs!=null) rs.close();
+			if(stmt!=null) stmt.close();
+			FactoryConection.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return b;
 	}
 	
 	public static Bookable getByName(int restriction){
@@ -78,65 +77,62 @@ public class DataBookable {
 		PreparedStatement stmt=null;
 		ResultSet rs=null;
 		try {
-		stmt= FactoryConection.getInstancia().getConn().prepareStatement(		
-				"select * from bookable where id_type_bookable=?");
-		stmt.setInt(1, bookable_type.getId()); 
-		rs = stmt.executeQuery();
-		if(rs!=null && rs.next()){
-			Bookable b=buildBookable(rs);
-			bookables.add(b);
+			stmt= FactoryConection.getInstancia().getConn().prepareStatement(		
+					"select * from bookable where id_type_bookable=?");
+			stmt.setInt(1, bookable_type.getId()); 
+			rs = stmt.executeQuery();
+			if(rs!=null && rs.next()){
+				Bookable b=buildBookable(rs);
+				bookables.add(b);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		
-	} catch (SQLException e) {
-		e.printStackTrace();
-	}
-	
-	try {
-		if(rs!=null) rs.close();
-		if(stmt!=null) stmt.close();
-		FactoryConection.getInstancia().releaseConn();
-	} catch (SQLException e) {
-		
-		e.printStackTrace();
-	}
-	return bookables;
-		
-		
+		try {
+			if(rs!=null) rs.close();
+			if(stmt!=null) stmt.close();
+			FactoryConection.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return bookables;
 	}
 
 	public void add(Bookable b) {
 		ResultSet keyResultSet=null;
 		PreparedStatement stmt=null;
-try {
-	stmt= FactoryConection.getInstancia().getConn().prepareStatement(
-	"insert into bookable (name_bookable,id_type_bookable) values(?,?)",
-	PreparedStatement.RETURN_GENERATED_KEYS);
-	
-	stmt.setString(1, b.getName()); 
-	stmt.setInt(2, b.getType().getId());
-	stmt.executeUpdate();
-	stmt.getGeneratedKeys();
-	keyResultSet= stmt.getGeneratedKeys(); 
-	if(keyResultSet!=null && keyResultSet.next()) {
+		try {
+			stmt= FactoryConection.getInstancia().getConn().prepareStatement(
+			"insert into bookable (name_bookable, id_type_bookable) values(?,?)",
+			PreparedStatement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, b.getName()); 
+			stmt.setInt(2, b.getType().getId());
+			stmt.executeUpdate();
+			stmt.getGeneratedKeys();
+			keyResultSet= stmt.getGeneratedKeys(); 
+			if(keyResultSet!=null && keyResultSet.next()) {
+				
+				b.setId(keyResultSet.getInt(1));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		b.setId(keyResultSet.getInt(1));
-	}
-	
-} catch (SQLException e) {
-	// TODO Auto-generated catch block
-	e.printStackTrace();
-}
-
-try {
-	if(keyResultSet!=null) {keyResultSet.close();}
-	if (stmt!=null){
-		stmt.close();
-	}
-	FactoryConection.getInstancia().releaseConn();
-} catch (SQLException e) {
-	// TODO Auto-generated catch block
-	e.printStackTrace();
-}	
+		try {
+			if(keyResultSet!=null) {keyResultSet.close();}
+			if (stmt!=null){
+				stmt.close();
+			}
+			FactoryConection.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 	}
 	
 	public void update(Bookable b){
@@ -185,4 +181,80 @@ try {
 		
 		
 	}
+	
+	public List<Bookable> getAvailableBookable(TypeBookable type, Date date){
+		long time = date.getTime();
+		int limit = type.getHourslimit();
+		
+		List<Bookable> bookables= new ArrayList<Bookable>();
+		
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		try {
+			stmt= FactoryConection.getInstancia().getConn().prepareStatement(
+					"select id_bookable, name_bookable \n" +
+					"from bookable \n" +
+					"where bookable.id_type_bookable = ? and ( \n" +		
+					"	select Count(*) \n" +
+			 		"	from bookable \n" +
+			 		"	inner join reservation res \n" +
+					"		on res.id_bookable = bookable.id_bookable \n" +
+			 		"	where bookable.id_type_bookable = ? \n" +
+			 		"			and (reservas.date == ? and not (reservas.time + ? < ? or ? + ? < reservas.time))) = 0 \n");
+			stmt.setInt(1, type.getId());
+			stmt.setInt(2, type.getId());
+			stmt.setString(3, date.toString());
+			stmt.setInt(4, type.getHourslimit());
+			stmt.setLong(5, date.getTime());
+			stmt.setLong(6, date.getTime());
+			stmt.setInt(7, type.getHourslimit());
+			rs = stmt.executeQuery();
+			if(rs!=null && rs.next()){
+				Bookable b = new Bookable();
+				b.setId(rs.getInt("id_bookable"));
+				b.setName(rs.getString("name_bookable"));
+				bookables.add(b);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			if(rs!=null) rs.close();
+			if(stmt!=null) stmt.close();
+			FactoryConection.getInstancia().releaseConn();
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
+		return bookables;
+		
+		//		select *
+		//		from bookable
+		//		inner join type_bookable
+		//			on bookable.id_type_bookable = type_bookable.id_type_bookable
+		//		inner join reservation res
+		//			on res.id_bookable = bookable.id_bookable
+		//		where reservas.date <> ? or (reservas.date == ? and (reservas.time + ? < ? or ? + ? < reservas.time))
+		//		where reservas.date <> date_ or (reservas.date == date_ and (reservas.time + limit < time or time + limit < reservas.time))
+				
+				
+		
+		//		select id_bookable, name_bookable
+		//		from bookable
+		//		where bookable.id_type_bookable = ? and (		
+		//			select Count(*)
+		// 			from bookable
+		// 			inner join reservation res
+		//				on res.id_bookable = bookable.id_bookable
+		// 			where bookable.id_type_bookable = ? and (reservas.date == ? and not (reservas.time + ? < ? or ? + ? < reservas.time))
+		//			) = 0
+		
+	
+		// proyector, 10, 13
+		// limite 2
+		// Horario 12
+		
+		//   10 + 2 <= 12 or 12 + 2 < 10 => True
+		//   13 + 2 <= 12 or 12 + 2 < 13 => False
+	}	
 }

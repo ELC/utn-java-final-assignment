@@ -33,8 +33,6 @@ public class ControllerABMCPerson {
 		}
 		Application.getInstancia().setActivePerson(per);
 	}
-
-
 	
 	public void ModifyPerson(Person p){
 		app.isLoggedIn();

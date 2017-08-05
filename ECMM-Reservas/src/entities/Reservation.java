@@ -7,8 +7,15 @@ public class Reservation {
 	private Person person;
 	private Bookable bookable;
 	private Date date;
+	private String detail;
 
 	
+	public String getDetail() {
+		return detail;
+	}
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
 	public int getId() {
 		return id;
 	}

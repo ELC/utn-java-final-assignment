@@ -19,7 +19,6 @@ public class DataUserRoles {
 	}
 	
 	public static ArrayList<UserRole> getAll(){
-		
 		ArrayList<UserRole> userRoles= new ArrayList<UserRole>();
 		try{
 			Statement stmt = FactoryConection.getInstancia().getConn().createStatement();

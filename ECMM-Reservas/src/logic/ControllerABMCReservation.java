@@ -1,6 +1,8 @@
 package logic;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import data.DataReservation;
@@ -24,32 +26,41 @@ public class ControllerABMCReservation {
 		app = Application.getInstancia();
 	}
 	
-	public void RegisterReservation(TypeBookable type, Date date, Bookable book) {
+	public void RegisterReservation(TypeBookable type, Date date, Bookable book){
 		app.isLoggedIn();	
 		if(!activePerson.getPrivileges().contains(AccessLevel.CREATE_RESERVATION)){
 			//lanzo exepción
 		}
 		Reservation re= new Reservation();
-		re.setPerson(app.getActivePerson());
+		re.setPerson(app.getActivePerson()); // El admin, puede crear reservas a nombre de otros usuarios
 		re.setBookable(book);
 		re.setDate(date);
 		dataRes.add(re);
-//		select *
-//		from bookable
-//		inner join reservas
-//			on reservas.cod_bookable = bookable.cod_bookable
-//		where reservas.date <> ? or (reservas.date == ? and (reservas.time + ? < ? or ? + ? < reservas.time))
-	}
-
-
-	public void ModifyReservation(Reservation re){
-		app.isLoggedIn();	
-		if(!activePerson.getPrivileges().contains(AccessLevel.MODIFY_RESERVATION)){
-			//lanzo exepción
-		}
-		dataRes.update(re);
 	}
 	
+	public List<Reservation> getAllReservation(){
+		app.isLoggedIn();
+		if(!activePerson.getPrivileges().contains(AccessLevel.ACCESS_RESERVATION)){
+			//lanzo exepción
+		}
+		return dataRes.getAll();
+	}
+	
+	public List<Reservation> getAllByUser(){
+		app.isLoggedIn();
+		List<Reservation> reservations = dataRes.getByIdPerson(activePerson);
+		
+//		List<Reservation> filteredReservations = reservations;
+//		for(Reservation re : reservations){
+//			if (re.getDate().toLocalDate().compareTo(LocalDate.now()) < 0){
+//				filteredReservations.remove(re);
+//			}
+//		}
+		
+		reservations.removeIf(s -> s.getDate().toLocalDate().compareTo(LocalDate.now()) < 0); // Hace lo mismo que lo de arriba
+		return reservations;		
+	}
+
 	public void DeleteReservation(Reservation re){
 		app.isLoggedIn();
 		if(!activePerson.getPrivileges().contains(AccessLevel.DELETE_RESERVATION)){
@@ -57,7 +68,4 @@ public class ControllerABMCReservation {
 		}
 		dataRes.delete(re);
 	}
-		
-
-
 }

@@ -5,7 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
+import entities.Person;
 import entities.Reservation;
 
 public class DataReservation {
@@ -20,7 +22,6 @@ public class DataReservation {
 		re.setDate(rs.getDate("time"));
 		return re;
 	}
-	
 	
 	public ArrayList<Reservation> getAll(){
 		Statement stmt=null;
@@ -50,20 +51,19 @@ public class DataReservation {
 		return res;
 	}
 	
-	
-	
 	public void add(Reservation re){
 		PreparedStatement stmt=null;
 		ResultSet keyResultSet=null;
 		try {
 			stmt=FactoryConection.getInstancia().getConn()
 					.prepareStatement(
-					"insert into reservation(id_persona,id_bookable,time) values (?,?,?)",
+					"insert into reservation(id_persona, id_bookable, time, detail) values (?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			stmt.setInt(1, re.getPerson().getId());
 			stmt.setInt(2, re.getBookable().getId());
 			stmt.setDate(3, re.getDate());
+			stmt.setString(4, re.getDetail());
 			stmt.executeUpdate();
 			keyResultSet=stmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){
@@ -81,21 +81,22 @@ public class DataReservation {
 		}
 	}
 	
-	
-	
-	public Reservation getByIdPerson(Reservation re){
-		Reservation r=null;
+	public List<Reservation> getByIdPerson(Person p){
+		List<Reservation> res = new ArrayList<Reservation>();
+		Reservation r = null;
 		PreparedStatement stmt=null;
 		ResultSet rs=null;
 		try {
 			stmt=FactoryConection.getInstancia().getConn().prepareStatement(
 					"select * from Reservation where id_persona=?");
-			stmt.setInt(1, re.getPerson().getId());
+			stmt.setInt(1, p.getId());
 			rs=stmt.executeQuery();
-			if(rs!=null && rs.next()){
-				r=buildReservation(rs);
+			if(rs!=null){
+				while(rs.next()){
+					Reservation re = buildReservation(rs);
+					res.add(re);
+				}
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -107,8 +108,7 @@ public class DataReservation {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		return r;
+		return res;
 	}
 	
 	public void delete(Reservation re) {
@@ -116,11 +116,9 @@ public class DataReservation {
 		try {
 			stmt=FactoryConection.getInstancia().getConn()
 					.prepareStatement(
-					"delete from reservation where id_persona=?"); //cambiar argumento para borrar
+					"delete from reservation where id_reservation=?");
 			stmt.setInt(1, re.getPerson().getId());
-			stmt.executeUpdate();
-			
-		
+			stmt.executeUpdate();		
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -130,40 +128,5 @@ public class DataReservation {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
-	}
-	
-	public void update(Reservation re){
-		
-		PreparedStatement stmt=null;
-		try {
-			stmt=FactoryConection.getInstancia().getConn()
-					.prepareStatement(
-					"update reservation set id_bookable=?, id_persona=?, time= ? where id_persona=?"); //validar
-			stmt.setInt(1, re.getPerson().getId());
-			stmt.setInt(2, re.getBookable().getId());
-			stmt.setLong(3, re.getDate().getTime());
-			stmt.setInt(4, re.getPerson().getId());
-			stmt.executeUpdate();
-			
-		
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			if(stmt!=null)stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-				
-		
-		
-		
-		
-	}
-	
+	}	
 }

@@ -26,6 +26,4 @@ public class Bookable {
 	public void setType(TypeBookable type) {
 		this.type = type;
 	}
-	
-
 }

@@ -55,42 +55,41 @@ public class DataTypeBookable {
 		return null;
 	}
 	public void add(TypeBookable b) {
-	ResultSet keyResultSet=null;
-	PreparedStatement stmt=null;
-	try {
-		stmt= FactoryConection.getInstancia().getConn().prepareStatement(
-				"insert into persona (name_type_bookable,restriction,hours_limit,days_limit) values(?,?,?,?) ",
-				PreparedStatement.RETURN_GENERATED_KEYS);
-
-		stmt.setString(1, b.getName()); // los numeros corresponden a los de ? de la query//
-		stmt.setInt(2, b.getRestriction());
-		stmt.setInt(3, b.getHourslimit());
-		stmt.setInt(4, b.getDayslimit());
-		stmt.executeUpdate();
-		stmt.getGeneratedKeys();
-		keyResultSet= stmt.getGeneratedKeys(); //Preguntar que hace?
-		if(keyResultSet!=null && keyResultSet.next()) {
+		ResultSet keyResultSet=null;
+		PreparedStatement stmt=null;
+		try {
+			stmt= FactoryConection.getInstancia().getConn().prepareStatement(
+					"insert into persona (name_type_bookable,restriction,hours_limit,days_limit) values(?,?,?,?) ",
+					PreparedStatement.RETURN_GENERATED_KEYS);
 	
-			b.setId(keyResultSet.getInt(1));
-		}
-
+			stmt.setString(1, b.getName()); // los numeros corresponden a los de ? de la query//
+			stmt.setInt(2, b.getRestriction());
+			stmt.setInt(3, b.getHourslimit());
+			stmt.setInt(4, b.getDayslimit());
+			stmt.executeUpdate();
+			stmt.getGeneratedKeys();
+			keyResultSet= stmt.getGeneratedKeys(); //Preguntar que hace?
+			if(keyResultSet!=null && keyResultSet.next()) {
+		
+				b.setId(keyResultSet.getInt(1));
+			}
 		} catch (SQLException e) {
-// TODO Auto-generated catch block
-e.printStackTrace();
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
-	try {
+		try {
 			if(keyResultSet!=null) {keyResultSet.close();}
 				if (stmt!=null){
 								stmt.close();
 				}
 				FactoryConection.getInstancia().releaseConn();
 		} 
-	catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}	
-			}
+	}
 	
 	public void update(TypeBookable b){
 		PreparedStatement stmt=null;
@@ -124,9 +123,7 @@ e.printStackTrace();
 					.prepareStatement(
 					"delete from type_bookable where id_bookable=?");
 			stmt.setInt(1, b.getId());
-			stmt.executeUpdate();
-			
-		
+			stmt.executeUpdate();		
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
