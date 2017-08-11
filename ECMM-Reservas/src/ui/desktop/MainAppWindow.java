@@ -17,7 +17,7 @@ import javax.swing.JMenuItem;
 
 public class MainAppWindow extends JFrame {
 
-	private JFrame frmAbmPerson;
+	JFrame frmAbmPerson;
 	private JMenuItem mntmAbmc;
 	private JDesktopPane desktopPane;
 

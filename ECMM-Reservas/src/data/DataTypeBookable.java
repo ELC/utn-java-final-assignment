@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import entities.Person;
 import entities.TypeBookable;
 
 public class DataTypeBookable {
@@ -54,6 +55,36 @@ public class DataTypeBookable {
 	public static List<TypeBookable> getByDayLimit(int DaysLimit){
 		return null;
 	}
+	
+	public TypeBookable getByName(String name){
+		
+		TypeBookable t=null;
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		try {
+			stmt=FactoryConection.getInstancia().getConn().prepareStatement(
+					"select * from type_bookable where name_type_bookable=?");
+			stmt.setString(1, name);
+			rs=stmt.executeQuery();
+			if(rs!=null && rs.next()){
+				t=buildTypeBookable(rs);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			if(rs!=null)rs.close();
+			if(stmt!=null)stmt.close();
+			FactoryConection.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return t;
+	}
+	
 	public void add(TypeBookable b) {
 		ResultSet keyResultSet=null;
 		PreparedStatement stmt=null;
