@@ -128,5 +128,15 @@ public class DataReservation {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void update(Reservation r) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Reservation getByIDRes(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}	
 }
