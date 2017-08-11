@@ -22,7 +22,7 @@ public class DataTypeBookable {
 		return tb;
 	}
 	
-	public static ArrayList<TypeBookable> getAll(){
+	public ArrayList<TypeBookable> getAll(){
 		
 		ArrayList<TypeBookable> typeBookables= new ArrayList<TypeBookable>();
 		try{

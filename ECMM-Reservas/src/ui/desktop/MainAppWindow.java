@@ -118,6 +118,12 @@ public class MainAppWindow extends JFrame {
 		menuBar.add(mnBookable);
 		
 		mntmAbmcBookable = new JMenuItem("CRUD");
+		mntmAbmcBookable.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showABMCBookable();
+			
+			}
+		});
 		mnBookable.add(mntmAbmcBookable);
 		
 		JMenu mnBooking = new JMenu("Booking");
@@ -175,7 +181,16 @@ public class MainAppWindow extends JFrame {
 		panel.add(lblDasdf);
 	}
 
-
+		protected void showABMCBookable() {
+			ABMCBookable frmBookable= new ABMCBookable();
+			desktopPane.add(frmBookable);
+			frmBookable.setVisible(true);
+			
+			
+			
+		}
+	
+	
 		protected void showABMCTypeBookable() {
 		// TODO Auto-generated method stub
 

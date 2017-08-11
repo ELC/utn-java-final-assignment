@@ -1,5 +1,7 @@
 package logic;
 
+import java.util.ArrayList;
+
 import data.DataTypeBookable;
 import entities.*;
 public class ControllerABMCTypeBookable {
@@ -18,26 +20,33 @@ public class ControllerABMCTypeBookable {
 	
 	
 	public void RegisterTypeBookable(TypeBookable b){
-		app.isLoggedIn();
-		if(!activePerson.getPrivileges().contains(AccessLevel.CREATE_TYPEBOOKABLE)){
-			//lanzo exepción
-		}
+//		app.isLoggedIn();
+//		if(!activePerson.getPrivileges().contains(AccessLevel.CREATE_TYPEBOOKABLE)){
+//			//lanzo exepción
+//		}
 		dataTypeBookable.add(b);
 	}
 	
 	public void ModifyTypeBookable(TypeBookable b){
-		app.isLoggedIn();	
-		if(!activePerson.getPrivileges().contains(AccessLevel.MODIFY_TYPEBOOKABLE)){
-			//lanzo exepción
-		}
+//		app.isLoggedIn();	
+//		if(!activePerson.getPrivileges().contains(AccessLevel.MODIFY_TYPEBOOKABLE)){
+//			//lanzo exepción
+//		}
 		dataTypeBookable.update(b);
 	}
 	
 	public void DeleteTypeBookable(TypeBookable b){
-		app.isLoggedIn();
-		if(!activePerson.getPrivileges().contains(AccessLevel.DELETE_TYPEBOOKABLE)){
-			//lanzo exepción
-		}
+//		app.isLoggedIn();
+//		if(!activePerson.getPrivileges().contains(AccessLevel.DELETE_TYPEBOOKABLE)){
+//			//lanzo exepción
+//		}
 		dataTypeBookable.delete(b);
 	}
+
+	public ArrayList<TypeBookable> getAll(){
+		return dataTypeBookable.getAll();
+		
+		
+	}
+
 }

@@ -13,7 +13,7 @@ import entities.TypeBookable;
 
 public class DataBookable {
 	
-	private static Bookable buildBookable(ResultSet rs) throws SQLException{
+	public static Bookable buildBookable(ResultSet rs) throws SQLException{
 		Bookable b= new Bookable();
 		b.setId(rs.getInt("id_bookable"));
 		b.setName(rs.getString("name_bookable"));
@@ -22,7 +22,7 @@ public class DataBookable {
 		return b;
 	}
 	
-	public static ArrayList<Bookable> getAll(){
+	public ArrayList<Bookable> getAll(){
 		ArrayList<Bookable> bookables= new ArrayList<Bookable>();
 		try{
 			Statement stmt = FactoryConection.getInstancia().getConn().createStatement();
@@ -67,8 +67,31 @@ public class DataBookable {
 		return b;
 	}
 	
-	public static Bookable getByName(int restriction){
-		return null;
+	public  Bookable getByName(Bookable b){
+		
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		try {
+			stmt= FactoryConection.getInstancia().getConn().prepareStatement(		
+					"select * from bookable where name_bookable=?");
+			stmt.setString(1, b.getName()); 
+			rs = stmt.executeQuery();
+			if(rs!=null && rs.next()){
+				b=buildBookable(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			if(rs!=null) rs.close();
+			if(stmt!=null) stmt.close();
+			FactoryConection.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return b;
 	}
 	
 	public static List<Bookable> getAllByType(TypeBookable bookable_type){
