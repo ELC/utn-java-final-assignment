@@ -55,4 +55,9 @@ public class ControllerABMCPerson {
 		
 	}
 	
+	public Person getByDni(String dni) throws Exception{
+		return dataPer.getByDni(dni);
+		
+	}
+	
 }

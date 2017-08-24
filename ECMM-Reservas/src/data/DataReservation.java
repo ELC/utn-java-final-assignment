@@ -20,6 +20,8 @@ public class DataReservation {
 		re.setPerson(dataPer.getById(rs.getInt("id_persona")));
 		re.setBookable(databook.getById(rs.getInt("id_bookable")));
 		re.setDate(rs.getDate("time"));
+		re.setDetail(rs.getString("detail"));
+		re.setId(rs.getInt("id_reservation"));
 		return re;
 	}
 	
@@ -37,9 +39,9 @@ public class DataReservation {
 				}			
 			}
 		} catch(SQLException e) {
-			e.printStackTrace();		
+			throw e;
 		}
-		
+	finally{	
 		try {
 			if(rs!=null) rs.close();
 			if(stmt!=null) stmt.close();
@@ -47,11 +49,12 @@ public class DataReservation {
 		} catch (SQLException e) {	
 			e.printStackTrace();
 		}
-		
+	}	
 		return res;
+	
 	}
 	
-	public void add(Reservation re){
+	public void add(Reservation re)throws Exception{
 		PreparedStatement stmt=null;
 		ResultSet keyResultSet=null;
 		try {
@@ -70,8 +73,9 @@ public class DataReservation {
 				re.setId(keyResultSet.getInt(1));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw e;
 		}
+	finally {	
 		try {
 			if(keyResultSet!=null)keyResultSet.close();
 			if(stmt!=null)stmt.close();
@@ -80,10 +84,10 @@ public class DataReservation {
 			e.printStackTrace();
 		}
 	}
+	}
 	
 	public List<Reservation> getByIdPerson(Person p)throws Exception{
 		List<Reservation> res = new ArrayList<Reservation>();
-		Reservation r = null;
 		PreparedStatement stmt=null;
 		ResultSet rs=null;
 		try {
@@ -98,9 +102,11 @@ public class DataReservation {
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw e;
 		}
 		
+		
+	finally {	
 		try {
 			if(rs!=null)rs.close();
 			if(stmt!=null)stmt.close();
@@ -108,10 +114,12 @@ public class DataReservation {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+	}	
 		return res;
 	}
 	
-	public void delete(Reservation re) {
+	public void delete(Reservation re) throws Exception{
 		PreparedStatement stmt=null;
 		try {
 			stmt=FactoryConection.getInstancia().getConn()
@@ -120,14 +128,16 @@ public class DataReservation {
 			stmt.setInt(1, re.getPerson().getId());
 			stmt.executeUpdate();		
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw e;
 		}
+	finally{	
 		try {
 			if(stmt!=null)stmt.close();
 			FactoryConection.getInstancia().releaseConn();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
 	}
 
 	public void update(Reservation r) {

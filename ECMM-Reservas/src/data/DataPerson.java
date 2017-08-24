@@ -221,6 +221,42 @@ public class DataPerson {
 	}	
 		return p;
 	}
+	
+	public Person getByDni(String dni)throws Exception{
+		Person p=null;
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		try {
+			stmt=FactoryConection.getInstancia().getConn().prepareStatement(
+					"select * from person where dni=?");
+			stmt.setString(1,dni);
+			rs=stmt.executeQuery();
+			if(rs!=null && rs.next()){
+				p=buildPerson(rs);
+			}
+			
+		} catch (SQLException e) {
+			throw e;
+		}
+	finally {
+		
+	
+		try {
+			if(rs!=null)rs.close();
+			if(stmt!=null)stmt.close();
+			FactoryConection.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}	
+		return p;
+	}
+	
+	
+	
+	
+	
+	
 	public void add(Person p) throws Exception{
 		PreparedStatement stmt=null;
 		ResultSet keyResultSet=null;

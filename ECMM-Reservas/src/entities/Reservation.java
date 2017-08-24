@@ -1,6 +1,7 @@
 package entities;
 
 import java.sql.Date;
+import java.sql.Time;
 
 public class Reservation {
 	private int id;
@@ -8,6 +9,7 @@ public class Reservation {
 	private Bookable bookable;
 	private Date date;
 	private String detail;
+
 
 	
 	public String getDetail() {
@@ -42,4 +44,5 @@ public class Reservation {
 	public Date getDate() {
 		return date;
 	}
+	
 }

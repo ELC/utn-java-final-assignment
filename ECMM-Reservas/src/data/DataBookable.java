@@ -112,8 +112,39 @@ public class DataBookable {
 		return b;
 	}
 	
-	public static List<Bookable> getAllByType(TypeBookable bookable_type) throws Exception{
-		List<Bookable> bookables= new ArrayList<Bookable>();
+public  Bookable getByName(String name) throws Exception{
+		Bookable b= new Bookable();
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		try {
+			stmt= FactoryConection.getInstancia().getConn().prepareStatement(		
+					"select * from bookable where name_bookable=?");
+			stmt.setString(1, name); 
+			rs = stmt.executeQuery();
+			if(rs!=null && rs.next()){
+				b=buildBookable(rs);
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+		
+		finally {	
+			try {
+				if(rs!=null) rs.close();
+				if(stmt!=null) stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+		}	
+		return b;
+	}
+	
+	
+	
+	public  ArrayList<Bookable> getAllByType(TypeBookable bookable_type) throws Exception{
+		ArrayList<Bookable> bookables= new ArrayList<Bookable>();
 		
 		PreparedStatement stmt=null;
 		ResultSet rs=null;
@@ -236,11 +267,11 @@ public class DataBookable {
 		
 }
 	
-	public List<Bookable> getAvailableBookable(TypeBookable type, Date date)throws Exception{
+	public ArrayList<Bookable> getAvailableBookable(TypeBookable type, Date date)throws Exception{
 		long time = date.getTime();
 		int limit = type.getHourslimit();
 		
-		List<Bookable> bookables= new ArrayList<Bookable>();
+		ArrayList<Bookable> bookables= new ArrayList<Bookable>();
 		
 		PreparedStatement stmt=null;
 		ResultSet rs=null;

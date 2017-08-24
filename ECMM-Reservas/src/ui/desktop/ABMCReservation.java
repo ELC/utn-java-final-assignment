@@ -1,31 +1,48 @@
 package ui.desktop;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import data.DataReservation;
-import entities.Reservation;
-import entities.TypeBookable;
-
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
+import javax.swing.JInternalFrame;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+import entities.Bookable;
+import entities.TypeBookable;
+import logic.ControllerABMCBookable;
+import logic.ControllerABMCTypeBookable;
+import org.jdesktop.swingbinding.JTableBinding;
+import org.jdesktop.swingbinding.SwingBindings;
+import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.jdesktop.beansbinding.BeanProperty;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
-public class ABMCReservation extends JFrame {
-
-	private DataReservation dataR = new DataReservation();
-	private JPanel contentPane;
-	private JTextField IDReservation;
-	private JTextField DateRes;
-	private JTextField Detail;
+public class ABMCReservation extends JInternalFrame {
+	private ArrayList<Bookable> books;
+	private ControllerABMCBookable ctrlBook = new ControllerABMCBookable();
+	private ControllerABMCTypeBookable ctrlType= new ControllerABMCTypeBookable();
+	private JTable table;
+	private JComboBox cboType;
+	private JScrollPane scrollPane;
+	private JButton btnNewButton;
+	private JLabel lblDate;
+	private JTextField txtDate;
+	private Date startDate;
 
 	/**
 	 * Launch the application.
@@ -46,142 +63,133 @@ public class ABMCReservation extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ABMCReservation() 
-	{
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+	public ABMCReservation() {
+		setBounds(100, 100, 502, 474);
 		
-		JLabel lblIdReservation = new JLabel("ID Reservation");
-		lblIdReservation.setBounds(20, 24, 92, 14);
-		contentPane.add(lblIdReservation);
+		JLabel lblTypebookable = new JLabel("Type_Bookable");
 		
-		IDReservation = new JTextField();
-		IDReservation.setBounds(109, 21, 106, 20);
-		contentPane.add(IDReservation);
-		IDReservation.setColumns(10);
+		cboType = new JComboBox();
 		
+		scrollPane = new JScrollPane();
 		
-		
-		JLabel lblPerson = new JLabel("Person");
-		lblPerson.setBounds(20, 68, 46, 14);
-		contentPane.add(lblPerson);
-		
-		JComboBox comboPersona = new JComboBox();
-		comboPersona.setBounds(109, 65, 106, 20);
-		contentPane.add(comboPersona);
-		// /////////////
-		
-		// /////////////
-		JLabel lblBookable = new JLabel("Bookable");
-		lblBookable.setBounds(20, 116, 63, 14);
-		contentPane.add(lblBookable);
-		
-		JComboBox comboBookable = new JComboBox();
-		comboBookable.setBounds(109, 113, 106, 20);
-		contentPane.add(comboBookable);
-		
-		
-		
-		JLabel lblDate = new JLabel("Date");
-		lblDate.setBounds(20, 165, 46, 14);
-		contentPane.add(lblDate);
-		
-		DateRes = new JTextField();
-		DateRes.setBounds(109, 162, 106, 20);
-		contentPane.add(DateRes);
-		DateRes.setColumns(10);
-		
-		JLabel lblDetail = new JLabel("Detail");
-		lblDetail.setBounds(20, 213, 46, 14);
-		contentPane.add(lblDetail);
-		
-		Detail = new JTextField();
-		Detail.setBounds(109, 210, 106, 20);
-		contentPane.add(Detail);
-		Detail.setColumns(10);
-		
-		JButton btnAddReservation = new JButton("Add Reservation");
-		btnAddReservation.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) {}
+		JButton btnMostrar = new JButton("View");
+		btnMostrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//loadListAvailableBookables();
+				loadListAvailableBookable();
+				initDataBindings();
+			}
 		});
-		btnAddReservation.setBounds(245, 20, 161, 23);
-		contentPane.add(btnAddReservation);
 		
-		JButton btnSearchReservation = new JButton("Search Reservation");
-		btnSearchReservation.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) {}
-		});
-		btnSearchReservation.setBounds(245, 64, 161, 23);
-		contentPane.add(btnSearchReservation);
+		btnNewButton = new JButton("Edit");
 		
-		JButton btnUpdateReservation = new JButton("Update Reservation");
-		btnUpdateReservation.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) {}
-		});
-		btnUpdateReservation.setBounds(245, 112, 161, 23);
-		contentPane.add(btnUpdateReservation);
+		lblDate = new JLabel("Date");
 		
-		JButton btnDeleteReservation = new JButton("Delete Reservation");
-		btnDeleteReservation.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) {}
-		});
-		btnDeleteReservation.setBounds(245, 161, 161, 23);
-		contentPane.add(btnDeleteReservation);
-	}
-	
-	
-	public void addClick()
-	{
-		Reservation r=this.mapearDeForm();
-		dataR.add(r);
-	}
-	
-	public void findClick()
-	{
-		Reservation r= this.mapearDeForm();
-		this.mapearAForm(dataR.getByIDRes(r.getId()));
-	}
-	
-	public void deleteClick()
-	{
-		Reservation r= this.mapearDeForm();
-		dataR.delete(dataR.getByIDRes(r.getId()));
+		txtDate = new JTextField();
+		txtDate.setColumns(10);
+		GroupLayout groupLayout = new GroupLayout(getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 472, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(23)
+							.addComponent(lblTypebookable)
+							.addGap(18)
+							.addComponent(cboType, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+							.addGap(55)
+							.addComponent(lblDate)
+							.addGap(34)
+							.addComponent(txtDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(92)
+							.addComponent(btnMostrar, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
+							.addGap(85)
+							.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(28)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblTypebookable)
+						.addComponent(cboType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblDate)
+						.addComponent(txtDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(35)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 311, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnMostrar)
+						.addComponent(btnNewButton))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		getContentPane().setLayout(groupLayout);
+		loadListTypeBookables();
+		String dateString = this.txtDate.getText();
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy"); //o el formato que prefieras
+		try {
+			 startDate = (Date) df.parse(dateString);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		
 	}
 
-	public void updateClick()
-	{
-		Reservation r= this.mapearDeForm();
-		dataR.update(r);
-	}
-	
-	private void mapearAForm(Reservation r) 
-	{   
-		if(!String.valueOf(r.getId()).isEmpty()) 
-		{
-			this.IDReservation.setText(String.valueOf(r.getId()));
+	private void loadListTypeBookables(){
+		try {
+			this.cboType.setModel(new DefaultComboBoxModel(ctrlType.getAll().toArray()));
+			this.cboType.setSelectedIndex(-1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		this.DateRes.setText(String.valueOf(r.getDate()));
-		this.Detail.setText(r.getDetail());
+		
+		
+		
 	}
+
+	private void loadListAvailableBookable() {
+		
+		
+		
+		try{
+			this.books=ctrlBook.getAllAvailable((TypeBookable)cboType.getSelectedItem(), startDate);
+		} catch (Exception e){
+			JOptionPane.showMessageDialog(this,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 	
-	private Reservation mapearDeForm ()
-	{ 
-		Reservation r= new Reservation();
-		if(!this.IDReservation.getText().isEmpty()) 
-		{
-			r.setId(Integer.parseInt(this.IDReservation.getText()));
 		}
-		//r.setDate(this.DateRes.getText());
-		r.setDetail(this.Detail.getText());
-	
-		return r;
+		
+		
+		
+	}
+
+
+
+	protected void initDataBindings() {
+		JTableBinding<Bookable, List<Bookable>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, books, table);
+		//
+		BeanProperty<Bookable, Integer> bookableBeanProperty = BeanProperty.create("id");
+		jTableBinding.addColumnBinding(bookableBeanProperty).setColumnName("Id_Bookable");
+		//
+		BeanProperty<Bookable, String> bookableBeanProperty_1 = BeanProperty.create("name");
+		jTableBinding.addColumnBinding(bookableBeanProperty_1).setColumnName("Name_Bookable");
+		//
+		jTableBinding.bind();
 	}
 }
+
+
+
+
+

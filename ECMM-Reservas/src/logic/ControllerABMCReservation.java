@@ -3,34 +3,29 @@ package logic;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import data.DataReservation;
 import entities.*;
 
 public class ControllerABMCReservation {
-	private ControllerABMCPerson ctrlPer;
-	private ControllerABMCBookable ctrlBookable;
-	private ControllerABMCTypeBookable ctrlTypeBookable;
 	private DataReservation dataRes;
 	private Person activePerson;
 	private Application app;
 	
 	public ControllerABMCReservation(){
-		ctrlPer= new ControllerABMCPerson();
-		ctrlBookable= new ControllerABMCBookable();
-		ctrlTypeBookable= new ControllerABMCTypeBookable();
 		Application app = Application.getInstancia();
 		dataRes= new DataReservation();
 		activePerson=app.getActivePerson();
 		app = Application.getInstancia();
 	}
 	
-	public void RegisterReservation(TypeBookable type, Date date, Bookable book){
-		app.isLoggedIn();	
-		if(!activePerson.getPrivileges().contains(AccessLevel.CREATE_RESERVATION)){
-			//lanzo exepción
-		}
+	public void RegisterReservation(TypeBookable type, Date date, Bookable book)throws Exception{
+//		app.isLoggedIn();	
+//		if(!activePerson.getPrivileges().contains(AccessLevel.CREATE_RESERVATION)){
+//			//lanzo exepción
+//		}
 		Reservation re= new Reservation();
 		re.setPerson(app.getActivePerson()); // El admin, puede crear reservas a nombre de otros usuarios
 		re.setBookable(book);
@@ -38,11 +33,11 @@ public class ControllerABMCReservation {
 		dataRes.add(re);
 	}
 	
-	public List<Reservation> getAllReservation()throws Exception{
-		app.isLoggedIn();
-		if(!activePerson.getPrivileges().contains(AccessLevel.ACCESS_RESERVATION)){
-			//lanzo exepción
-		}
+	public ArrayList<Reservation> getAllReservation()throws Exception{
+//		app.isLoggedIn();
+//		if(!activePerson.getPrivileges().contains(AccessLevel.ACCESS_RESERVATION)){
+//			//lanzo exepción
+//		}
 		return dataRes.getAll();
 	}
 	
@@ -61,7 +56,7 @@ public class ControllerABMCReservation {
 		return reservations;		
 	}
 
-	public void DeleteReservation(Reservation re){
+	public void DeleteReservation(Reservation re)throws Exception{
 		app.isLoggedIn();
 		if(!activePerson.getPrivileges().contains(AccessLevel.DELETE_RESERVATION)){
 			//lanzo exepción

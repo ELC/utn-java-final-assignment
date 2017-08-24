@@ -38,9 +38,7 @@ public class MainAppWindow extends JFrame {
 	private JMenuItem mntmAbmcBookable;
 	private JMenuItem mntmCreateBooking;
 	private JMenuItem mntmShowAllBooking;
-	private JMenuItem mntmDeleteBooking;
 	private JMenuItem mntmShowAllPerson;
-	private JMenuItem mntmModifyBoking;
 	private JDesktopPane desktopPane;
 
 	/**
@@ -129,20 +127,19 @@ public class MainAppWindow extends JFrame {
 		JMenu mnBooking = new JMenu("Booking");
 		menuBar.add(mnBooking);
 		
-		mntmCreateBooking = new JMenuItem("Create");
+		mntmCreateBooking = new JMenuItem("CRUD");
+		mntmCreateBooking.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				showABMCReservation();
+			}
+		});
 		mnBooking.add(mntmCreateBooking);
-		
-		mntmModifyBoking = new JMenuItem("Modify");
-		mnBooking.add(mntmModifyBoking);
-		
-		mntmShowAllBooking = new JMenuItem("Show All");
-		mnBooking.add(mntmShowAllBooking);
 		
 		Component verticalStrut = Box.createVerticalStrut(10);
 		mnBooking.add(verticalStrut);
 		
-		mntmDeleteBooking = new JMenuItem("Delete");
-		mnBooking.add(mntmDeleteBooking);
+		mntmShowAllBooking = new JMenuItem("Show All");
+		mnBooking.add(mntmShowAllBooking);
 		
 		mnLogIn = new JMenu("Log In");
 		mnLogIn.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -208,5 +205,16 @@ public class MainAppWindow extends JFrame {
 			
 			
 		}
+
+protected void showABMCReservation() {
+			
+			ABMCReservation frmRes=new ABMCReservation();
+			desktopPane.add(frmRes);
+			frmRes.setVisible(true);
+			
+			
+			
+		}
+
 }
 
