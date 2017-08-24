@@ -19,7 +19,7 @@ public class ControllerABMCBookable {
 	}
 	
 	
-	public void RegisterBookable(Bookable b){
+	public void RegisterBookable(Bookable b)throws Exception{
 //		app.isLoggedIn();
 //		if(!activePerson.getPrivileges().contains(AccessLevel.CREATE_BOOKABLE)){
 //			//lanzo exepción
@@ -27,7 +27,7 @@ public class ControllerABMCBookable {
 		dataBookable.add(b);
 	}
 	
-	public void ModifyBookable(Bookable b){
+	public void ModifyBookable(Bookable b)throws Exception{
 //		app.isLoggedIn();	
 //		if(!activePerson.getPrivileges().contains(AccessLevel.MODIFY_BOOKABLE)){
 //			//lanzo exepción
@@ -35,7 +35,7 @@ public class ControllerABMCBookable {
 		dataBookable.update(b);
 	}
 	
-	public void DeleteBookable(Bookable b){
+	public void DeleteBookable(Bookable b)throws Exception{
 //		app.isLoggedIn();
 //		if(!activePerson.getPrivileges().contains(AccessLevel.DELETE_BOOKABLE)){
 //			//lanzo exepción
@@ -44,12 +44,12 @@ public class ControllerABMCBookable {
 	}
 
 	
-	public Bookable getByName(Bookable b){
+	public Bookable getByName(Bookable b)throws Exception{
 		return dataBookable.getByName(b);
 		
 	}
 	
-	public ArrayList<Bookable> GetAll(){
+	public ArrayList<Bookable> GetAll()throws Exception{
 		return dataBookable.getAll();
 	
 	}

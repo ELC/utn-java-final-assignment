@@ -9,27 +9,35 @@ import java.util.List;
 
 import entities.Person;
 import entities.UserRole;
+import util.AppDataException;
 import data.DataUserRoles;
 
 
 public class DataPerson {
 	
 	
-	private Person buildPerson(ResultSet rs) throws SQLException{
-		Person p=new Person();
-		p.setId(rs.getInt("id_person"));
-		p.setName(rs.getString("name_person"));
-		p.setLastName(rs.getString("last_name_person"));
-		p.setDni(rs.getString("dni"));
-		p.setEnabled(rs.getBoolean("enable_person"));
-		p.setUsername(rs.getString("user_person"));
-		p.setEmail(rs.getString("email"));
-		//UserRole user_role = DataUserRoles.getById(rs.getInt("privileges"));
-		//p.setPrivileges(user_role.getPrivileges());
+	private Person buildPerson(ResultSet rs) throws Exception{
+			Person p = new Person();
+		try {
+			
+		
+			p.setId(rs.getInt("id_person"));
+			p.setName(rs.getString("name_person"));
+			p.setLastName(rs.getString("last_name_person"));
+			p.setDni(rs.getString("dni"));
+			p.setEnabled(rs.getBoolean("enable_person"));
+			p.setUsername(rs.getString("user_person"));
+			p.setEmail(rs.getString("email"));
+			//UserRole user_role = DataUserRoles.getById(rs.getInt("privileges"));
+			//p.setPrivileges(user_role.getPrivileges());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw e;
+		}
 		return p;
 	}
 	
-	public List<Person> getAll(){
+	public List<Person> getAll() throws Exception{
 		Statement stmt=null;
 		ResultSet rs=null;
 		List<Person> pers= new ArrayList<Person>();
@@ -43,21 +51,22 @@ public class DataPerson {
 				}			
 			}
 		} catch(SQLException e) {
-			e.printStackTrace();		
+			throw e;		
 		}
 		
+	finally {
 		try {
 			if(rs!=null) rs.close();
 			if(stmt!=null) stmt.close();
 			FactoryConection.getInstancia().releaseConn();
 		} catch (SQLException e) {	
-			e.printStackTrace();
+			throw e;
 		}
-		
+	}
 		return pers;
 	}
 	
-	public Person getById(int id){
+	public Person getById(int id) throws Exception{
 		
 		
 		Person p=null;
@@ -73,22 +82,29 @@ public class DataPerson {
 			}
 			
 		} catch (SQLException e) {
+			throw e;
+		}
+			catch(Exception e) {
+				throw e;
+				
+			}
+		
+		
+		finally {	
+			
+			try {
+				if(rs!=null)rs.close();
+				if(stmt!=null)stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		try {
-			if(rs!=null)rs.close();
-			if(stmt!=null)stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+	}	
 		return p;
 		
 	}
 	
-	public Person getByEmail(String email){
+	public Person getByEmail(String email)throws Exception{
 		Person p=null;
 		PreparedStatement stmt=null;
 		ResultSet rs=null;
@@ -102,8 +118,10 @@ public class DataPerson {
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw e;
 		}
+	
+	finally {
 		
 		try {
 			if(rs!=null)rs.close();
@@ -112,11 +130,11 @@ public class DataPerson {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+	}	
 		return p;
 	}
 	
-	public ArrayList<Person> getAllEnable(){
+	public ArrayList<Person> getAllEnable()throws Exception{
 		Statement stmt=null;
 		ResultSet rs=null;
 		ArrayList<Person> pers= new ArrayList<Person>();
@@ -130,9 +148,10 @@ public class DataPerson {
 				}			
 			}
 		} catch(SQLException e) {
-			e.printStackTrace();		
+			throw e;		
 		}
-		
+	
+		finally	{	
 		try {
 			if(rs!=null) rs.close();
 			if(stmt!=null) stmt.close();
@@ -140,12 +159,12 @@ public class DataPerson {
 		} catch (SQLException e) {	
 			e.printStackTrace();
 		}
-		
+	}	
 		return pers;
 	}
 	
 	
-	public Person getByUsername(String username){
+	public Person getByUsername(String username)throws Exception{
 		Person p=null;
 		PreparedStatement stmt=null;
 		ResultSet rs=null;
@@ -159,9 +178,9 @@ public class DataPerson {
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw e;
 		}
-		
+	finally {	
 		try {
 			if(rs!=null)rs.close();
 			if(stmt!=null)stmt.close();
@@ -169,11 +188,11 @@ public class DataPerson {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+	}	
 		return p;
 	}
 	
-	public Person getByDni(Person per){
+	public Person getByDni(Person per)throws Exception{
 		Person p=null;
 		PreparedStatement stmt=null;
 		ResultSet rs=null;
@@ -187,9 +206,11 @@ public class DataPerson {
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw e;
 		}
+	finally {
 		
+	
 		try {
 			if(rs!=null)rs.close();
 			if(stmt!=null)stmt.close();
@@ -197,10 +218,10 @@ public class DataPerson {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+	}	
 		return p;
 	}
-	public void add(Person p){
+	public void add(Person p) throws Exception{
 		PreparedStatement stmt=null;
 		ResultSet keyResultSet=null;
 		try {
@@ -222,63 +243,80 @@ public class DataPerson {
 				p.setId(keyResultSet.getInt(1));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw e;
 		}
-		try {
-			if(keyResultSet!=null)keyResultSet.close();
-			if(stmt!=null)stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {
+	
+		finally{
+	
+	
+			try {
+				if(keyResultSet!=null)keyResultSet.close();
+				if(stmt!=null)stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} 		catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	public void delete(Person p) {
+}
+	public void delete(Person p) throws Exception{
 		PreparedStatement stmt=null;
 		try {
 			stmt=FactoryConection.getInstancia().getConn()
 					.prepareStatement(
-					"delete from person where id_person=?");
-			stmt.setInt(1, p.getId());
-			stmt.executeUpdate();
+					"delete from person where dni=?");
+			stmt.setString(1, p.getDni());
+			int rowsAfected = stmt.executeUpdate();
+			if (rowsAfected==0){
+				throw new AppDataException(null, "Persona inexistente");
+			}
 			
 		
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (AppDataException e) {
+			throw e;
 		}
+		
+	finally {
+		
 		try {
 			if(stmt!=null)stmt.close();
 			FactoryConection.getInstancia().releaseConn();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-	}
-	public void update(Person p){
+	}	
+}
+	public void update(Person p)throws Exception{
 		PreparedStatement stmt=null;
 		try {
 			stmt=FactoryConection.getInstancia().getConn()
 					.prepareStatement(
-					"update person set name_person=?, last_name_person=?, user_person=?, email=?, password_person=?, enable_person=? where id_person=?");
+					"update person set name_person=?, last_name_person=?, user_person=?, email=?, password_person=?, enable_person=? where dni=?");
 			stmt.setString(1, p.getName());
 			stmt.setString(2, p.getLastName());
 			stmt.setString(3, p.getUsername());
 			stmt.setString(4, p.getEmail());
 			stmt.setString(5, p.getPassword());
 			stmt.setBoolean(6, p.isEnabled());
-			stmt.setInt(7, p.getId());
+			stmt.setString(7, p.getDni());
 			
-			stmt.executeUpdate();
+			int rowsAfected = stmt.executeUpdate();
+			if (rowsAfected==0){
+				throw new AppDataException(null, "Persona inexistente");
+			}	
 		
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (AppDataException e) {
+			throw e;
 		}
+		
+	finally {
+		
 		try {
 			if(stmt!=null)stmt.close();
 			FactoryConection.getInstancia().releaseConn();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
+}
 	
 }

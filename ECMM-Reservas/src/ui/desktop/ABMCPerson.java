@@ -4,10 +4,12 @@ import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import data.DataPerson;
 import entities.Person;
+import logic.ControllerABMCPerson;
+import util.AppDataException;
 
 import java.awt.Color;
 import javax.swing.JCheckBox;
@@ -18,7 +20,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 
 public class ABMCPerson extends JInternalFrame {
-	private DataPerson dataPer= new DataPerson();
+	private ControllerABMCPerson ctrlPer= new ControllerABMCPerson();
 	
 	private JTextField txtName_Person;
 	private JTextField txtLast_Name_Person;
@@ -63,29 +65,29 @@ public class ABMCPerson extends JInternalFrame {
 		getContentPane().setLayout(null);
 		
 		JLabel lblNameperson = new JLabel("Name_Person :");
-		lblNameperson.setBounds(28, 52, 85, 14);
+		lblNameperson.setBounds(28, 93, 85, 14);
 		getContentPane().add(lblNameperson);
 		
 		txtName_Person = new JTextField();
-		txtName_Person.setBounds(131, 49, 86, 20);
+		txtName_Person.setBounds(131, 90, 86, 20);
 		getContentPane().add(txtName_Person);
 		txtName_Person.setColumns(10);
 		
 		JLabel lblLastnameperson = new JLabel("Last_Name_Person :");
-		lblLastnameperson.setBounds(10, 93, 101, 14);
+		lblLastnameperson.setBounds(10, 130, 101, 14);
 		getContentPane().add(lblLastnameperson);
 		
 		txtLast_Name_Person = new JTextField();
-		txtLast_Name_Person.setBounds(131, 90, 86, 20);
+		txtLast_Name_Person.setBounds(131, 127, 86, 20);
 		getContentPane().add(txtLast_Name_Person);
 		txtLast_Name_Person.setColumns(10);
 		
 		JLabel lblDni = new JLabel("DNI :");
-		lblDni.setBounds(59, 130, 46, 14);
+		lblDni.setBounds(45, 52, 46, 14);
 		getContentPane().add(lblDni);
 		
 		txtDni = new JTextField();
-		txtDni.setBounds(131, 127, 86, 20);
+		txtDni.setBounds(131, 49, 86, 20);
 		getContentPane().add(txtDni);
 		txtDni.setColumns(10);
 		
@@ -158,7 +160,7 @@ public class ABMCPerson extends JInternalFrame {
 		
 		JButton btnDeletePerson = new JButton("Delete Person");
 		btnDeletePerson.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e){
 			deleteClick();
 			}
 		});
@@ -176,24 +178,45 @@ public class ABMCPerson extends JInternalFrame {
 	}
 		
 	public void addClick(){
-		Person p=this.mapearDeForm();
-		dataPer.add(p);
+		try {
+			ctrlPer.RegisterPerson(this.mapearDeForm());
+			showPerson(ctrlPer.getByDni(this.mapearDeForm()));
+			JOptionPane.showMessageDialog(null, "Persona agregada exitosamente");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(this,"Error al crear un nuevo usuario");
+		}
+		
 		}
 	
 	public void findClick(){
-		Person p= this.mapearDeForm();
-		this.mapearAForm(dataPer.getByDni(p));
+		try {
+			this.mapearAForm(ctrlPer.getByDni(this.mapearDeForm()));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(this,"Error, usuario Inexistente, por favor, intentelo denuevo");
+		}
 		
 		}
 	
 	public void deleteClick(){
-		Person p= this.mapearDeForm();
-		dataPer.delete(dataPer.getByDni(p));
+		try {
+			ctrlPer.DeletePerson(this.mapearDeForm());
+			JOptionPane.showMessageDialog(this,"Persona borrada con exito");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(this,"Persona inexistente, por favor, vuelva a intentarlo");
+		}
 	}
 
 	public void updateClick(){
-		Person p= this.mapearDeForm();
-		dataPer.update(p);
+		try {
+			ctrlPer.ModifyPerson(this.mapearDeForm());
+			JOptionPane.showMessageDialog(null,"Persona modificada con exito");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(this,"Error al modificar un usuario");
+		}
 	}
 	
 	private void mapearAForm(Person p) {   
@@ -229,6 +252,8 @@ public class ABMCPerson extends JInternalFrame {
 		}	
 
 	
-	
+	public void showPerson(Person p){
+		this.mapearAForm(p);
+	}
 	
 }

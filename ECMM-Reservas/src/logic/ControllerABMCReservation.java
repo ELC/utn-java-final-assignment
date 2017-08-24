@@ -38,7 +38,7 @@ public class ControllerABMCReservation {
 		dataRes.add(re);
 	}
 	
-	public List<Reservation> getAllReservation(){
+	public List<Reservation> getAllReservation()throws Exception{
 		app.isLoggedIn();
 		if(!activePerson.getPrivileges().contains(AccessLevel.ACCESS_RESERVATION)){
 			//lanzo exepción
@@ -46,7 +46,7 @@ public class ControllerABMCReservation {
 		return dataRes.getAll();
 	}
 	
-	public List<Reservation> getAllByUser(){
+	public List<Reservation> getAllByUser() throws Exception{
 		app.isLoggedIn();
 		List<Reservation> reservations = dataRes.getByIdPerson(activePerson);
 		

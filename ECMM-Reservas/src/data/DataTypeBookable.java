@@ -9,6 +9,7 @@ import java.util.List;
 
 import entities.Person;
 import entities.TypeBookable;
+import util.AppDataException;
 
 public class DataTypeBookable {
 	
@@ -18,25 +19,38 @@ public class DataTypeBookable {
 		tb.setName(rs.getString("name_type_bookable"));
 		tb.setHourslimit(rs.getInt("hours_limit"));
 		tb.setDayslimit(rs.getInt("days_limit"));
-		tb.setRestriction(rs.getInt("restriction"));
+		//tb.setRestriction(rs.getInt("restriction"));
 		return tb;
 	}
 	
-	public ArrayList<TypeBookable> getAll(){
-		
+	public ArrayList<TypeBookable> getAll()throws Exception{
+		Statement stmt=null;
+		ResultSet rs=null;
 		ArrayList<TypeBookable> typeBookables= new ArrayList<TypeBookable>();
 		try{
-			Statement stmt = FactoryConection.getInstancia().getConn().createStatement();
-			ResultSet rs=stmt.executeQuery("Select * from type_bookable");
+			 stmt = FactoryConection.getInstancia().getConn().createStatement();
+			 rs=stmt.executeQuery("Select * from type_bookable");
 			if(rs!=null){
 				while(rs.next()){
 					TypeBookable tb = buildTypeBookable(rs);
 					typeBookables.add(tb);
 				}			
 			}
-		} catch(SQLException e) {
-			e.printStackTrace();			
+		} catch(Exception e) {
+			throw e;			
 		}
+		
+		finally {
+			try {
+				if(rs!=null) rs.close();
+				if(stmt!=null) stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {	
+				throw e;
+			}
+		}
+		
+		
 		return typeBookables;
 	}
 	
@@ -56,7 +70,7 @@ public class DataTypeBookable {
 		return null;
 	}
 	
-	public TypeBookable getByName(String name){
+	public TypeBookable getByName(TypeBookable type)throws Exception{
 		
 		TypeBookable t=null;
 		PreparedStatement stmt=null;
@@ -64,16 +78,16 @@ public class DataTypeBookable {
 		try {
 			stmt=FactoryConection.getInstancia().getConn().prepareStatement(
 					"select * from type_bookable where name_type_bookable=?");
-			stmt.setString(1, name);
+			stmt.setString(1, type.getName());
 			rs=stmt.executeQuery();
 			if(rs!=null && rs.next()){
 				t=buildTypeBookable(rs);
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw e;
 		}
-		
+	finally {
 		try {
 			if(rs!=null)rs.close();
 			if(stmt!=null)stmt.close();
@@ -81,16 +95,16 @@ public class DataTypeBookable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+	}	
 		return t;
 	}
 	
-	public void add(TypeBookable b) {
+	public void add(TypeBookable b) throws Exception{
 		ResultSet keyResultSet=null;
 		PreparedStatement stmt=null;
 		try {
 			stmt= FactoryConection.getInstancia().getConn().prepareStatement(
-					"insert into persona (name_type_bookable,restriction,hours_limit,days_limit) values(?,?,?,?) ",
+					"insert into type_bookable (name_type_bookable,restriction,hours_limit,days_limit) values(?,?,?,?) ",
 					PreparedStatement.RETURN_GENERATED_KEYS);
 	
 			stmt.setString(1, b.getName()); // los numeros corresponden a los de ? de la query//
@@ -106,9 +120,9 @@ public class DataTypeBookable {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw e;
 		}
-
+	finally {
 		try {
 			if(keyResultSet!=null) {keyResultSet.close();}
 				if (stmt!=null){
@@ -121,24 +135,28 @@ public class DataTypeBookable {
 			e.printStackTrace();
 		}	
 	}
+	}
 	
-	public void update(TypeBookable b){
+	public void update(TypeBookable b)throws Exception{
 		PreparedStatement stmt=null;
 		try {
 			stmt=FactoryConection.getInstancia().getConn()
 					.prepareStatement(
-					"update type_bookable set name_type_bookable=?, restriction=?, hours_limit= ?, days_limit where id_type_bookable=?");
+					"update type_bookable set name_type_bookable=?, restriction=?, hours_limit= ?, days_limit=? where name_type_bookable=?");
 			stmt.setString(1, b.getName());
 			stmt.setInt(2, b.getRestriction());
 			stmt.setInt(3, b.getHourslimit());
 			stmt.setInt(4, b.getDayslimit());
-			stmt.setInt(5, b.getId());
-			stmt.executeUpdate();
+			stmt.setString(5, b.getName());
+			int rowsAfected = stmt.executeUpdate();
+			if (rowsAfected==0){
+				throw new AppDataException(null, "Tipo elemento inexistente");
 			
-		
-		} catch (SQLException e) {
-			e.printStackTrace();
+			}
+		} catch (AppDataException apd) {
+			throw apd;
 		}
+	finally {	
 		try {
 			if(stmt!=null)stmt.close();
 			FactoryConection.getInstancia().releaseConn();
@@ -146,18 +164,27 @@ public class DataTypeBookable {
 			e.printStackTrace();
 		}
 	}
-
-	public void delete(TypeBookable b){
+	}
+	public void delete(TypeBookable b)throws Exception{
 		PreparedStatement stmt=null;
 		try {
 			stmt=FactoryConection.getInstancia().getConn()
 					.prepareStatement(
-					"delete from type_bookable where id_bookable=?");
-			stmt.setInt(1, b.getId());
-			stmt.executeUpdate();		
-		} catch (SQLException e) {
-			e.printStackTrace();
+					"delete from type_bookable where name_type_bookable=?");
+			stmt.setString(1, b.getName());
+			int rowsAfected = stmt.executeUpdate();
+			if (rowsAfected==0){
+				throw new AppDataException(null, "Tipo elemento inexistente");
+			}	
+		
+		
+		} 
+		
+		catch (AppDataException apd) {
+			throw apd;
 		}
+		
+		finally {
 		try {
 			if(stmt!=null)stmt.close();
 			FactoryConection.getInstancia().releaseConn();
@@ -165,4 +192,5 @@ public class DataTypeBookable {
 			e.printStackTrace();
 		}
 	}
+}
 }

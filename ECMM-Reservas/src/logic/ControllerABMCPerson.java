@@ -15,15 +15,15 @@ public class ControllerABMCPerson {
 	}
 	
 	
-	public void RegisterPerson(Person p){
-		app.isLoggedIn();
-		if(!Application.getInstancia().getActivePerson().getPrivileges().contains(AccessLevel.CREATE_USER)){
-			//lanzo exepción
-		}
+	public void RegisterPerson(Person p)throws Exception{
+//		app.isLoggedIn();
+//		if(!Application.getInstancia().getActivePerson().getPrivileges().contains(AccessLevel.CREATE_USER)){
+//			//lanzo exepción
+//		}
 		dataPer.add(p);
 	}
 	
-	public void LoginPerson(Person p){
+	public void LoginPerson(Person p) throws Exception{
 		if (Application.getInstancia().getActivePerson()!=null){
 			//Lanzo exepción	
 		}
@@ -34,20 +34,25 @@ public class ControllerABMCPerson {
 		Application.getInstancia().setActivePerson(per);
 	}
 	
-	public void ModifyPerson(Person p){
-		app.isLoggedIn();
-		if(!Application.getInstancia().getActivePerson().getPrivileges().contains(AccessLevel.MODIFY_USER)){
-			//lanzo exepción
-		}
+	public void ModifyPerson(Person p)throws Exception{
+//		app.isLoggedIn();
+//		if(!Application.getInstancia().getActivePerson().getPrivileges().contains(AccessLevel.MODIFY_USER)){
+//			//lanzo exepción
+//		}
 		dataPer.update(p);
 	}
 	
-	public void DeletePerson(Person p){
-		app.isLoggedIn();
-		if(!Application.getInstancia().getActivePerson().getPrivileges().contains(AccessLevel.DELETE_USER)){
-			//lanzo exepción
-		}
+	public void DeletePerson(Person p)throws Exception{
+//		app.isLoggedIn();
+//		if(!Application.getInstancia().getActivePerson().getPrivileges().contains(AccessLevel.DELETE_USER)){
+//			//lanzo exepción
+//		}
 		dataPer.delete(p);
 	}
 
+	public Person getByDni(Person p) throws Exception{
+		return dataPer.getByDni(p);
+		
+	}
+	
 }

@@ -179,7 +179,7 @@ public class ABMCReservation extends JFrame {
 		{
 			r.setId(Integer.parseInt(this.IDReservation.getText()));
 		}
-		r.setDate(this.DateRes.getText());
+		//r.setDate(this.DateRes.getText());
 		r.setDetail(this.Detail.getText());
 	
 		return r;

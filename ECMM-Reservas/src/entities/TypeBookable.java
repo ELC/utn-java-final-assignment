@@ -1,5 +1,6 @@
 package entities;
 
+
 public class TypeBookable {
 	
 	private int id;
@@ -43,4 +44,21 @@ public class TypeBookable {
 		this.restriction = restriction;
 	}
 
+	@Override
+	public String toString(){
+		return this.getName();
+	}
+	
+	@Override
+	public boolean equals(Object o){      
+		return (o instanceof TypeBookable && ((TypeBookable)o).getId()==this.getId());
+	}
+	
+	@Override
+	public int hashCode(){
+		return ((Integer)this.getId()).hashCode();
+	}
+
+	
+	
 }

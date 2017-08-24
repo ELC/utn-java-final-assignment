@@ -7,6 +7,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
@@ -21,13 +22,14 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class ABMCBookable extends JInternalFrame {
 	private JTextField txtIdBookable;
 	private JTextField txtName_Bookable;
 	private JComboBox cboType;
-	private ControllerABMCTypeBookable ctrlTypeBook;
-	private ControllerABMCBookable ctrlBook;
+	private ControllerABMCTypeBookable ctrlTypeBook= new ControllerABMCTypeBookable();
+	private ControllerABMCBookable ctrlBook= new ControllerABMCBookable();
 	
 
 	/**
@@ -55,6 +57,9 @@ public class ABMCBookable extends JInternalFrame {
 		JLabel lblIdbookable = new JLabel("Id_Bookable");
 		
 		txtIdBookable = new JTextField();
+		txtIdBookable.setEnabled(false);
+		txtIdBookable.setEditable(false);
+		txtIdBookable.setBackground(Color.BLACK);
 		txtIdBookable.setColumns(10);
 		
 		JLabel lblNamebookable = new JLabel("Name_Bookable");
@@ -64,31 +69,35 @@ public class ABMCBookable extends JInternalFrame {
 		
 		JLabel lblTypebookable = new JLabel("Type_Bookable");
 		
-		cboType = new JComboBox();
 		
-		JButton btnSearch = new JButton("Search");
+		
+		JButton btnSearch = new JButton("Find Bookable");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			searchClick();}
 		});
 		
-		JButton btnAdd = new JButton("Add");
+		JButton btnAdd = new JButton("Add Bookable");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			addClick();}
 		});
 		
-		JButton btnUpdate = new JButton("Update");
+		JButton btnUpdate = new JButton("Update Bookable");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			updateClick();}
 		});
 		
-		JButton btnDelete = new JButton("Delete");
+		JButton btnDelete = new JButton("Delete Bookable");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			deleteClick();}
 		});
+		
+		cboType = new JComboBox();
+		
+		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -159,24 +168,53 @@ public class ABMCBookable extends JInternalFrame {
 	
 	
 	private void searchClick() {
-		Bookable b= this.mapearDeForm();
+		try {
+			this.mapearAForm(ctrlBook.getByName(this.mapearDeForm()));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(this,"No existe un elemento con ese nombre");
+		}
 		
 		
 		
 	}
 	
 	private void addClick(){
-		ctrlBook.RegisterBookable(this.mapearDeForm());
-		showBookable(ctrlBook.getByName(this.mapearDeForm()));
+		try {
+			ctrlBook.RegisterBookable(this.mapearDeForm());
+			showBookable(ctrlBook.getByName(this.mapearDeForm()));
+			JOptionPane.showMessageDialog(null,"Elemento agregado con exito");
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(this,"Ya existe un elemento con ese nombre");
+		}
 		}
 	
 	private void updateClick(){
-		ctrlBook.ModifyBookable(this.mapearDeForm());
-		
+		try {
+			ctrlBook.ModifyBookable(this.mapearDeForm());
+			showBookable(ctrlBook.getByName(this.mapearDeForm()));
+			JOptionPane.showMessageDialog(null,"elemento modificado con exito");
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(this,"No existe un elemento con ese nombre");
+
+		}
+
 	}
 		
 		private void deleteClick(){
-			ctrlBook.DeleteBookable(this.mapearDeForm());
+			try {
+				ctrlBook.DeleteBookable(this.mapearDeForm());
+				JOptionPane.showMessageDialog(this,"Elemento borrado con exito");
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(this,"No existe un elemento con ese nombre");
+
+			}
 			
 		}
 		

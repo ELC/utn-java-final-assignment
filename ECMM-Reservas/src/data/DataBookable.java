@@ -10,6 +10,7 @@ import java.util.List;
 
 import entities.Bookable;
 import entities.TypeBookable;
+import util.AppDataException;
 
 public class DataBookable {
 	
@@ -22,11 +23,13 @@ public class DataBookable {
 		return b;
 	}
 	
-	public ArrayList<Bookable> getAll(){
+	public ArrayList<Bookable> getAll() throws Exception{
+		Statement stmt=null;
+		ResultSet rs=null;
 		ArrayList<Bookable> bookables= new ArrayList<Bookable>();
 		try{
-			Statement stmt = FactoryConection.getInstancia().getConn().createStatement();
-			ResultSet rs=stmt.executeQuery("Select * from bookable");
+			 stmt = FactoryConection.getInstancia().getConn().createStatement();
+			 rs=stmt.executeQuery("Select * from bookable");
 			if(rs!=null){
 				while(rs.next()){
 					Bookable b = buildBookable(rs);
@@ -34,12 +37,23 @@ public class DataBookable {
 				}			
 			}
 		} catch(SQLException e) {
-			e.printStackTrace();			
+			throw e;			
 		}
+		
+	finally {	
+		try {
+			if(rs!=null) rs.close();
+			if(stmt!=null) stmt.close();
+			FactoryConection.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+	}	
 		return bookables;
 	}
 	
-	public  Bookable getById(int id){
+	public  Bookable getById(int id) throws Exception{
 		Bookable b= new Bookable();
 		
 		PreparedStatement stmt=null;
@@ -53,21 +67,23 @@ public class DataBookable {
 				b=buildBookable(rs);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+		throw e;
 		}
 		
-		try {
-			if(rs!=null) rs.close();
-			if(stmt!=null) stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
+		finally {	
+			try {
+				if(rs!=null) rs.close();
+				if(stmt!=null) stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+		}	
 		return b;
 	}
 	
-	public  Bookable getByName(Bookable b){
+	public  Bookable getByName(Bookable b) throws Exception{
 		
 		PreparedStatement stmt=null;
 		ResultSet rs=null;
@@ -79,22 +95,24 @@ public class DataBookable {
 			if(rs!=null && rs.next()){
 				b=buildBookable(rs);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw e;
 		}
 		
-		try {
-			if(rs!=null) rs.close();
-			if(stmt!=null) stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
+		finally {	
+			try {
+				if(rs!=null) rs.close();
+				if(stmt!=null) stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+		}	
 		return b;
 	}
 	
-	public static List<Bookable> getAllByType(TypeBookable bookable_type){
+	public static List<Bookable> getAllByType(TypeBookable bookable_type) throws Exception{
 		List<Bookable> bookables= new ArrayList<Bookable>();
 		
 		PreparedStatement stmt=null;
@@ -110,21 +128,23 @@ public class DataBookable {
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw e;
 		}
 		
-		try {
-			if(rs!=null) rs.close();
-			if(stmt!=null) stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
+		finally {	
+			try {
+				if(rs!=null) rs.close();
+				if(stmt!=null) stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+		}	
 		return bookables;
 	}
 
-	public void add(Bookable b) {
+	public void add(Bookable b) throws Exception{
 		ResultSet keyResultSet=null;
 		PreparedStatement stmt=null;
 		try {
@@ -143,9 +163,10 @@ public class DataBookable {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw e;
 		}
-		
+	
+	finally {
 		try {
 			if(keyResultSet!=null) {keyResultSet.close();}
 			if (stmt!=null){
@@ -157,8 +178,9 @@ public class DataBookable {
 			e.printStackTrace();
 		}	
 	}
+	}
 	
-	public void update(Bookable b){
+	public void update(Bookable b)throws Exception{
 		PreparedStatement stmt=null;
 		try {
 			stmt=FactoryConection.getInstancia().getConn()
@@ -168,12 +190,16 @@ public class DataBookable {
 			stmt.setInt(2, b.getType().getId());
 			stmt.setInt(3, b.getId());
 			
-			stmt.executeUpdate();
+			int rowsAfected = stmt.executeUpdate();
+			if (rowsAfected==0){
+				throw new AppDataException(null, "Elemento Inexistente");
+			}	
 			
 		
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (AppDataException apd) {
+			throw apd;
 		}
+	finally {
 		try {
 			if(stmt!=null)stmt.close();
 			FactoryConection.getInstancia().releaseConn();
@@ -181,31 +207,36 @@ public class DataBookable {
 			e.printStackTrace();
 		}
 	}
+}
 
-	public void delete(Bookable b){
+	public void delete(Bookable b)throws Exception{
 		PreparedStatement stmt=null;
 		try {
 			stmt=FactoryConection.getInstancia().getConn()
 					.prepareStatement(
 					"delete from bookable where name_bookable=?");
 			stmt.setString(1, b.getName());
-			stmt.executeUpdate();
+			int rowsAfected = stmt.executeUpdate();
+			if (rowsAfected==0){
+				throw new AppDataException(null, "Elemento inexistente");
+			}	
 			
 		
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (AppDataException apd) {
+			throw apd;
 		}
+		finally {
 		try {
 			if(stmt!=null)stmt.close();
 			FactoryConection.getInstancia().releaseConn();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
+		
+}
 	
-	public List<Bookable> getAvailableBookable(TypeBookable type, Date date){
+	public List<Bookable> getAvailableBookable(TypeBookable type, Date date)throws Exception{
 		long time = date.getTime();
 		int limit = type.getHourslimit();
 		
@@ -239,9 +270,9 @@ public class DataBookable {
 				bookables.add(b);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw e;
 		}
-		
+	finally {	
 		try {
 			if(rs!=null) rs.close();
 			if(stmt!=null) stmt.close();
@@ -249,6 +280,7 @@ public class DataBookable {
 		} catch (SQLException e) {			
 			e.printStackTrace();
 		}
+	}	
 		return bookables;
 		
 		//		select *

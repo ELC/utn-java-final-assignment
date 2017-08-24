@@ -12,7 +12,7 @@ import entities.Reservation;
 
 public class DataReservation {
 	
-	private Reservation buildReservation(ResultSet rs) throws SQLException{
+	private Reservation buildReservation(ResultSet rs) throws Exception{
 		DataPerson dataPer= new DataPerson();
 		DataBookable databook=new DataBookable();
 		Reservation re= new Reservation();
@@ -23,7 +23,7 @@ public class DataReservation {
 		return re;
 	}
 	
-	public ArrayList<Reservation> getAll(){
+	public ArrayList<Reservation> getAll() throws Exception{
 		Statement stmt=null;
 		ResultSet rs=null;
 		ArrayList<Reservation> res= new ArrayList<Reservation>();
@@ -81,7 +81,7 @@ public class DataReservation {
 		}
 	}
 	
-	public List<Reservation> getByIdPerson(Person p){
+	public List<Reservation> getByIdPerson(Person p)throws Exception{
 		List<Reservation> res = new ArrayList<Reservation>();
 		Reservation r = null;
 		PreparedStatement stmt=null;
