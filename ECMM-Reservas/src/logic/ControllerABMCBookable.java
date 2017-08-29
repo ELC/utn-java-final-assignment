@@ -67,7 +67,8 @@ public ArrayList<Bookable> getAllByType(TypeBookable bookable_type) throws Excep
 
 
 public ArrayList<Bookable> getAllAvailable(TypeBookable bookable_type,Date date) throws Exception{
-	return dataBookable.getAvailableBookable(bookable_type, (java.sql.Date) date);
+	return dataBookable.getAvailableBookable(bookable_type, date);
 
 }
+
 }

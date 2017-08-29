@@ -24,25 +24,28 @@ import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.sql.Date;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SpinnerDateModel;
+
+import com.toedter.calendar.JCalendar;
+import javax.swing.JSpinner;
+import java.awt.Color;
 
 public class ABMCReservation extends JInternalFrame {
 	private ArrayList<Bookable> books;
 	private ControllerABMCBookable ctrlBook = new ControllerABMCBookable();
 	private ControllerABMCTypeBookable ctrlType= new ControllerABMCTypeBookable();
-	private JTable table;
 	private JComboBox cboType;
-	private JScrollPane scrollPane;
-	private JButton btnNewButton;
-	private JLabel lblDate;
-	private JTextField txtDate;
-	private Date startDate;
+	private JScrollPane scrollPane_1;
+	private JSpinner spinner;
 
 	/**
 	 * Launch the application.
@@ -64,83 +67,67 @@ public class ABMCReservation extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public ABMCReservation() {
-		setBounds(100, 100, 502, 474);
+		setClosable(true);
+		setBounds(100, 100, 399, 277);
 		
-		JLabel lblTypebookable = new JLabel("Type_Bookable");
+		JLabel lblTypebookable = new JLabel("Bookable's Type");
+		lblTypebookable.setBounds(10, 11, 77, 14);
 		
 		cboType = new JComboBox();
+		cboType.setBounds(10, 36, 110, 20);
 		
-		scrollPane = new JScrollPane();
+		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(148, 11, 225, 173);
 		
-		JButton btnMostrar = new JButton("View");
-		btnMostrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//loadListAvailableBookables();
-				loadListAvailableBookable();
-				initDataBindings();
+		JComboBox cboBookables = new JComboBox();
+		cboBookables.setBounds(10, 208, 363, 20);
+		
+		JLabel lblTime = new JLabel("Time");
+		lblTime.setBounds(10, 64, 77, 14);
+		spinner = new JSpinner( new SpinnerDateModel() );
+		spinner.setBounds(10, 84, 74, 20);
+		
+		JButton btnSearchBookables = new JButton("Search bookables");
+		btnSearchBookables.setBounds(10, 115, 117, 23);
+		
+		JCalendar cal = new JCalendar();
+		scrollPane_1.setViewportView(cal);
+	    cal.getDayChooser().addPropertyChangeListener("day", new PropertyChangeListener() {
+		    @Override
+		    public void propertyChange(PropertyChangeEvent e) {
+		    	// Completar con acción
+		    }});
+		loadListTypeBookables();
+		
+		
+		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(spinner, "HH:mm");
+		spinner.setEditor(timeEditor);
+		spinner.setValue(new Date()); // will only show the current time
+		getContentPane().setLayout(null);
+		getContentPane().add(btnSearchBookables);
+		getContentPane().add(lblTypebookable);
+		getContentPane().add(cboType);
+		getContentPane().add(lblTime);
+		getContentPane().add(spinner);
+		getContentPane().add(scrollPane_1);
+		getContentPane().add(cboBookables);
+		
+		JButton btnAddBooking = new JButton("Add Booking");
+		btnAddBooking.setBackground(Color.GREEN);
+		btnAddBooking.setForeground(Color.WHITE);
+		btnAddBooking.setBounds(10, 143, 117, 23);
+		getContentPane().add(btnAddBooking);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+//				frame.dispose();
 			}
 		});
-		
-		btnNewButton = new JButton("Edit");
-		
-		lblDate = new JLabel("Date");
-		
-		txtDate = new JTextField();
-		txtDate.setColumns(10);
-		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 472, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(23)
-							.addComponent(lblTypebookable)
-							.addGap(18)
-							.addComponent(cboType, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
-							.addGap(55)
-							.addComponent(lblDate)
-							.addGap(34)
-							.addComponent(txtDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(92)
-							.addComponent(btnMostrar, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
-							.addGap(85)
-							.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(28)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTypebookable)
-						.addComponent(cboType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblDate)
-						.addComponent(txtDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(35)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 311, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnMostrar)
-						.addComponent(btnNewButton))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-		getContentPane().setLayout(groupLayout);
-		loadListTypeBookables();
-		String dateString = this.txtDate.getText();
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy"); //o el formato que prefieras
-		try {
-			 startDate = (Date) df.parse(dateString);
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		btnCancelar.setForeground(Color.WHITE);
+		btnCancelar.setBackground(Color.RED);
+		btnCancelar.setBounds(10, 172, 117, 23);
+		getContentPane().add(btnCancelar);
 		
 		
 		
@@ -159,33 +146,34 @@ public class ABMCReservation extends JInternalFrame {
 		
 	}
 
-	private void loadListAvailableBookable() {
-		
-		
-		
-		try{
-			this.books=ctrlBook.getAllAvailable((TypeBookable)cboType.getSelectedItem(), startDate);
-		} catch (Exception e){
-			JOptionPane.showMessageDialog(this,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-	
+//	private void loadListAvailableBookable() {
+//		
+//		
+//		
+//		try{
+//			this.books=ctrlBook.getAllAvailable((TypeBookable)cboType.getSelectedItem(), convertStringToDate(txtDate.getText()));
+//		} catch (Exception e){
+//			JOptionPane.showMessageDialog(this,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+//	
+//		}
+//		
+//		
+//		
+//	}
+
+	public Date convertStringToDate(String str) {
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy"); //o el formato que prefieras
+		Date startDate = null;
+		try {
+			  startDate = (Date) df.parse(str);
+		} catch (ParseException e1) {
+			e1.printStackTrace();
 		}
-		
-		
-		
+		return startDate;
 	}
-
-
-
-	protected void initDataBindings() {
-		JTableBinding<Bookable, List<Bookable>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, books, table);
-		//
-		BeanProperty<Bookable, Integer> bookableBeanProperty = BeanProperty.create("id");
-		jTableBinding.addColumnBinding(bookableBeanProperty).setColumnName("Id_Bookable");
-		//
-		BeanProperty<Bookable, String> bookableBeanProperty_1 = BeanProperty.create("name");
-		jTableBinding.addColumnBinding(bookableBeanProperty_1).setColumnName("Name_Bookable");
-		//
-		jTableBinding.bind();
+	public String convertStringToDate2(Date date) {
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		return df.format(date);
 	}
 }
 
