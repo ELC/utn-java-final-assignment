@@ -60,7 +60,7 @@ public class DataReservation {
 		try {
 			stmt=FactoryConection.getInstancia().getConn()
 					.prepareStatement(
-					"insert into reservation(id_persona, id_bookable, time, detail) values (?,?,?)",
+					"insert into reservation(id_person, id_bookable, dateTimeReservation, detail) values (?,?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			stmt.setInt(1, re.getPerson().getId());
@@ -73,7 +73,7 @@ public class DataReservation {
 				re.setId(keyResultSet.getInt(1));
 			}
 		} catch (SQLException e) {
-			throw e;
+			e.printStackTrace();
 		}
 	finally {	
 		try {
@@ -87,12 +87,12 @@ public class DataReservation {
 	}
 	
 	public List<Reservation> getByIdPerson(Person p)throws Exception{
-		List<Reservation> res = new ArrayList<Reservation>();
+		ArrayList<Reservation> res = new ArrayList<Reservation>();
 		PreparedStatement stmt=null;
 		ResultSet rs=null;
 		try {
 			stmt=FactoryConection.getInstancia().getConn().prepareStatement(
-					"select * from Reservation where id_persona=?");
+					"select * from Reservation where id_person=?");
 			stmt.setInt(1, p.getId());
 			rs=stmt.executeQuery();
 			if(rs!=null){

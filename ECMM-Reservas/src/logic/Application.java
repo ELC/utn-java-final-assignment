@@ -5,7 +5,7 @@ import entities.Person;
 public class Application {
 	private static Application instancia;
 	
-	private Person activePerson;
+	private static Person activePerson;
 	
 	public Person getActivePerson() {
 		return activePerson;
@@ -14,7 +14,6 @@ public class Application {
 	public void setActivePerson(Person activePerson) {
 		this.activePerson = activePerson;
 	}
-	
 	
 	public void LogOutPerson(){
 		isLoggedIn();

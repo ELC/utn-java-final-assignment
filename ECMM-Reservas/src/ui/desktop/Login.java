@@ -17,45 +17,34 @@ import logic.ControllerABMCPerson;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
+import javax.swing.JPasswordField;
 
 public class Login extends JInternalFrame {
 	private JTextField txtUserName;
-	private JTextField passwordUser;
 	private ControllerABMCPerson ctrlPer= new ControllerABMCPerson();
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login frame = new Login();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JPasswordField passwordUser;
 
 	/**
 	 * Create the frame.
 	 */
 	public Login() {
-		setBounds(100, 100, 450, 300);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setClosable(true);
+		setBounds(100, 100, 270, 138);
 		
-		JLabel lblUsername = new JLabel("User_name");
+		JLabel lblUsername = new JLabel("Username");
+		lblUsername.setBounds(10, 14, 89, 14);
 		
 		txtUserName = new JTextField();
+		txtUserName.setBounds(109, 11, 135, 20);
 		txtUserName.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("Password");
-		
-		passwordUser = new JTextField();
-		passwordUser.setColumns(10);
+		lblPassword.setBounds(10, 40, 89, 14);
 		
 		JButton btnNewButton = new JButton("Login");
+		btnNewButton.setBounds(68, 68, 106, 23);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnLoginClick();
@@ -63,37 +52,15 @@ public class Login extends JInternalFrame {
 		});
 		btnNewButton.setForeground(Color.WHITE);
 		btnNewButton.setBackground(Color.BLUE);
-		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(162)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblUsername)
-						.addComponent(lblPassword))
-					.addGap(36)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-						.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(passwordUser, Alignment.LEADING)
-						.addComponent(txtUserName, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE))
-					.addContainerGap(33, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(59)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblUsername)
-						.addComponent(txtUserName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(40)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblPassword)
-						.addComponent(passwordUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(58)
-					.addComponent(btnNewButton)
-					.addContainerGap(51, Short.MAX_VALUE))
-		);
-		getContentPane().setLayout(groupLayout);
+		
+		passwordUser = new JPasswordField();
+		passwordUser.setBounds(109, 37, 135, 20);
+		getContentPane().setLayout(null);
+		getContentPane().add(lblUsername);
+		getContentPane().add(txtUserName);
+		getContentPane().add(lblPassword);
+		getContentPane().add(passwordUser);
+		getContentPane().add(btnNewButton);
 
 	}
 	

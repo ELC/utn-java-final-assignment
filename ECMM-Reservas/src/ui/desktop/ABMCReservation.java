@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import entities.Bookable;
 import entities.Reservation;
 import entities.TypeBookable;
+import logic.Application;
 import logic.ControllerABMCBookable;
 import logic.ControllerABMCReservation;
 import logic.ControllerABMCTypeBookable;
@@ -76,7 +77,7 @@ public class ABMCReservation extends JInternalFrame {
 	 */
 	public ABMCReservation() {
 		setClosable(true);
-		setBounds(100, 100, 527, 421);
+		setBounds(100, 100, 403, 301);
 		
 		JLabel lblTypebookable = new JLabel("Bookable's Type");
 		lblTypebookable.setBounds(10, 11, 110, 14);
@@ -139,7 +140,7 @@ public class ABMCReservation extends JInternalFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-//				frame.dispose();
+				CloseWindow();
 			}
 		});
 		btnCancelar.setForeground(Color.WHITE);
@@ -147,7 +148,7 @@ public class ABMCReservation extends JInternalFrame {
 		btnCancelar.setBounds(10, 172, 117, 23);
 		getContentPane().add(btnCancelar);
 		
-		JLabel lblIdreservation = new JLabel("Id_Reservation");
+		JLabel lblIdreservation = new JLabel("Booking Code");
 		lblIdreservation.setBounds(192, 205, 85, 14);
 		getContentPane().add(lblIdreservation);
 		
@@ -160,7 +161,7 @@ public class ABMCReservation extends JInternalFrame {
 		txtIdReservation.setColumns(10);
 		
 		txtDetail = new JTextField();
-		txtDetail.setBounds(41, 202, 86, 20);
+		txtDetail.setBounds(52, 202, 86, 20);
 		getContentPane().add(txtDetail);
 		txtDetail.setColumns(10);
 		
@@ -171,12 +172,18 @@ public class ABMCReservation extends JInternalFrame {
 		
 	}
 
+	protected void CloseWindow() {
+		// TODO Auto-generated method stub
+		this.dispose();
+	}
+
 	private void addClick() {
 		try {
 			ctrlRes.RegisterReservation(this.mapearDeForm());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(this,"Error al intentar agregar una reserva");
+			e.printStackTrace();
+//			JOptionPane.showMessageDialog(this,"Error al intentar agregar una reserva");
 		}
 		
 	}	
@@ -212,16 +219,6 @@ public class ABMCReservation extends JInternalFrame {
 		}
 	}
 
-	public Date convertStringToDate(String str) {
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm"); //o el formato que prefieras
-		Date startDate = null;
-		try {
-			  startDate = (Date) df.parse(str);
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
-		return startDate;
-	}
 	public String convertDateToString(Date date) {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		return df.format(date);
@@ -235,9 +232,11 @@ public class ABMCReservation extends JInternalFrame {
 		r.setDetail(this.txtDetail.getText());
 		r.setBookable((Bookable)this.cboBookables.getSelectedItem());
 		r.setDate(dateBooking);
-	// faltaria la persona
+		r.setPerson(Application.getInstancia().getActivePerson());
 		return r;
-		}	
+		}
+	
+	
 }
 
 

@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class Util {
 	public static String convertTimeToString(Date date) {
-		DateFormat df = new SimpleDateFormat("hh:mm:ss");
+		DateFormat df = new SimpleDateFormat("HH:mm:ss");
 		return df.format(date);
 	}
 }

@@ -283,31 +283,23 @@ public  Bookable getByName(String name) throws Exception{
 		ResultSet rs=null;
 		try {
 			stmt= FactoryConection.getInstancia().getConn().prepareStatement(
-					"select bk.id_bookable, bk.name_bookable " +
-					"from bookable bk " +
+					"select bk.id_bookable, bk.name_bookable " +  
+					"from bookable bk  " +
 					"where bk.id_type_bookable=? and bk.id_bookable not in ( " +
-					"	select book.id_bookable " +
+					"	select res.id_bookable " +
 					"	from reservation res " +
-					"	inner join bookable book " +
-					"		on res.id_bookable=book.id_bookable " +
-					"	inner join type_bookable type " +
-					"		on book.id_type_bookable=type.id_type_bookable " +
-					"	where ((? >= res.dateTimeReservation) and (?<=addTime(res.dateTimeReservation,?)) and (addTime(?,?) <= addTime(res.dateTimeReservation, ?))) " +
-					"		or ((? <= res.dateTimeReservation) and (addTime(?,?) >= res.dateTimeReservation)and (addTime(?,?) <= addTime(res.dateTimeReservation,?))) " +
-					"); ");
+					"	where ((? >= res.dateTimeReservation) and (? < addTime(res.dateTimeReservation, ?))) or " + 
+					"    ((? <= res.dateTimeReservation) and (addTime(?, ?) > res.dateTimeReservation)) " +
+					");");
+			String fecha = date.toString();
+			String limit = type.getHourslimit();
 			stmt.setInt(1, type.getId());
-			stmt.setString(2, date.toString());
-			stmt.setString(3, date.toString());
-			stmt.setString(4, type.getHourslimit());
-			stmt.setString(5, date.toString());
-			stmt.setString(6, type.getHourslimit());
-			stmt.setString(7, type.getHourslimit());
-			stmt.setString(8, date.toString());
-			stmt.setString(9, date.toString());
-			stmt.setString(10, type.getHourslimit());
-			stmt.setString(11, date.toString());
-			stmt.setString(12, type.getHourslimit());
-			stmt.setString(13, type.getHourslimit());
+			stmt.setString(2, fecha);
+			stmt.setString(3, fecha);
+			stmt.setString(4, limit);
+			stmt.setString(5, fecha);
+			stmt.setString(6, fecha);
+			stmt.setString(7, limit);
 			rs = stmt.executeQuery();
 			if(rs!=null){
 				while(rs.next()){

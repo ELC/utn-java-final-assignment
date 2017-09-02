@@ -32,19 +32,6 @@ public class ShowAllReservation extends JInternalFrame {
 	private ArrayList<Reservation> bookings;
 	ControllerABMCReservation ctrlRes= new ControllerABMCReservation();
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ShowAllReservation frame = new ShowAllReservation();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	public ShowAllReservation() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
@@ -107,7 +94,7 @@ public class ShowAllReservation extends JInternalFrame {
 	
 	private void listado() {
 		try{
-			this.bookings=ctrlRes.getAllReservation();
+			this.bookings=(ArrayList<Reservation>) ctrlRes.getAllByUser();
 		} catch (Exception e){
 			JOptionPane.showMessageDialog(this,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		}

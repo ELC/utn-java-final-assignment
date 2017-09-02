@@ -1,6 +1,9 @@
 package logic;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import data.DataReservation;
@@ -8,14 +11,9 @@ import entities.*;
 
 public class ControllerABMCReservation {
 	private DataReservation dataRes;
-	private Person activePerson;
-	private Application app;
 	
 	public ControllerABMCReservation(){
-		Application app = Application.getInstancia();
-		dataRes= new DataReservation();
-		activePerson=app.getActivePerson();
-		app = Application.getInstancia();
+		dataRes = new DataReservation();
 	}
 	
 	public void RegisterReservation(Reservation re)throws Exception{
@@ -23,7 +21,6 @@ public class ControllerABMCReservation {
 //		if(!activePerson.getPrivileges().contains(AccessLevel.CREATE_RESERVATION)){
 //			//lanzo exepción
 //		}
-		re.setPerson(app.getActivePerson()); // El admin, puede crear reservas a nombre de otros usuarios
 		dataRes.add(re);
 	}
 	
@@ -36,8 +33,8 @@ public class ControllerABMCReservation {
 	}
 	
 	public List<Reservation> getAllByUser() throws Exception{
-		app.isLoggedIn();
-		List<Reservation> reservations = dataRes.getByIdPerson(activePerson);
+		Application.getInstancia().isLoggedIn();
+		ArrayList<Reservation> reservations = (ArrayList<Reservation>) dataRes.getByIdPerson(Application.getInstancia().getActivePerson());
 		
 //		List<Reservation> filteredReservations = reservations;
 //		for(Reservation re : reservations){
@@ -45,7 +42,9 @@ public class ControllerABMCReservation {
 //				filteredReservations.remove(re);
 //			}
 //		}
-//			reservations.removeIf(s -> s.getDate().toLocalDateTime().compareTo(LocalDate.now()) < 0); // Hace lo mismo que lo de arriba
+		Timestamp hoy = new Timestamp((new Date()).getTime());
+		
+		reservations.removeIf(s -> s.getDate().before(hoy)); // Hace lo mismo que lo de arriba
 		return reservations;		
 	}
 
