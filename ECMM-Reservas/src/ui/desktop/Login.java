@@ -38,18 +38,22 @@ public class Login extends JInternalFrame {
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setBounds(10, 40, 89, 14);
 		
+		passwordUser = new JPasswordField();
+		passwordUser.setBounds(109, 37, 135, 20);
+		
 		JButton btnNewButton = new JButton("Login");
 		btnNewButton.setBounds(68, 68, 106, 23);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnLoginClick();
-				}
+			}
 		});
 		btnNewButton.setForeground(Color.WHITE);
 		btnNewButton.setBackground(Color.BLUE);
 		
-		passwordUser = new JPasswordField();
-		passwordUser.setBounds(109, 37, 135, 20);
+		txtUserName.addActionListener(btnNewButton.getActionListeners()[0]);
+		passwordUser.addActionListener(btnNewButton.getActionListeners()[0]);
+		
 		getContentPane().setLayout(null);
 		getContentPane().add(lblUsername);
 		getContentPane().add(txtUserName);
@@ -65,7 +69,7 @@ public class Login extends JInternalFrame {
 			this.dispose();
 			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage());
+			JOptionPane.showMessageDialog(this, "Nombre de usuario incorrecto");
 		}
 	}
 	

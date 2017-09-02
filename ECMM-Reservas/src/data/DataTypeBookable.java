@@ -18,7 +18,7 @@ public class DataTypeBookable {
 		tb.setName(rs.getString("name_type_bookable"));
 		tb.setHourslimit(rs.getString("hours_limit"));
 		tb.setDayslimit(rs.getInt("days_limit"));
-		//tb.setRestriction(rs.getInt("restriction"));
+		tb.setRestriction(rs.getInt("restriction"));
 		return tb;
 	}
 	

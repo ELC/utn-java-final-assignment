@@ -83,10 +83,8 @@ public class ABMCReservation extends JInternalFrame {
 	    cal.getDayChooser().addPropertyChangeListener("day", new PropertyChangeListener() {
 		    @Override
 		    public void propertyChange(PropertyChangeEvent e) {
-		    	
+		    	loadListTypeBookables();
 		    }});
-		loadListTypeBookables();
-		
 		
 		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(spinner, "HH:mm");
 		spinner.setEditor(timeEditor);
@@ -141,7 +139,8 @@ public class ABMCReservation extends JInternalFrame {
 		
 		JLabel lblDetail = new JLabel("Detail");
 		lblDetail.setBounds(10, 206, 46, 14);
-		getContentPane().add(lblDetail);		
+		getContentPane().add(lblDetail);
+		loadListTypeBookables();
 	}
 
 	protected void CloseWindow() {
@@ -152,6 +151,7 @@ public class ABMCReservation extends JInternalFrame {
 		try {
 			ctrlRes.RegisterReservation(this.mapearDeForm());
 			JOptionPane.showMessageDialog(this, "Your booking was successfully created!");
+			this.dispose();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, "Error al intentar agregar una reserva");
 		}
@@ -170,7 +170,7 @@ public class ABMCReservation extends JInternalFrame {
 	
 	private void loadListTypeBookables(){
 		try {
-			this.cboType.setModel(new DefaultComboBoxModel(ctrlType.getAll().toArray()));
+			this.cboType.setModel(new DefaultComboBoxModel(ctrlType.getAllByDate(cal.getDate()).toArray()));
 			this.cboType.setSelectedIndex(-1);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,0 +1,7 @@
+
+
+// Nombre + Legajo
+// adrianmeca@gmail.com
+
+alter table reservation
+change dateTimeReservation dateTimeReservation timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;

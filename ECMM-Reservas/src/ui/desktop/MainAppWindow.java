@@ -19,13 +19,20 @@ import javax.swing.JMenuItem;
 import javax.swing.SwingConstants;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+
 import javax.swing.JLabel;
+
+import entities.AccessLevel;
+
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainAppWindow extends JFrame {
 	/**
@@ -47,8 +54,8 @@ public class MainAppWindow extends JFrame {
 	private JDesktopPane desktopPane;
 	private JMenu mnPerson;
 	private JMenuItem mntmAbmcPerson;
+	private Application app = Application.getInstancia();
 	public static MainAppWindow window;
-	private JLabel lblActivePersonName;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -148,11 +155,7 @@ public class MainAppWindow extends JFrame {
 
 		mnLogIn.setHorizontalAlignment(SwingConstants.RIGHT);
 		menuBar.add(Box.createHorizontalGlue());
-		
-		lblActivePersonName = new JLabel("New label");
-		menuBar.add(lblActivePersonName);
 		menuBar.add(mnLogIn);
-		lblActivePersonName.setVisible(false);
 		
 		mnLogOut = new JMenu("Log Out");
 		menuBar.add(mnLogOut);
@@ -191,6 +194,7 @@ public class MainAppWindow extends JFrame {
 		lblDasdf.setFont(new Font("Tahoma", Font.BOLD, 11));
 		panel.add(lblDasdf);
 		lockAllBase();
+		openLogIn();
 	}
 
 	protected void openLogIn() {
@@ -200,14 +204,29 @@ public class MainAppWindow extends JFrame {
 	}
 		
 	public void unlockAll(){
-		mnPerson.setEnabled(true);
-		mnTypeBookable.setEnabled(true);
-		mnBookable.setEnabled(true);
-		mnBooking.setEnabled(true);
+		List<AccessLevel> priv = app.getActivePerson().getPrivileges();
+		if (app.hasPermission(AccessLevel.CREATE_RESERVATION) || 
+			app.hasPermission(AccessLevel.DELETE_RESERVATION) ||
+			app.hasPermission(AccessLevel.READ_RESERVATION)){
+			mnBooking.setEnabled(true);
+		}
+		if (app.hasPermission(AccessLevel.CREATE_BOOKABLE) || 
+				app.hasPermission(AccessLevel.DELETE_BOOKABLE) ||
+				app.hasPermission(AccessLevel.READ_BOOKABLE)){
+				mnBookable.setEnabled(true);
+		}
+		if (app.hasPermission(AccessLevel.CREATE_USER) || 
+				app.hasPermission(AccessLevel.DELETE_USER) ||
+				app.hasPermission(AccessLevel.READ_USER)){
+				mnPerson.setEnabled(true);
+		}
+		if (app.hasPermission(AccessLevel.CREATE_TYPEBOOKABLE) || 
+				app.hasPermission(AccessLevel.DELETE_TYPEBOOKABLE) ||
+				app.hasPermission(AccessLevel.READ_TYPEBOOKABLE)){
+				mnTypeBookable.setEnabled(true);
+		}
 		mnLogIn.setVisible(false);
 		mnLogOut.setVisible(true);
-		this.lblActivePersonName.setText("Bienvenido " + Application.getInstancia().getActivePerson().getName());
-		lblActivePersonName.setVisible(true);
 	}
 	
 	public void lockAllBase(){
@@ -217,7 +236,6 @@ public class MainAppWindow extends JFrame {
 		mnBooking.setEnabled(false);
 		mnLogIn.setVisible(true);
 		mnLogOut.setVisible(false);
-		lblActivePersonName.setVisible(false);
 	}	
 	
 	public void lockAll(){
@@ -260,4 +278,3 @@ public class MainAppWindow extends JFrame {
 		frmAllRes.setVisible(true);	
 	}
 }
-

@@ -6,6 +6,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.jdbc.PreparedStatement;
+
 import entities.UserRole;
 
 public class DataUserRoles {
@@ -36,7 +38,21 @@ public class DataUserRoles {
 	}
 	
 	public static UserRole getById(int id){
-		return null;
+		UserRole ur = null;
+		java.sql.PreparedStatement stmt=null;
+		ResultSet rs=null;
+		try{
+			stmt = FactoryConection.getInstancia().getConn().prepareStatement(
+					"Select * from user_roles where id_user_roles = ?");
+			stmt.setInt(1, id);
+			rs=stmt.executeQuery();
+			if(rs!=null && rs.next()){
+				ur = buildUserRole(rs);	
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();			
+		}
+		return ur;
 	}
 	
 	public static List<UserRole> getAllByPermission(int permission){

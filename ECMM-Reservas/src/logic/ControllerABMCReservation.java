@@ -27,8 +27,12 @@ public class ControllerABMCReservation {
 	public List<Reservation> getAllByUser() throws Exception{
 		app.isLoggedIn();
 //		app.hasPermission(AccessLevel.DELETE_RESERVATION);
-		ArrayList<Reservation> reservations = (ArrayList<Reservation>) dataRes.getByIdPerson(app.getActivePerson());
-
+		ArrayList<Reservation> reservations;
+		if (app.hasPermission(AccessLevel.READ_ALLBOOKING)){
+			reservations = (ArrayList<Reservation>) dataRes.getAll();
+		} else{
+			reservations = (ArrayList<Reservation>) dataRes.getByIdPerson(app.getActivePerson());
+		}
 		Timestamp now = new Timestamp((new Date()).getTime());
 		
 		reservations.removeIf(s -> s.getDate().before(now));

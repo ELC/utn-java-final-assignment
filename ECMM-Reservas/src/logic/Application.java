@@ -27,10 +27,8 @@ public class Application {
 		}
 	}
 	
-	public void hasPermission(AccessLevel permission) throws Exception{
-		if(!activePerson.getPrivileges().contains(permission)){
-			throw new Exception();
-		}
+	public boolean hasPermission(AccessLevel permission){
+		return activePerson.getPrivileges().contains(permission);
 	}
 	
 	private Application(){}
