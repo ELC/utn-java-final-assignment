@@ -1,0 +1,17 @@
+Integrantes del trabajo Practico Java 2017:
+
+Alumnos : Castaño, Ezequiel Leonardo 	Legajo: 42703
+		  Mulassi, Matias               Legajo: 42832
+		  Priscila Sacchi 				Legajo: 42692
+		  
+		  
+		  Si llegara tener problemas para conectar a la base de datos:
+		  (a continuación se mostraran las variables que utilizamos en el Factory Conexion, 
+		  usted solo debe cambiar el configPropertie.txt que se encuentra a nivel proyecto con los
+		  siguientes datos)
+
+dbhost=127.0.0.1
+dbpassword=ROOT
+dbuser=root
+dbport=3306
+dbname=java2017 
