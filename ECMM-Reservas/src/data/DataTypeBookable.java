@@ -7,7 +7,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import entities.Person;
 import entities.TypeBookable;
 import util.AppDataException;
 
@@ -17,7 +16,7 @@ public class DataTypeBookable {
 		TypeBookable tb= new TypeBookable();
 		tb.setId(rs.getInt("id_type_bookable"));
 		tb.setName(rs.getString("name_type_bookable"));
-		tb.setHourslimit(rs.getInt("hours_limit"));
+		tb.setHourslimit(rs.getString("hours_limit"));
 		tb.setDayslimit(rs.getInt("days_limit"));
 		//tb.setRestriction(rs.getInt("restriction"));
 		return tb;
@@ -109,7 +108,7 @@ public class DataTypeBookable {
 	
 			stmt.setString(1, b.getName()); // los numeros corresponden a los de ? de la query//
 			stmt.setInt(2, b.getRestriction());
-			stmt.setInt(3, b.getHourslimit());
+			stmt.setString(3, b.getHourslimit());
 			stmt.setInt(4, b.getDayslimit());
 			stmt.executeUpdate();
 			stmt.getGeneratedKeys();
@@ -145,7 +144,7 @@ public class DataTypeBookable {
 					"update type_bookable set name_type_bookable=?, restriction=?, hours_limit= ?, days_limit=? where name_type_bookable=?");
 			stmt.setString(1, b.getName());
 			stmt.setInt(2, b.getRestriction());
-			stmt.setInt(3, b.getHourslimit());
+			stmt.setString(3, b.getHourslimit());
 			stmt.setInt(4, b.getDayslimit());
 			stmt.setString(5, b.getName());
 			int rowsAfected = stmt.executeUpdate();

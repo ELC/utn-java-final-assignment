@@ -17,9 +17,9 @@ public class DataReservation {
 		DataBookable databook=new DataBookable();
 		Reservation re= new Reservation();
 		//re.setId(rs.getInt("id_type_bookable"));
-		re.setPerson(dataPer.getById(rs.getInt("id_persona")));
+		re.setPerson(dataPer.getById(rs.getInt("id_person")));
 		re.setBookable(databook.getById(rs.getInt("id_bookable")));
-		re.setDate(rs.getDate("time"));
+		re.setDate(rs.getTimestamp("dateTimeReservation"));
 		re.setDetail(rs.getString("detail"));
 		re.setId(rs.getInt("id_reservation"));
 		return re;
@@ -65,7 +65,7 @@ public class DataReservation {
 					);
 			stmt.setInt(1, re.getPerson().getId());
 			stmt.setInt(2, re.getBookable().getId());
-			stmt.setDate(3, re.getDate());
+			stmt.setTimestamp(3, re.getDate());
 			stmt.setString(4, re.getDetail());
 			stmt.executeUpdate();
 			keyResultSet=stmt.getGeneratedKeys();
@@ -125,7 +125,7 @@ public class DataReservation {
 			stmt=FactoryConection.getInstancia().getConn()
 					.prepareStatement(
 					"delete from reservation where id_reservation=?");
-			stmt.setInt(1, re.getPerson().getId());
+			stmt.setInt(1, re.getId());
 			stmt.executeUpdate();		
 		} catch (SQLException e) {
 			throw e;

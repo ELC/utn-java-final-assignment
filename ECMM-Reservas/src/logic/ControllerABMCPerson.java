@@ -1,7 +1,12 @@
 package logic;
 
+import java.util.Objects;
+
+import javax.swing.JOptionPane;
+
 import data.DataPerson;
 import entities.*;
+import util.AppDataException;
 
 
 public class ControllerABMCPerson {
@@ -25,13 +30,17 @@ public class ControllerABMCPerson {
 	
 	public void LoginPerson(Person p) throws Exception{
 		if (Application.getInstancia().getActivePerson()!=null){
-			//Lanzo exepción	
+			throw new AppDataException(null,"Persona ya logueada");
 		}
-		Person per= dataPer.getByUsername(p.getUsername());
-		if(per.getPassword()!=p.getPassword()){
-			//lanzo exepción
+		Person per= dataPer.getByUsername(p);
+		if(!(Objects.equals(per.getPassword(), p.getPassword()))){
+			throw new AppDataException(null, "Contraseña Incorrecta");
 		}
 		Application.getInstancia().setActivePerson(per);
+	}
+	
+	public void LogOutPerson(){
+		Application.getInstancia().LogOutPerson();
 	}
 	
 	public void ModifyPerson(Person p)throws Exception{

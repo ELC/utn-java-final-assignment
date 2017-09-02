@@ -28,6 +28,7 @@ public class DataPerson {
 			p.setEnabled(rs.getBoolean("enable_person"));
 			p.setUsername(rs.getString("user_person"));
 			p.setEmail(rs.getString("email"));
+			p.setPassword(rs.getString("password_person"));
 			//UserRole user_role = DataUserRoles.getById(rs.getInt("privileges"));
 			//p.setPrivileges(user_role.getPrivileges());
 		} catch (Exception e) {
@@ -164,14 +165,14 @@ public class DataPerson {
 	}
 	
 	
-	public Person getByUsername(String username)throws Exception{
+	public Person getByUsername(Person per)throws Exception{
 		Person p=null;
 		PreparedStatement stmt=null;
 		ResultSet rs=null;
 		try {
 			stmt=FactoryConection.getInstancia().getConn().prepareStatement(
 					"select * from person where user_person=?");
-			stmt.setString(1,username);
+			stmt.setString(1,per.getUsername());
 			rs=stmt.executeQuery();
 			if(rs!=null && rs.next()){
 				p=buildPerson(rs);

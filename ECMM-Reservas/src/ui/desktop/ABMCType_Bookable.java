@@ -6,25 +6,29 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 
-import data.DataTypeBookable;
-import entities.Person;
 import entities.TypeBookable;
 import logic.ControllerABMCTypeBookable;
-import util.AppDataException;
+import util.Util;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import javax.swing.JSpinner;
 
 public class ABMCType_Bookable extends JInternalFrame {
 	private ControllerABMCTypeBookable ctrlType= new ControllerABMCTypeBookable();
 	private JTextField IDTypeBookable;
 	private JTextField NameTypeBookable;
-	private JTextField HoursLimit;
 	private JTextField DaysLimit;
 	private JTextField Restriction;
+	private JSpinner spinner;
 
 	/**
 	 * Launch the application.
@@ -73,11 +77,6 @@ public class ABMCType_Bookable extends JInternalFrame {
 		JLabel lblHoursLimit = new JLabel("Hours Limit");
 		lblHoursLimit.setBounds(10, 100, 74, 14);
 		getContentPane().add(lblHoursLimit);
-		
-		HoursLimit = new JTextField();
-		HoursLimit.setBounds(118, 97, 86, 20);
-		getContentPane().add(HoursLimit);
-		HoursLimit.setColumns(10);
 		
 		JLabel lblDaysLimit = new JLabel("Days Limit");
 		lblDaysLimit.setBounds(10, 141, 74, 14);
@@ -138,6 +137,13 @@ public class ABMCType_Bookable extends JInternalFrame {
 		JLabel lblversinPromocin = new JLabel("(Versi\u00F3n Promoci\u00F3n)");
 		lblversinPromocin.setBounds(235, 182, 129, 14);
 		getContentPane().add(lblversinPromocin);
+		
+		spinner = new JSpinner( new SpinnerDateModel() );
+		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(spinner, "HH:mm");
+		spinner.setEditor(timeEditor);
+		spinner.setValue(new Date());
+		spinner.setBounds(118, 97, 86, 20);
+		getContentPane().add(spinner);
 
 	}
 	
@@ -197,7 +203,7 @@ public class ABMCType_Bookable extends JInternalFrame {
 		}
 		
 		if(!String.valueOf(t.getHourslimit()).isEmpty()) {
-			this.HoursLimit.setText(String.valueOf(t.getHourslimit()));
+			this.spinner.setValue(this.convertStringToDate(t.getHourslimit()));
 		}
 		//this.Restriction.setText(String.valueOf(t.getRestriction()));
 		
@@ -211,9 +217,9 @@ public class ABMCType_Bookable extends JInternalFrame {
 			t.setId(Integer.parseInt(this.IDTypeBookable.getText()));
 		}
 		t.setName(this.NameTypeBookable.getText());
-		if(!this.HoursLimit.getText().isEmpty()) {
-			t.setHourslimit(Integer.parseInt(this.HoursLimit.getText()));
-		}
+		
+		t.setHourslimit(Util.convertTimeToString((java.util.Date)spinner.getValue()));
+			
 		if(!this.DaysLimit.getText().isEmpty()) {
 				t.setDayslimit(Integer.parseInt(this.DaysLimit.getText()));
 		}
@@ -224,6 +230,17 @@ public class ABMCType_Bookable extends JInternalFrame {
 		return t;
 		}
 
+	public Date convertStringToDate(String str) {
+		DateFormat df = new SimpleDateFormat("HH:mm"); //o el formato que prefieras
+		Date startDate = null;
+		try {
+			  startDate = (Date) df.parse(str);
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		return startDate;
+	}
+	
 	public void showTypeBookable(TypeBookable t){
 		this.mapearAForm(t);
 	}

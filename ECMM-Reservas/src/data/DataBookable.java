@@ -1,12 +1,11 @@
 package data;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
 
 import entities.Bookable;
 import entities.TypeBookable;
@@ -140,6 +139,8 @@ public  Bookable getByName(String name) throws Exception{
 		}	
 		return b;
 	}
+
+	
 	
 	
 	
@@ -153,12 +154,17 @@ public  Bookable getByName(String name) throws Exception{
 					"select * from bookable where id_type_bookable=?");
 			stmt.setInt(1, bookable_type.getId()); 
 			rs = stmt.executeQuery();
-			if(rs!=null && rs.next()){
-				Bookable b=buildBookable(rs);
-				bookables.add(b);
-			}
+			if(rs!=null){
+				while(rs.next()){
+					Bookable b=buildBookable(rs);
+					bookables.add(b);
+					
+				}			
+				
 			
-		} catch (SQLException e) {
+			
+		}
+			} catch (SQLException e) {
 			throw e;
 		}
 		
@@ -267,7 +273,7 @@ public  Bookable getByName(String name) throws Exception{
 		
 }
 	
-	public ArrayList<Bookable> getAvailableBookable(TypeBookable type,Date date)throws Exception{
+	public ArrayList<Bookable> getAvailableBookable(TypeBookable type,Timestamp date)throws Exception{
 //		long time = date.getTime();
 //		int limit = type.getHourslimit();
 		
@@ -277,31 +283,39 @@ public  Bookable getByName(String name) throws Exception{
 		ResultSet rs=null;
 		try {
 			stmt= FactoryConection.getInstancia().getConn().prepareStatement(
-					"select id_bookable, name_bookable " +
-					"from bookable  bk " +
-					"inner join id_type_bookable type " +		
-					"	on bk.id_type_bookable=type.id_type_bookable " +
-			 		" where  b.id_type_bookable= ? and bk.id_bookable not in (" +
-			 		" select book.id_bookable "
-			 		+ " from  reservation res"
-			 		+ "inner join bookable book "
-			 		+ "	on res.id_bookable = book.id_bookable "
-			 		+ " inner join type_bookable type "
-			 		+ "	on book.id_type_bookable= type.id_type_bookable "
-			 		+ " where (? < ? < ?+?))");
+					"select bk.id_bookable, bk.name_bookable " +
+					"from bookable bk " +
+					"where bk.id_type_bookable=? and bk.id_bookable not in ( " +
+					"	select book.id_bookable " +
+					"	from reservation res " +
+					"	inner join bookable book " +
+					"		on res.id_bookable=book.id_bookable " +
+					"	inner join type_bookable type " +
+					"		on book.id_type_bookable=type.id_type_bookable " +
+					"	where ((? >= res.dateTimeReservation) and (?<=addTime(res.dateTimeReservation,?)) and (addTime(?,?) <= addTime(res.dateTimeReservation, ?))) " +
+					"		or ((? <= res.dateTimeReservation) and (addTime(?,?) >= res.dateTimeReservation)and (addTime(?,?) <= addTime(res.dateTimeReservation,?))) " +
+					"); ");
 			stmt.setInt(1, type.getId());
-			stmt.setDate(2, date);
+			stmt.setString(2, date.toString());
 			stmt.setString(3, date.toString());
-			stmt.setInt(4, type.getHourslimit());
-			stmt.setLong(5, date.getTime());
-			stmt.setLong(6, date.getTime());
-			stmt.setInt(7, type.getHourslimit());
+			stmt.setString(4, type.getHourslimit());
+			stmt.setString(5, date.toString());
+			stmt.setString(6, type.getHourslimit());
+			stmt.setString(7, type.getHourslimit());
+			stmt.setString(8, date.toString());
+			stmt.setString(9, date.toString());
+			stmt.setString(10, type.getHourslimit());
+			stmt.setString(11, date.toString());
+			stmt.setString(12, type.getHourslimit());
+			stmt.setString(13, type.getHourslimit());
 			rs = stmt.executeQuery();
-			if(rs!=null && rs.next()){
-				Bookable b = new Bookable();
-				b.setId(rs.getInt("id_bookable"));
-				b.setName(rs.getString("name_bookable"));
-				bookables.add(b);
+			if(rs!=null){
+				while(rs.next()){
+					Bookable b = new Bookable();
+					b.setId(rs.getInt("id_bookable"));
+					b.setName(rs.getString("name_bookable"));
+					bookables.add(b);
+				}	
 			}
 		} catch (SQLException e) {
 			throw e;

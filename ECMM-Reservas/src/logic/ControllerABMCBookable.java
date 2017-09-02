@@ -1,5 +1,6 @@
 package logic;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -66,7 +67,7 @@ public ArrayList<Bookable> getAllByType(TypeBookable bookable_type) throws Excep
 }
 
 
-public ArrayList<Bookable> getAllAvailable(TypeBookable bookable_type,Date date) throws Exception{
+public ArrayList<Bookable> getAllAvailable(TypeBookable bookable_type,Timestamp date) throws Exception{
 	return dataBookable.getAvailableBookable(bookable_type, date);
 
 }

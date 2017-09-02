@@ -1,8 +1,5 @@
 package logic;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,15 +18,12 @@ public class ControllerABMCReservation {
 		app = Application.getInstancia();
 	}
 	
-	public void RegisterReservation(TypeBookable type, Date date, Bookable book)throws Exception{
+	public void RegisterReservation(Reservation re)throws Exception{
 //		app.isLoggedIn();	
 //		if(!activePerson.getPrivileges().contains(AccessLevel.CREATE_RESERVATION)){
 //			//lanzo exepción
 //		}
-		Reservation re= new Reservation();
 		re.setPerson(app.getActivePerson()); // El admin, puede crear reservas a nombre de otros usuarios
-		re.setBookable(book);
-		re.setDate(date);
 		dataRes.add(re);
 	}
 	
@@ -51,16 +45,15 @@ public class ControllerABMCReservation {
 //				filteredReservations.remove(re);
 //			}
 //		}
-		
-		reservations.removeIf(s -> s.getDate().toLocalDate().compareTo(LocalDate.now()) < 0); // Hace lo mismo que lo de arriba
+//			reservations.removeIf(s -> s.getDate().toLocalDateTime().compareTo(LocalDate.now()) < 0); // Hace lo mismo que lo de arriba
 		return reservations;		
 	}
 
 	public void DeleteReservation(Reservation re)throws Exception{
-		app.isLoggedIn();
-		if(!activePerson.getPrivileges().contains(AccessLevel.DELETE_RESERVATION)){
-			//lanzo exepción
-		}
+//		app.isLoggedIn();
+//		if(!activePerson.getPrivileges().contains(AccessLevel.DELETE_RESERVATION)){
+//			//lanzo exepción
+//		}
 		dataRes.delete(re);
 	}
 }

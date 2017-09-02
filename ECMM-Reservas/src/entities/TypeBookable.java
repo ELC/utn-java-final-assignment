@@ -1,11 +1,12 @@
 package entities;
 
+import java.util.Date;
 
 public class TypeBookable {
 	
 	private int id;
 	private String name;
-	private int hourslimit;
+	private String hourslimit;
 	private int dayslimit;
 	private int restriction;
 	
@@ -23,10 +24,10 @@ public class TypeBookable {
 		this.name = name;
 	}
 	
-	public int getHourslimit() {
+	public String getHourslimit() {
 		return hourslimit;
 	}
-	public void setHourslimit(int hourslimit) {
+	public void setHourslimit(String hourslimit) {
 		this.hourslimit = hourslimit;
 	}
 	

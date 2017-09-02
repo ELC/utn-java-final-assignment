@@ -1,5 +1,4 @@
 package entities;
-
 public class Bookable {
 	
 	private int id;
@@ -26,4 +25,20 @@ public class Bookable {
 	public void setType(TypeBookable type) {
 		this.type = type;
 	}
+
+	@Override
+	public String toString(){
+		return this.getName();
+	}
+	
+	@Override
+	public boolean equals(Object o){      
+		return (o instanceof Bookable && ((Bookable)o).getId()==this.getId());
+	}
+	
+	@Override
+	public int hashCode(){
+		return ((Integer)this.getId()).hashCode();
+	}
+
 }
