@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
+import javax.swing.JPasswordField;
 
 public class ABMCPerson extends JInternalFrame {
 	private ControllerABMCPerson ctrlPer= new ControllerABMCPerson();
@@ -26,11 +27,19 @@ public class ABMCPerson extends JInternalFrame {
 	private JTextField txtDni;
 	private JTextField txtId_Person;
 	private JTextField txtUser_Person;
-	private JTextField txtPassword;
 	private JCheckBox chckbxEnable;
 	private JTextField txtEmail;
 	private JLabel lblEmail;
+	private JPasswordField txtPassword;
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+	
+
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 	public ABMCPerson() {
 		try {
 			setClosed(true);
@@ -95,11 +104,18 @@ public class ABMCPerson extends JInternalFrame {
 		lblPassword.setBounds(45, 211, 73, 14);
 		getContentPane().add(lblPassword);
 		
+<<<<<<< Updated upstream
 		txtPassword = new JTextField();
 		txtPassword.setBounds(131, 208, 86, 20);
 		getContentPane().add(txtPassword);
 		txtPassword.setColumns(10);
+=======
 		
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+		
+>>>>>>> Stashed changes
 		JLabel lblEnableperson = new JLabel("Enable_Person :");
 		lblEnableperson.setBounds(28, 282, 85, 14);
 		getContentPane().add(lblEnableperson);
@@ -152,6 +168,10 @@ public class ABMCPerson extends JInternalFrame {
 		txtEmail.setBounds(131, 242, 86, 20);
 		getContentPane().add(txtEmail);
 		txtEmail.setColumns(10);
+		
+		txtPassword = new JPasswordField();
+		txtPassword.setBounds(131, 208, 86, 20);
+		getContentPane().add(txtPassword);
 	}
 		
 	public void addClick(){

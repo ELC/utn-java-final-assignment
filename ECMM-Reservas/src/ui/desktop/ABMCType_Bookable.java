@@ -21,6 +21,7 @@ import java.util.Date;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.JSpinner;
+import javax.swing.JFrame;
 
 public class ABMCType_Bookable extends JInternalFrame {
 	private ControllerABMCTypeBookable ctrlType= new ControllerABMCTypeBookable();
@@ -31,6 +32,8 @@ public class ABMCType_Bookable extends JInternalFrame {
 	private JSpinner spinner;
 
 	public ABMCType_Bookable() {
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setClosable(true);
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
 		

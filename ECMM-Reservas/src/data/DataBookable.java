@@ -15,10 +15,11 @@ public class DataBookable {
 	
 	public static Bookable buildBookable(ResultSet rs) throws SQLException{
 		Bookable b= new Bookable();
+		b.setType(new TypeBookable());
 		b.setId(rs.getInt("id_bookable"));
 		b.setName(rs.getString("name_bookable"));
-		TypeBookable type_bookable = DataTypeBookable.getById(rs.getInt("id_type_bookable"));
-		b.setType(type_bookable);
+		b.getType().setId(rs.getInt("id_type_bookable"));
+		b.getType().setName(rs.getString("name_type_bookable"));
 		return b;
 	}
 	
@@ -88,7 +89,7 @@ public class DataBookable {
 		ResultSet rs=null;
 		try {
 			stmt= FactoryConection.getInstancia().getConn().prepareStatement(		
-					"select * from bookable where name_bookable=?");
+					"select * from bookable bk inner join type_bookable type on bk.id_type_bookable=type.id_type_bookable where name_bookable=?");
 			stmt.setString(1, b.getName()); 
 			rs = stmt.executeQuery();
 			if(rs!=null && rs.next()){

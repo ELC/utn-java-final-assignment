@@ -55,6 +55,14 @@ public class ABMCReservation extends JInternalFrame {
 	private JTextField txtDetail;
 	private Timestamp dateBooking;
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+
+	
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 	public ABMCReservation() {
 		setClosable(true);
 		setBounds(100, 100, 403, 301);
@@ -198,6 +206,11 @@ public class ABMCReservation extends JInternalFrame {
 		return df.format(date);
 	}
 
+	private void mapearAForm(Reservation re) {   
+		if(!String.valueOf(re.getId()).isEmpty()) {
+			this.txtIdReservation.setText(String.valueOf(re.getId()));
+		}
+	}
 	private Reservation mapearDeForm() { 
 		Reservation r= new Reservation();
 		if(!this.txtIdReservation.getText().isEmpty()) {

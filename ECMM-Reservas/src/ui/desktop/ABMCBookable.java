@@ -23,6 +23,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import javax.swing.JFrame;
 
 public class ABMCBookable extends JInternalFrame {
 	private JTextField txtIdBookable;
@@ -31,7 +32,17 @@ public class ABMCBookable extends JInternalFrame {
 	private ControllerABMCTypeBookable ctrlTypeBook= new ControllerABMCTypeBookable();
 	private ControllerABMCBookable ctrlBook= new ControllerABMCBookable();
 	
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+
+	
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 	public ABMCBookable() {
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setClosable(true);
 		setBounds(100, 100, 450, 300);
 		
 		JLabel lblIdbookable = new JLabel("Id_Bookable");
