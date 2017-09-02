@@ -12,7 +12,7 @@ public class ControllerABMCPerson {
 	
 	public void LoginPerson(Person p) throws Exception{
 		if (Application.getInstancia().getActivePerson()!=null){
-			throw new AppDataException(null,"Persona ya logueada");
+			throw new Exception();
 		}
 		Person per= dataPer.getByUsername(p);
 		if(!(Objects.equals(per.getPassword(), p.getPassword()))){

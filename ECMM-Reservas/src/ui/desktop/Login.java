@@ -7,6 +7,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import entities.Person;
 import logic.ControllerABMCPerson;
+import util.AppDataException;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
@@ -68,8 +69,12 @@ public class Login extends JInternalFrame {
 			MainAppWindow.window.unlockAll();
 			this.dispose();
 			
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Nombre de usuario incorrecto");
+		} 
+		catch (AppDataException apd) {
+			JOptionPane.showMessageDialog(this, "Contraseña Incorrecta");
+		}
+			catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Ya hay un usuario logeado");
 		}
 	}
 	

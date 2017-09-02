@@ -56,6 +56,7 @@ public class MainAppWindow extends JFrame {
 	private JMenuItem mntmAbmcPerson;
 	private Application app = Application.getInstancia();
 	public static MainAppWindow window;
+	private JLabel lblNameUser;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -155,6 +156,9 @@ public class MainAppWindow extends JFrame {
 
 		mnLogIn.setHorizontalAlignment(SwingConstants.RIGHT);
 		menuBar.add(Box.createHorizontalGlue());
+		
+		lblNameUser = new JLabel("New label");
+		menuBar.add(lblNameUser);
 		menuBar.add(mnLogIn);
 		
 		mnLogOut = new JMenu("Log Out");
@@ -227,6 +231,8 @@ public class MainAppWindow extends JFrame {
 		}
 		mnLogIn.setVisible(false);
 		mnLogOut.setVisible(true);
+		lblNameUser.setText("Bienvenido "+ app.getActivePerson().getName());
+		lblNameUser.setVisible(true);
 	}
 	
 	public void lockAllBase(){
@@ -236,6 +242,7 @@ public class MainAppWindow extends JFrame {
 		mnBooking.setEnabled(false);
 		mnLogIn.setVisible(true);
 		mnLogOut.setVisible(false);
+		lblNameUser.setVisible(false);
 	}	
 	
 	public void lockAll(){
