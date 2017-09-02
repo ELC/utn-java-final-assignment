@@ -80,11 +80,15 @@ public class DataBookable {
 		ResultSet rs=null;
 		try {
 			stmt= FactoryConection.getInstancia().getConn().prepareStatement(		
-					"select * from bookable where name_bookable=?"); 
+					"select * from bookable bk inner join type_bookable type on bk.id_type_bookable=type.id_type_bookable where name_bookable=?"); 
 			stmt.setString(1, b.getName()); 
 			rs = stmt.executeQuery();
 			if(rs!=null && rs.next()){
-				b=buildBookable(rs);
+				b.setType(new TypeBookable());
+				b.getType().setId(rs.getInt("id_type_bookable"));
+				b.getType().setName(rs.getString("name_type_bookable"));
+				b.setId(rs.getInt("id_bookable"));
+				b.setName(rs.getString("name_bookable"));
 			}
 		} catch (Exception e) {
 			throw e;
