@@ -267,9 +267,9 @@ public  Bookable getByName(String name) throws Exception{
 		
 }
 	
-	public ArrayList<Bookable> getAvailableBookable(TypeBookable type, java.util.Date date)throws Exception{
-		long time = date.getTime();
-		int limit = type.getHourslimit();
+	public ArrayList<Bookable> getAvailableBookable(TypeBookable type,Date date)throws Exception{
+//		long time = date.getTime();
+//		int limit = type.getHourslimit();
 		
 		ArrayList<Bookable> bookables= new ArrayList<Bookable>();
 		
@@ -277,20 +277,20 @@ public  Bookable getByName(String name) throws Exception{
 		ResultSet rs=null;
 		try {
 			stmt= FactoryConection.getInstancia().getConn().prepareStatement(
-					"select id_bookable, name_bookable \n" +
-					"from bookable  b " +
-					"inner join id_type_bookable type" +		
-					"	on b.id_bookable=type.id_type_bookable " +
-			 		" where  b.id_type_bookable= ? and (not in (" +
-			 		" select id_bookable"
-			 		+ "from  reservation res"
-			 		+ "inner join bookable book"
-			 		+ "	on res.id_bookable = book.id_bookable"
-			 		+ "inner join type_bookable type"
-			 		+ "	on book.id_type_bookable= type.id_type_bookable"
+					"select id_bookable, name_bookable " +
+					"from bookable  bk " +
+					"inner join id_type_bookable type " +		
+					"	on bk.id_type_bookable=type.id_type_bookable " +
+			 		" where  b.id_type_bookable= ? and bk.id_bookable not in (" +
+			 		" select book.id_bookable "
+			 		+ " from  reservation res"
+			 		+ "inner join bookable book "
+			 		+ "	on res.id_bookable = book.id_bookable "
+			 		+ " inner join type_bookable type "
+			 		+ "	on book.id_type_bookable= type.id_type_bookable "
 			 		+ " where (? < ? < ?+?))");
 			stmt.setInt(1, type.getId());
-			stmt.setInt(2, type.getId());
+			stmt.setDate(2, date);
 			stmt.setString(3, date.toString());
 			stmt.setInt(4, type.getHourslimit());
 			stmt.setLong(5, date.getTime());

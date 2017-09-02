@@ -46,6 +46,9 @@ public class ABMCReservation extends JInternalFrame {
 	private JComboBox cboType;
 	private JScrollPane scrollPane_1;
 	private JSpinner spinner;
+	private JCalendar cal;
+	private Date dateSpinner;
+	private Date dateBooking;
 
 	/**
 	 * Launch the application.
@@ -68,7 +71,7 @@ public class ABMCReservation extends JInternalFrame {
 	 */
 	public ABMCReservation() {
 		setClosable(true);
-		setBounds(100, 100, 399, 277);
+		setBounds(100, 100, 527, 421);
 		
 		JLabel lblTypebookable = new JLabel("Bookable's Type");
 		lblTypebookable.setBounds(10, 11, 77, 14);
@@ -88,14 +91,25 @@ public class ABMCReservation extends JInternalFrame {
 		spinner.setBounds(10, 84, 74, 20);
 		
 		JButton btnSearchBookables = new JButton("Search bookables");
+		btnSearchBookables.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			 dateSpinner=(Date)spinner.getValue();
+			 dateBooking=cal.getDate();
+			dateBooking.setMinutes(dateSpinner.getMinutes());
+			dateBooking.setHours(dateSpinner.getHours());
+			loadListAvailableBookable();
+			
+			
+ 			}
+		});
 		btnSearchBookables.setBounds(10, 115, 117, 23);
 		
-		JCalendar cal = new JCalendar();
+		cal = new JCalendar();
 		scrollPane_1.setViewportView(cal);
 	    cal.getDayChooser().addPropertyChangeListener("day", new PropertyChangeListener() {
 		    @Override
 		    public void propertyChange(PropertyChangeEvent e) {
-		    	// Completar con acción
+		    	
 		    }});
 		loadListTypeBookables();
 		
@@ -130,7 +144,6 @@ public class ABMCReservation extends JInternalFrame {
 		getContentPane().add(btnCancelar);
 		
 		
-		
 	}
 
 	private void loadListTypeBookables(){
@@ -146,23 +159,23 @@ public class ABMCReservation extends JInternalFrame {
 		
 	}
 
-//	private void loadListAvailableBookable() {
-//		
-//		
-//		
-//		try{
-//			this.books=ctrlBook.getAllAvailable((TypeBookable)cboType.getSelectedItem(), convertStringToDate(txtDate.getText()));
-//		} catch (Exception e){
-//			JOptionPane.showMessageDialog(this,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-//	
-//		}
-//		
-//		
-//		
-//	}
+	private void loadListAvailableBookable() {
+		
+		
+		
+		try{
+			this.books=ctrlBook.getAllAvailable((TypeBookable)cboType.getSelectedItem(), dateBooking);
+		} catch (Exception e){
+			JOptionPane.showMessageDialog(this,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+	
+		}
+		
+		
+	
+	}
 
 	public Date convertStringToDate(String str) {
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy"); //o el formato que prefieras
+		DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm"); //o el formato que prefieras
 		Date startDate = null;
 		try {
 			  startDate = (Date) df.parse(str);
