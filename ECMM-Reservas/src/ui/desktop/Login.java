@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import entities.Person;
 import logic.ControllerABMCPerson;
 import util.AppDataException;
+import util.exceptions.LoginAppDataException;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
@@ -68,16 +69,12 @@ public class Login extends JInternalFrame {
 			ctrlPer.LoginPerson(this.mapearDeForm());
 			MainAppWindow.window.unlockAll();
 			this.dispose();
-			
-		} 
-		catch (AppDataException apd) {
-			JOptionPane.showMessageDialog(this, "Contraseña Incorrecta");
-		}
-			catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Ya hay un usuario logeado");
+		} catch (LoginAppDataException e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado");
 		}
 	}
-	
 	
 	@SuppressWarnings("deprecation")
 	private Person mapearDeForm (){ 

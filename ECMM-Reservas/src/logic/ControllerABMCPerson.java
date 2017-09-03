@@ -1,9 +1,8 @@
 package logic;
 
-import java.util.Objects;
 import data.DataPerson;
 import entities.*;
-import util.AppDataException;
+import util.exceptions.LoginAppDataException;
 
 
 public class ControllerABMCPerson {
@@ -11,12 +10,18 @@ public class ControllerABMCPerson {
 	private Application app = Application.getInstancia();
 	
 	public void LoginPerson(Person p) throws Exception{
-		if (Application.getInstancia().getActivePerson()!=null){
-			throw new Exception();
+		if (!Application.getInstancia().isLoggedIn()){
+			throw new LoginAppDataException("Ya existe un usuario actualmente logeado");
 		}
 		Person per= dataPer.getByUsername(p);
-		if(!(Objects.equals(per.getPassword(), p.getPassword()))){
-			throw new AppDataException(null, "Contraseña Incorrecta");
+		if (per==null) {
+			throw new LoginAppDataException("Nombre de usuario Incorrecto");
+		}
+		if (!per.isEnabled()) {
+			throw new LoginAppDataException("Usuario no habilitado");
+		}
+		if(!per.checkPassword(p)){
+			throw new LoginAppDataException("Contraseña Incorrecta");
 		}
 		Application.getInstancia().setActivePerson(per);
 	}

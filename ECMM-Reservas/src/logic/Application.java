@@ -21,10 +21,8 @@ public class Application {
 		activePerson = null;
 	}
 
-	public void isLoggedIn() throws Exception{
-		if(activePerson==null){
-			throw new Exception();
-		}
+	public boolean isLoggedIn() throws Exception{
+		return activePerson==null;
 	}
 	
 	public boolean hasPermission(AccessLevel permission){

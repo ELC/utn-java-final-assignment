@@ -1,8 +1,10 @@
 package entities;
 
 import java.util.List;
+import java.util.Objects;
 
 import entities.AccessLevel;
+import util.Util;
 
 public class Person {
 	
@@ -44,7 +46,10 @@ public class Person {
 		return username;
 	}
 	public void setUsername(String username) {
-		this.username = username;
+		this.username = Util.hash(username);
+	}
+	public boolean checkUserName(Person p){
+		return Objects.equals(this.getUsername(), Util.hash(p.getUsername()));
 	}
 	public String getEmail() {
 		return email;
@@ -56,7 +61,10 @@ public class Person {
 		return password;
 	}
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = Util.hash(password);
+	}
+	public boolean checkPassword(Person p){
+		return Objects.equals(this.getPassword(), Util.hash(p.getPassword()));
 	}
 	public boolean isEnabled() {
 		return enabled;

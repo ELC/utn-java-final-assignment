@@ -154,7 +154,6 @@ public class DataPerson {
 			if(rs!=null && rs.next()){
 				p=buildPerson(rs);
 			}
-			
 		} catch (SQLException e) {
 			throw e;
 		} finally {	
