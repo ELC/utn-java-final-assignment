@@ -25,9 +25,6 @@ public class Login extends JInternalFrame {
 	private ControllerABMCPerson ctrlPer= new ControllerABMCPerson();
 	private JPasswordField passwordUser;
 
-	/**
-	 * Create the frame.
-	 */
 	public Login() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setClosable(true);
@@ -63,7 +60,6 @@ public class Login extends JInternalFrame {
 		getContentPane().add(btnNewButton);
 
 	}
-	
 	private void btnLoginClick(){
 		try {
 			ctrlPer.LoginPerson(this.mapearDeForm());
@@ -71,19 +67,15 @@ public class Login extends JInternalFrame {
 			this.dispose();
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
-	
 	}
 	
 	
-	private Person mapearDeForm ()
-	{ 
+	private Person mapearDeForm (){ 
 		Person p= new Person();
-		
 		p.setUsername(this.txtUserName.getText());
 		p.setPassword(this.passwordUser.getText());
 		return p;
-		}	
+	}	
 }

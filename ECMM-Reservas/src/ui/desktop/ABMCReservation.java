@@ -55,26 +55,6 @@ public class ABMCReservation extends JInternalFrame {
 	private JTextField txtDetail;
 	private Timestamp dateBooking;
 
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ABMCReservation frame = new ABMCReservation();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public ABMCReservation() {
 		setClosable(true);
 		setBounds(100, 100, 403, 301);
@@ -173,7 +153,6 @@ public class ABMCReservation extends JInternalFrame {
 	}
 
 	protected void CloseWindow() {
-		// TODO Auto-generated method stub
 		this.dispose();
 	}
 
@@ -181,11 +160,9 @@ public class ABMCReservation extends JInternalFrame {
 		try {
 			ctrlRes.RegisterReservation(this.mapearDeForm());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 //			JOptionPane.showMessageDialog(this,"Error al intentar agregar una reserva");
 		}
-		
 	}	
 	
 	private void readDateAndTime(){
@@ -196,7 +173,6 @@ public class ABMCReservation extends JInternalFrame {
 //		dateBooking.setMinutes(dateSpinner.getMinutes());
 //		dateBooking.setHours(dateSpinner.getHours());
 		loadListAvailableBookable((TypeBookable)cboType.getSelectedItem(), dateBooking);
-		
 	}
 	
 	private void loadListTypeBookables(){
@@ -204,10 +180,8 @@ public class ABMCReservation extends JInternalFrame {
 			this.cboType.setModel(new DefaultComboBoxModel(ctrlType.getAll().toArray()));
 			this.cboType.setSelectedIndex(-1);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	private void loadListAvailableBookable(TypeBookable type, Timestamp dateBooking) {
@@ -235,11 +209,4 @@ public class ABMCReservation extends JInternalFrame {
 		r.setPerson(Application.getInstancia().getActivePerson());
 		return r;
 		}
-	
-	
 }
-
-
-
-
-

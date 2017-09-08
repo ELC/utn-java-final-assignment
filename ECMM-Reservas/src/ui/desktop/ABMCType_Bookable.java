@@ -30,25 +30,6 @@ public class ABMCType_Bookable extends JInternalFrame {
 	private JTextField Restriction;
 	private JSpinner spinner;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ABMCType_Bookable frame = new ABMCType_Bookable();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public ABMCType_Bookable() {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
@@ -157,26 +138,21 @@ public class ABMCType_Bookable extends JInternalFrame {
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(this,"Error al agregar un tipo de elemento");
 		}
-		}
+	}
 	
 	public void findClick(){
 		try {
 			this.mapearAForm(ctrlType.getByName(this.mapearDeForm()));
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this,"Error, Tipo de elemento Inexistente, intentelo de nuevo");
-			
 		}
-		
-		}
+	}
 	
 	public void deleteClick(){
 		try {
 			ctrlType.DeleteTypeBookable(this.mapearDeForm());
-			JOptionPane.showMessageDialog(null, "Tipo de elemento borrado exitosamente");
-
-			
+			JOptionPane.showMessageDialog(null, "Tipo de elemento borrado exitosamente");			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(this, "Ha ocurrido un error al borrar el tipo de elemento");
 		}
 	}
@@ -187,9 +163,7 @@ public class ABMCType_Bookable extends JInternalFrame {
 			JOptionPane.showMessageDialog(null, "Modificación exitosa");
 			showTypeBookable(ctrlType.getByName(this.mapearDeForm()));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(this, "No existe un tipo de elemento con ese nombre");
-
 		}
 	}
 	
@@ -206,12 +180,9 @@ public class ABMCType_Bookable extends JInternalFrame {
 			this.spinner.setValue(this.convertStringToDate(t.getHourslimit()));
 		}
 		//this.Restriction.setText(String.valueOf(t.getRestriction()));
-		
-		
-		}
+	}
 	
-	private TypeBookable mapearDeForm ()
-	{ 
+	private TypeBookable mapearDeForm (){ 
 		TypeBookable t= new TypeBookable();
 		if(!this.IDTypeBookable.getText().isEmpty()) {
 			t.setId(Integer.parseInt(this.IDTypeBookable.getText()));
@@ -223,12 +194,9 @@ public class ABMCType_Bookable extends JInternalFrame {
 		if(!this.DaysLimit.getText().isEmpty()) {
 				t.setDayslimit(Integer.parseInt(this.DaysLimit.getText()));
 		}
-		
-
 		//t.setRestriction(Integer.parseInt(this.Restriction.getText()));
-	
 		return t;
-		}
+	}
 
 	public Date convertStringToDate(String str) {
 		DateFormat df = new SimpleDateFormat("HH:mm"); //o el formato que prefieras

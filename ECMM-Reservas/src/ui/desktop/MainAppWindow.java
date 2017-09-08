@@ -33,7 +33,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MainAppWindow extends JFrame {
-
 	JFrame frmFinalAssigment;
 	private JDesktopPane desktopPane1;
 	private JMenu mnTypeBookable;
@@ -50,11 +49,8 @@ public class MainAppWindow extends JFrame {
 	private JMenu mnPerson;
 	private JMenuItem mntmAbmcPerson;
 	public static MainAppWindow window;
-	/**
-	 * Launch the application.
-	 */
+
 	public static void main(String[] args) {
-		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -68,17 +64,7 @@ public class MainAppWindow extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public MainAppWindow() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
 		frmFinalAssigment = new JFrame();
 		frmFinalAssigment.setTitle("Final Assignment Java2017");
 		frmFinalAssigment.setBounds(100, 100, 550, 428);
@@ -100,9 +86,7 @@ public class MainAppWindow extends JFrame {
 		mntmAbmcPerson = new JMenuItem("CRUD");
 		mntmAbmcPerson.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			
-			showABMCPerson();
-			
+				showABMCPerson();
 			}
 		});
 		mnPerson.add(mntmAbmcPerson);
@@ -116,8 +100,7 @@ public class MainAppWindow extends JFrame {
 		mntmAbmcTypeBookable = new JMenuItem("CRUD");
 		mntmAbmcTypeBookable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
-			showABMCTypeBookable();
+				showABMCTypeBookable();
 			}
 		});
 		mnTypeBookable.add(mntmAbmcTypeBookable);
@@ -129,7 +112,6 @@ public class MainAppWindow extends JFrame {
 		mntmAbmcBookable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				showABMCBookable();
-			
 			}
 		});
 		mnBookable.add(mntmAbmcBookable);
@@ -151,7 +133,7 @@ public class MainAppWindow extends JFrame {
 		mntmShowAllBooking = new JMenuItem("Show All");
 		mntmShowAllBooking.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			showAllReservation();
+				showAllReservation();
 			}
 		});
 		mnBooking.add(mntmShowAllBooking);
@@ -207,72 +189,60 @@ public class MainAppWindow extends JFrame {
 		lockAll();
 	}
 
-		protected void openLogIn() {
+	protected void openLogIn() {
 		Login login = new Login();
 		desktopPane.add(login);
 		login.setVisible(true);
 	}
 		
-		public void unlockAll(){
-			mnPerson.setEnabled(true);
-			mnTypeBookable.setEnabled(true);
-			mnBookable.setEnabled(true);
-			mnBooking.setEnabled(true);
-			mnLogIn.setVisible(false);
-			mnLogOut.setVisible(true);
-		}
-		
-		public void lockAll(){
-			ControllerABMCPerson ctrlPer= new ControllerABMCPerson();
-			ctrlPer.LogOutPerson();
-			mnPerson.setEnabled(false);
-			mnTypeBookable.setEnabled(false);
-			mnBookable.setEnabled(false);
-			mnBooking.setEnabled(false);
-			mnLogIn.setVisible(true);
-			mnLogOut.setVisible(false);
-		}		
-		
-		protected void showABMCBookable() {
-			ABMCBookable frmBookable= new ABMCBookable();
-			desktopPane.add(frmBookable);
-			frmBookable.setVisible(true);
-		}
-		
-		protected void showABMCTypeBookable() {
-			ABMCType_Bookable frmTypeBookable=new ABMCType_Bookable();
-			desktopPane.add(frmTypeBookable);
-			frmTypeBookable.setVisible(true);
+	public void unlockAll(){
+		mnPerson.setEnabled(true);
+		mnTypeBookable.setEnabled(true);
+		mnBookable.setEnabled(true);
+		mnBooking.setEnabled(true);
+		mnLogIn.setVisible(false);
+		mnLogOut.setVisible(true);
+	}
+	
+	public void lockAll(){
+		ControllerABMCPerson ctrlPer= new ControllerABMCPerson();
+		ctrlPer.LogOutPerson();
+		mnPerson.setEnabled(false);
+		mnTypeBookable.setEnabled(false);
+		mnBookable.setEnabled(false);
+		mnBooking.setEnabled(false);
+		mnLogIn.setVisible(true);
+		mnLogOut.setVisible(false);
+	}		
+	
+	protected void showABMCBookable() {
+		ABMCBookable frmBookable= new ABMCBookable();
+		desktopPane.add(frmBookable);
+		frmBookable.setVisible(true);
+	}
+	
+	protected void showABMCTypeBookable() {
+		ABMCType_Bookable frmTypeBookable=new ABMCType_Bookable();
+		desktopPane.add(frmTypeBookable);
+		frmTypeBookable.setVisible(true);
 	}
 
-		protected void showABMCPerson() {
-			ABMCPerson frmPer=new ABMCPerson();
-			desktopPane.add(frmPer);
-			frmPer.setVisible(true);
-			
-			
-			
-		}
+	protected void showABMCPerson() {
+		ABMCPerson frmPer=new ABMCPerson();
+		desktopPane.add(frmPer);
+		frmPer.setVisible(true);
+	}
 
-protected void showABMCReservation() {
-			
-			ABMCReservation frmRes=new ABMCReservation();
-			desktopPane.add(frmRes);
-			frmRes.setVisible(true);
-			
-			
-			
-		}
+	protected void showABMCReservation() {
+		ABMCReservation frmRes=new ABMCReservation();
+		desktopPane.add(frmRes);
+		frmRes.setVisible(true);
+	}
 
-protected void showAllReservation() {
-	
-	ShowAllReservation frmAllRes=new ShowAllReservation();
-	desktopPane.add(frmAllRes);
-	frmAllRes.setVisible(true);
-	
-	
-	
-}
-
+	protected void showAllReservation() {
+		ShowAllReservation frmAllRes=new ShowAllReservation();
+		desktopPane.add(frmAllRes);
+		frmAllRes.setVisible(true);	
+	}
 }
 

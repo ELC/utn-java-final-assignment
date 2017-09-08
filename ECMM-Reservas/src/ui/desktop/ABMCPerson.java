@@ -21,7 +21,6 @@ import javax.swing.JFrame;
 
 public class ABMCPerson extends JInternalFrame {
 	private ControllerABMCPerson ctrlPer= new ControllerABMCPerson();
-	
 	private JTextField txtName_Person;
 	private JTextField txtLast_Name_Person;
 	private JTextField txtDni;
@@ -32,25 +31,6 @@ public class ABMCPerson extends JInternalFrame {
 	private JTextField txtEmail;
 	private JLabel lblEmail;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ABMCPerson frame = new ABMCPerson();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public ABMCPerson() {
 		try {
 			setClosed(true);
@@ -120,8 +100,6 @@ public class ABMCPerson extends JInternalFrame {
 		getContentPane().add(txtPassword);
 		txtPassword.setColumns(10);
 		
-		
-		
 		JLabel lblEnableperson = new JLabel("Enable_Person :");
 		lblEnableperson.setBounds(28, 282, 85, 14);
 		getContentPane().add(lblEnableperson);
@@ -134,7 +112,6 @@ public class ABMCPerson extends JInternalFrame {
 		btnAddPerson.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				addClick();
-
 			}
 		});
 		btnAddPerson.setBounds(262, 89, 109, 23);
@@ -183,28 +160,23 @@ public class ABMCPerson extends JInternalFrame {
 			showPerson(ctrlPer.getByDni(this.mapearDeForm()));
 			JOptionPane.showMessageDialog(null, "Persona agregada exitosamente");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(this,"Error al crear un nuevo usuario");
 		}
-		
-		}
+	}
 	
 	public void findClick(){
 		try {
 			this.mapearAForm(ctrlPer.getByDni(this.mapearDeForm()));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(this,"Error, usuario Inexistente, por favor, intentelo denuevo");
 		}
-		
-		}
+	}
 	
 	public void deleteClick(){
 		try {
 			ctrlPer.DeletePerson(this.mapearDeForm());
 			JOptionPane.showMessageDialog(this,"Persona borrada con exito");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(this,"Persona inexistente, por favor, vuelva a intentarlo");
 		}
 	}
@@ -214,7 +186,6 @@ public class ABMCPerson extends JInternalFrame {
 			ctrlPer.ModifyPerson(this.mapearDeForm());
 			JOptionPane.showMessageDialog(null,"Persona modificada con exito");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(this,"Error al modificar un usuario");
 		}
 	}
@@ -230,12 +201,9 @@ public class ABMCPerson extends JInternalFrame {
 		this.txtUser_Person.setText(p.getUsername());
 		this.txtPassword.setText(p.getPassword());
 		this.txtEmail.setText(p.getEmail());
-		
-		
-		}
+	}
 	
-	private Person mapearDeForm ()
-	{ 
+	private Person mapearDeForm (){ 
 		Person p= new Person();
 		if(!this.txtId_Person.getText().isEmpty()) {
 			p.setId(Integer.parseInt(this.txtId_Person.getText()));
@@ -249,11 +217,9 @@ public class ABMCPerson extends JInternalFrame {
 		p.setEmail(this.txtEmail.getText());
 	
 		return p;
-		}	
+	}	
 
-	
 	public void showPerson(Person p){
 		this.mapearAForm(p);
 	}
-	
 }

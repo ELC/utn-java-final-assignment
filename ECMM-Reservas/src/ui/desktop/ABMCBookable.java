@@ -31,26 +31,6 @@ public class ABMCBookable extends JInternalFrame {
 	private ControllerABMCTypeBookable ctrlTypeBook= new ControllerABMCTypeBookable();
 	private ControllerABMCBookable ctrlBook= new ControllerABMCBookable();
 	
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ABMCBookable frame = new ABMCBookable();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public ABMCBookable() {
 		setBounds(100, 100, 450, 300);
 		
@@ -153,7 +133,6 @@ public class ABMCBookable extends JInternalFrame {
 		
 	}
 
-	
 	private void loadListTypeBookables(){
 		try {
 			this.cboType.setModel(new DefaultComboBoxModel(ctrlTypeBook.getAll().toArray()));
@@ -163,20 +142,14 @@ public class ABMCBookable extends JInternalFrame {
 			e.printStackTrace();
 		}
 		
-	}
-	
-	
+	}	
 	
 	private void searchClick() {
 		try {
 			this.mapearAForm(ctrlBook.getByName(this.mapearDeForm()));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(this,"No existe un elemento con ese nombre");
 		}
-		
-		
-		
 	}
 	
 	private void addClick(){
@@ -186,10 +159,9 @@ public class ABMCBookable extends JInternalFrame {
 			JOptionPane.showMessageDialog(null,"Elemento agregado con exito");
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(this,"Ya existe un elemento con ese nombre");
 		}
-		}
+	}
 	
 	private void updateClick(){
 		try {
@@ -198,29 +170,19 @@ public class ABMCBookable extends JInternalFrame {
 			JOptionPane.showMessageDialog(null,"elemento modificado con exito");
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(this,"No existe un elemento con ese nombre");
-
 		}
-
 	}
 		
-		private void deleteClick(){
-			try {
-				ctrlBook.DeleteBookable(this.mapearDeForm());
-				JOptionPane.showMessageDialog(this,"Elemento borrado con exito");
+	private void deleteClick(){
+		try {
+			ctrlBook.DeleteBookable(this.mapearDeForm());
+			JOptionPane.showMessageDialog(this,"Elemento borrado con exito");
 
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				JOptionPane.showMessageDialog(this,"No existe un elemento con ese nombre");
-
-			}
-			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this,"No existe un elemento con ese nombre");
 		}
-		
-		
-	
-	
+	}
 	
 	private void mapearAForm(Bookable b) {   
 		if(!String.valueOf(b.getId()).isEmpty()) {
@@ -232,8 +194,7 @@ public class ABMCBookable extends JInternalFrame {
 			}
 		}
 	
-	private Bookable mapearDeForm ()
-	{ 
+	private Bookable mapearDeForm (){ 
 		Bookable b= new Bookable();
 		if(!this.txtIdBookable.getText().isEmpty()) {
 			b.setId(Integer.parseInt(this.txtIdBookable.getText()));
