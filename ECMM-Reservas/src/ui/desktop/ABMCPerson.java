@@ -1,7 +1,5 @@
 package ui.desktop;
 
-import java.awt.EventQueue;
-
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -9,8 +7,6 @@ import javax.swing.JTextField;
 
 import entities.Person;
 import logic.ControllerABMCPerson;
-import util.AppDataException;
-
 import java.awt.Color;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
@@ -21,6 +17,10 @@ import javax.swing.JFrame;
 import javax.swing.JPasswordField;
 
 public class ABMCPerson extends JInternalFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ControllerABMCPerson ctrlPer= new ControllerABMCPerson();
 	private JTextField txtName_Person;
 	private JTextField txtLast_Name_Person;
@@ -32,14 +32,6 @@ public class ABMCPerson extends JInternalFrame {
 	private JLabel lblEmail;
 	private JPasswordField txtPassword;
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-=======
-	
-
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 	public ABMCPerson() {
 		try {
 			setClosed(true);
@@ -103,19 +95,7 @@ public class ABMCPerson extends JInternalFrame {
 		JLabel lblPassword = new JLabel("Password :");
 		lblPassword.setBounds(45, 211, 73, 14);
 		getContentPane().add(lblPassword);
-		
-<<<<<<< Updated upstream
-		txtPassword = new JTextField();
-		txtPassword.setBounds(131, 208, 86, 20);
-		getContentPane().add(txtPassword);
-		txtPassword.setColumns(10);
-=======
-		
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
-		
->>>>>>> Stashed changes
+
 		JLabel lblEnableperson = new JLabel("Enable_Person :");
 		lblEnableperson.setBounds(28, 282, 85, 14);
 		getContentPane().add(lblEnableperson);
@@ -223,6 +203,7 @@ public class ABMCPerson extends JInternalFrame {
 		this.txtEmail.setText(p.getEmail());
 	}
 	
+	@SuppressWarnings("deprecation")
 	private Person mapearDeForm (){ 
 		Person p= new Person();
 		if(!this.txtId_Person.getText().isEmpty()) {

@@ -40,18 +40,16 @@ public class DataReservation {
 			}
 		} catch(SQLException e) {
 			throw e;
-		}
-	finally{	
-		try {
-			if(rs!=null) rs.close();
-			if(stmt!=null) stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {	
-			e.printStackTrace();
-		}
-	}	
+		} finally{	
+			try {
+				if(rs!=null) rs.close();
+				if(stmt!=null) stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {	
+				e.printStackTrace();
+			}
+		}	
 		return res;
-	
 	}
 	
 	public void add(Reservation re)throws Exception{
@@ -74,16 +72,15 @@ public class DataReservation {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {	
+			try {
+				if(keyResultSet!=null)keyResultSet.close();
+				if(stmt!=null)stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-	finally {	
-		try {
-			if(keyResultSet!=null)keyResultSet.close();
-			if(stmt!=null)stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	}
 	
 	public List<Reservation> getByIdPerson(Person p)throws Exception{
@@ -103,19 +100,15 @@ public class DataReservation {
 			}
 		} catch (SQLException e) {
 			throw e;
-		}
-		
-		
-	finally {	
-		try {
-			if(rs!=null)rs.close();
-			if(stmt!=null)stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-	}	
+		} finally {	
+			try {
+				if(rs!=null)rs.close();
+				if(stmt!=null)stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
 		return res;
 	}
 	
@@ -129,24 +122,19 @@ public class DataReservation {
 			stmt.executeUpdate();		
 		} catch (SQLException e) {
 			throw e;
+		} finally{	
+			try {
+				if(stmt!=null)stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-	finally{	
-		try {
-			if(stmt!=null)stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	}
 
-	public void update(Reservation r) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void update(Reservation r) {}
 
 	public Reservation getByIDRes(int id) {
-		// TODO Auto-generated method stub
 		return null;
-	}	
+	}
 }

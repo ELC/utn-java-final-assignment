@@ -1,7 +1,5 @@
 package ui.desktop;
 
-import java.awt.EventQueue;
-
 import javax.swing.JInternalFrame;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -11,9 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import data.DataBookable;
 import entities.Bookable;
-import entities.Person;
 import entities.TypeBookable;
 import logic.ControllerABMCBookable;
 import logic.ControllerABMCTypeBookable;
@@ -26,20 +22,16 @@ import java.awt.Color;
 import javax.swing.JFrame;
 
 public class ABMCBookable extends JInternalFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtIdBookable;
 	private JTextField txtName_Bookable;
 	private JComboBox cboType;
 	private ControllerABMCTypeBookable ctrlTypeBook= new ControllerABMCTypeBookable();
 	private ControllerABMCBookable ctrlBook= new ControllerABMCBookable();
 	
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-=======
-
-	
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 	public ABMCBookable() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setClosable(true);
@@ -87,7 +79,6 @@ public class ABMCBookable extends JInternalFrame {
 		});
 		
 		cboType = new JComboBox();
-		
 		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -139,9 +130,6 @@ public class ABMCBookable extends JInternalFrame {
 		);
 		getContentPane().setLayout(groupLayout);
 		loadListTypeBookables();
-		
-		
-		
 	}
 
 	private void loadListTypeBookables(){
@@ -149,10 +137,8 @@ public class ABMCBookable extends JInternalFrame {
 			this.cboType.setModel(new DefaultComboBoxModel(ctrlTypeBook.getAll().toArray()));
 			this.cboType.setSelectedIndex(-1);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}	
 	
 	private void searchClick() {
@@ -168,7 +154,6 @@ public class ABMCBookable extends JInternalFrame {
 			ctrlBook.RegisterBookable(this.mapearDeForm());
 			showBookable(ctrlBook.getByName(this.mapearDeForm()));
 			JOptionPane.showMessageDialog(null,"Elemento agregado con exito");
-
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this,"Ya existe un elemento con ese nombre");
 		}
@@ -179,7 +164,6 @@ public class ABMCBookable extends JInternalFrame {
 			ctrlBook.ModifyBookable(this.mapearDeForm());
 			showBookable(ctrlBook.getByName(this.mapearDeForm()));
 			JOptionPane.showMessageDialog(null,"elemento modificado con exito");
-
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this,"No existe un elemento con ese nombre");
 		}
@@ -189,7 +173,6 @@ public class ABMCBookable extends JInternalFrame {
 		try {
 			ctrlBook.DeleteBookable(this.mapearDeForm());
 			JOptionPane.showMessageDialog(this,"Elemento borrado con exito");
-
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this,"No existe un elemento con ese nombre");
 		}
@@ -202,8 +185,8 @@ public class ABMCBookable extends JInternalFrame {
 		this.txtName_Bookable.setText(b.getName());
 		if(b.getType()!=null) {
 			this.cboType.setSelectedItem(b.getType());
-			}
 		}
+	}
 	
 	private Bookable mapearDeForm (){ 
 		Bookable b= new Bookable();
@@ -214,9 +197,8 @@ public class ABMCBookable extends JInternalFrame {
 		if (cboType.getSelectedIndex() != -1){
 			b.setType((TypeBookable)this.cboType.getSelectedItem());
 		}
-		
 		return b;
-		}	
+	}
 
 	private void showBookable(Bookable b) {
 		this.mapearAForm(b);

@@ -1,6 +1,5 @@
 package ui.desktop;
 
-import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +27,10 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 
 public class ShowAllReservation extends JInternalFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private ArrayList<Reservation> bookings;
 	ControllerABMCReservation ctrlRes= new ControllerABMCReservation();

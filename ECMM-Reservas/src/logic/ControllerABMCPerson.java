@@ -1,32 +1,14 @@
 package logic;
 
 import java.util.Objects;
-
-import javax.swing.JOptionPane;
-
 import data.DataPerson;
 import entities.*;
 import util.AppDataException;
 
 
 public class ControllerABMCPerson {
-	
-	private DataPerson dataPer;
-	private Application app;
-	
-	public ControllerABMCPerson(){
-		dataPer= new DataPerson();
-		app = Application.getInstancia();
-	}
-	
-	
-	public void RegisterPerson(Person p)throws Exception{
-//		app.isLoggedIn();
-//		if(!Application.getInstancia().getActivePerson().getPrivileges().contains(AccessLevel.CREATE_USER)){
-//			//lanzo exepción
-//		}
-		dataPer.add(p);
-	}
+	private DataPerson dataPer = new DataPerson();
+	private Application app = Application.getInstancia();
 	
 	public void LoginPerson(Person p) throws Exception{
 		if (Application.getInstancia().getActivePerson()!=null){
@@ -39,34 +21,33 @@ public class ControllerABMCPerson {
 		Application.getInstancia().setActivePerson(per);
 	}
 	
-	public void LogOutPerson(){
+	public void LogOutPerson() throws Exception{
 		Application.getInstancia().LogOutPerson();
 	}
 	
+	public void RegisterPerson(Person p)throws Exception{
+		app.isLoggedIn();
+//		app.hasPermission(AccessLevel.CREATE_USER);
+		dataPer.add(p);
+	}
+	
 	public void ModifyPerson(Person p)throws Exception{
-//		app.isLoggedIn();
-//		if(!Application.getInstancia().getActivePerson().getPrivileges().contains(AccessLevel.MODIFY_USER)){
-//			//lanzo exepción
-//		}
+		app.isLoggedIn();
+//		app.hasPermission(AccessLevel.MODIFY_USER);
 		dataPer.update(p);
 	}
 	
 	public void DeletePerson(Person p)throws Exception{
 //		app.isLoggedIn();
-//		if(!Application.getInstancia().getActivePerson().getPrivileges().contains(AccessLevel.DELETE_USER)){
-//			//lanzo exepción
-//		}
+//		app.hasPermission(AccessLevel.DELETE_USER);
 		dataPer.delete(p);
 	}
 
 	public Person getByDni(Person p) throws Exception{
 		return dataPer.getByDni(p);
-		
 	}
 	
 	public Person getByDni(String dni) throws Exception{
 		return dataPer.getByDni(dni);
-		
 	}
-	
 }

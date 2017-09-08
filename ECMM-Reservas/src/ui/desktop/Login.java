@@ -1,16 +1,10 @@
 package ui.desktop;
 
-import java.awt.EventQueue;
-
 import javax.swing.JInternalFrame;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.LayoutStyle.ComponentPlacement;
-
 import entities.Person;
 import logic.ControllerABMCPerson;
 
@@ -21,8 +15,12 @@ import javax.swing.JFrame;
 import javax.swing.JPasswordField;
 
 public class Login extends JInternalFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtUserName;
-	private ControllerABMCPerson ctrlPer= new ControllerABMCPerson();
+	private ControllerABMCPerson ctrlPer = new ControllerABMCPerson();
 	private JPasswordField passwordUser;
 
 	public Login() {
@@ -72,6 +70,7 @@ public class Login extends JInternalFrame {
 	}
 	
 	
+	@SuppressWarnings("deprecation")
 	private Person mapearDeForm (){ 
 		Person p= new Person();
 		p.setUsername(this.txtUserName.getText());

@@ -9,21 +9,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
 import logic.ControllerABMCPerson;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 import javax.swing.SwingConstants;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -33,6 +26,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MainAppWindow extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JFrame frmFinalAssigment;
 	private JDesktopPane desktopPane1;
 	private JMenu mnTypeBookable;
@@ -186,7 +183,7 @@ public class MainAppWindow extends JFrame {
 		lblDasdf.setForeground(Color.WHITE);
 		lblDasdf.setFont(new Font("Tahoma", Font.BOLD, 11));
 		panel.add(lblDasdf);
-		lockAll();
+		lockAllBase();
 	}
 
 	protected void openLogIn() {
@@ -204,15 +201,23 @@ public class MainAppWindow extends JFrame {
 		mnLogOut.setVisible(true);
 	}
 	
-	public void lockAll(){
-		ControllerABMCPerson ctrlPer= new ControllerABMCPerson();
-		ctrlPer.LogOutPerson();
+	public void lockAllBase(){
 		mnPerson.setEnabled(false);
 		mnTypeBookable.setEnabled(false);
 		mnBookable.setEnabled(false);
 		mnBooking.setEnabled(false);
 		mnLogIn.setVisible(true);
 		mnLogOut.setVisible(false);
+	}	
+	
+	public void lockAll(){
+		ControllerABMCPerson ctrlPer= new ControllerABMCPerson();
+		try {
+			ctrlPer.LogOutPerson();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		lockAllBase();
 	}		
 	
 	protected void showABMCBookable() {

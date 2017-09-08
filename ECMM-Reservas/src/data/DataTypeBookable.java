@@ -85,16 +85,15 @@ public class DataTypeBookable {
 			
 		} catch (SQLException e) {
 			throw e;
-		}
-	finally {
-		try {
-			if(rs!=null)rs.close();
-			if(stmt!=null)stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}	
+		} finally {
+			try {
+				if(rs!=null)rs.close();
+				if(stmt!=null)stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
 		return t;
 	}
 	
@@ -120,20 +119,18 @@ public class DataTypeBookable {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw e;
+		} finally {
+			try {
+				if(keyResultSet!=null) {keyResultSet.close();}
+					if (stmt!=null){
+									stmt.close();
+					}
+					FactoryConection.getInstancia().releaseConn();
+			} 
+			catch (SQLException e) {
+				e.printStackTrace();
+			}	
 		}
-	finally {
-		try {
-			if(keyResultSet!=null) {keyResultSet.close();}
-				if (stmt!=null){
-								stmt.close();
-				}
-				FactoryConection.getInstancia().releaseConn();
-		} 
-		catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-	}
 	}
 	
 	public void update(TypeBookable b)throws Exception{
@@ -154,15 +151,14 @@ public class DataTypeBookable {
 			}
 		} catch (AppDataException apd) {
 			throw apd;
+		} finally {	
+			try {
+				if(stmt!=null)stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-	finally {	
-		try {
-			if(stmt!=null)stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	}
 	public void delete(TypeBookable b)throws Exception{
 		PreparedStatement stmt=null;
@@ -175,21 +171,15 @@ public class DataTypeBookable {
 			if (rowsAfected==0){
 				throw new AppDataException(null, "Tipo elemento inexistente");
 			}	
-		
-		
-		} 
-		
-		catch (AppDataException apd) {
+		} catch (AppDataException apd) {
 			throw apd;
-		}
-		
-		finally {
-		try {
-			if(stmt!=null)stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} finally {
+			try {
+				if(stmt!=null)stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
-}
 }

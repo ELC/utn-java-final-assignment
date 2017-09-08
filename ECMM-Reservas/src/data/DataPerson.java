@@ -12,15 +12,11 @@ import entities.UserRole;
 import util.AppDataException;
 import data.DataUserRoles;
 
-
 public class DataPerson {
-	
 	
 	private Person buildPerson(ResultSet rs) throws Exception{
 			Person p = new Person();
 		try {
-			
-		
 			p.setId(rs.getInt("id_person"));
 			p.setName(rs.getString("name_person"));
 			p.setLastName(rs.getString("last_name_person"));
@@ -32,7 +28,6 @@ public class DataPerson {
 			//UserRole user_role = DataUserRoles.getById(rs.getInt("privileges"));
 			//p.setPrivileges(user_role.getPrivileges());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			throw e;
 		}
 		return p;
@@ -53,23 +48,19 @@ public class DataPerson {
 			}
 		} catch(SQLException e) {
 			throw e;		
+		} finally {
+			try {
+				if(rs!=null) rs.close();
+				if(stmt!=null) stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {	
+				throw e;
+			}
 		}
-		
-	finally {
-		try {
-			if(rs!=null) rs.close();
-			if(stmt!=null) stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {	
-			throw e;
-		}
-	}
 		return pers;
 	}
 	
 	public Person getById(int id) throws Exception{
-		
-		
 		Person p=null;
 		PreparedStatement stmt=null;
 		ResultSet rs=null;
@@ -84,25 +75,18 @@ public class DataPerson {
 			
 		} catch (SQLException e) {
 			throw e;
-		}
-			catch(Exception e) {
-				throw e;
-				
-			}
-		
-		
-		finally {	
-			
+		} catch(Exception e) {
+			throw e;
+		} finally {	
 			try {
 				if(rs!=null)rs.close();
 				if(stmt!=null)stmt.close();
 				FactoryConection.getInstancia().releaseConn();
-			} 		catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}	
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
 		return p;
-		
 	}
 	
 	public Person getByEmail(String email)throws Exception{
@@ -117,21 +101,17 @@ public class DataPerson {
 			if(rs!=null && rs.next()){
 				p=buildPerson(rs);
 			}
-			
 		} catch (SQLException e) {
 			throw e;
-		}
-	
-	finally {
-		
-		try {
-			if(rs!=null)rs.close();
-			if(stmt!=null)stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}	
+		} finally {
+			try {
+				if(rs!=null)rs.close();
+				if(stmt!=null)stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
 		return p;
 	}
 	
@@ -150,20 +130,17 @@ public class DataPerson {
 			}
 		} catch(SQLException e) {
 			throw e;		
-		}
-	
-		finally	{	
-		try {
-			if(rs!=null) rs.close();
-			if(stmt!=null) stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {	
-			e.printStackTrace();
-		}
-	}	
+		} finally	{	
+			try {
+				if(rs!=null) rs.close();
+				if(stmt!=null) stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {	
+				e.printStackTrace();
+			}
+		}	
 		return pers;
 	}
-	
 	
 	public Person getByUsername(Person per)throws Exception{
 		Person p=null;
@@ -180,16 +157,15 @@ public class DataPerson {
 			
 		} catch (SQLException e) {
 			throw e;
+		} finally {	
+			try {
+				if(rs!=null)rs.close();
+				if(stmt!=null)stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-	finally {	
-		try {
-			if(rs!=null)rs.close();
-			if(stmt!=null)stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}	
 		return p;
 	}
 	
@@ -208,18 +184,15 @@ public class DataPerson {
 			
 		} catch (SQLException e) {
 			throw e;
-		}
-	finally {
-		
-	
-		try {
-			if(rs!=null)rs.close();
-			if(stmt!=null)stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}	
+		} finally {
+			try {
+				if(rs!=null)rs.close();
+				if(stmt!=null)stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
 		return p;
 	}
 	
@@ -238,25 +211,17 @@ public class DataPerson {
 			
 		} catch (SQLException e) {
 			throw e;
-		}
-	finally {
-		
-	
-		try {
-			if(rs!=null)rs.close();
-			if(stmt!=null)stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}	
+		} finally {
+			try {
+				if(rs!=null)rs.close();
+				if(stmt!=null)stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
 		return p;
-	}
-	
-	
-	
-	
-	
+	}	
 	
 	public void add(Person p) throws Exception{
 		PreparedStatement stmt=null;
@@ -281,20 +246,17 @@ public class DataPerson {
 			}
 		} catch (SQLException e) {
 			throw e;
-		}
-	
-		finally{
-	
-	
+		} finally{
 			try {
 				if(keyResultSet!=null)keyResultSet.close();
 				if(stmt!=null)stmt.close();
 				FactoryConection.getInstancia().releaseConn();
-			} 		catch (SQLException e) {
-			e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
-}
+	
 	public void delete(Person p) throws Exception{
 		PreparedStatement stmt=null;
 		try {
@@ -310,18 +272,16 @@ public class DataPerson {
 		
 		} catch (AppDataException e) {
 			throw e;
-		}
-		
-	finally {
-		
-		try {
-			if(stmt!=null)stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}	
-}
+		} finally {
+			try {
+				if(stmt!=null)stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+	}
+	
 	public void update(Person p)throws Exception{
 		PreparedStatement stmt=null;
 		try {
@@ -340,20 +300,15 @@ public class DataPerson {
 			if (rowsAfected==0){
 				throw new AppDataException(null, "Persona inexistente");
 			}	
-		
 		} catch (AppDataException e) {
 			throw e;
-		}
-		
-	finally {
-		
-		try {
-			if(stmt!=null)stmt.close();
-			FactoryConection.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} finally {
+			try {
+				if(stmt!=null)stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
-}
-	
 }

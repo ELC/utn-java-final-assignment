@@ -1,20 +1,12 @@
 package ui.desktop;
 
-import java.awt.EventQueue;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JInternalFrame;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-
 import entities.Bookable;
 import entities.Reservation;
 import entities.TypeBookable;
@@ -24,18 +16,16 @@ import logic.ControllerABMCReservation;
 import logic.ControllerABMCTypeBookable;
 import util.Util;
 
-
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SpinnerDateModel;
 
 import com.toedter.calendar.JCalendar;
@@ -43,6 +33,10 @@ import javax.swing.JSpinner;
 import java.awt.Color;
 
 public class ABMCReservation extends JInternalFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ControllerABMCReservation ctrlRes= new ControllerABMCReservation();
 	private ControllerABMCBookable ctrlBook = new ControllerABMCBookable();
 	private ControllerABMCTypeBookable ctrlType= new ControllerABMCTypeBookable();
@@ -55,14 +49,6 @@ public class ABMCReservation extends JInternalFrame {
 	private JTextField txtDetail;
 	private Timestamp dateBooking;
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-=======
-
-	
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 	public ABMCReservation() {
 		setClosable(true);
 		setBounds(100, 100, 403, 301);
@@ -155,9 +141,7 @@ public class ABMCReservation extends JInternalFrame {
 		
 		JLabel lblDetail = new JLabel("Detail");
 		lblDetail.setBounds(10, 206, 46, 14);
-		getContentPane().add(lblDetail);
-		
-		
+		getContentPane().add(lblDetail);		
 	}
 
 	protected void CloseWindow() {
@@ -167,20 +151,21 @@ public class ABMCReservation extends JInternalFrame {
 	private void addClick() {
 		try {
 			ctrlRes.RegisterReservation(this.mapearDeForm());
+			JOptionPane.showMessageDialog(this, "Your booking was successfully created!");
 		} catch (Exception e) {
-			e.printStackTrace();
-//			JOptionPane.showMessageDialog(this,"Error al intentar agregar una reserva");
+			JOptionPane.showMessageDialog(this, "Error al intentar agregar una reserva");
 		}
 	}	
 	
 	private void readDateAndTime(){
 		String fecha = convertDateToString(cal.getDate()) + " " + 
 				Util.convertTimeToString((java.util.Date)spinner.getValue());
-		 dateBooking=Timestamp.valueOf(fecha);
-//		java.sql.Date dateBooking=(java.sql.Date) cal.getDate();
-//		dateBooking.setMinutes(dateSpinner.getMinutes());
-//		dateBooking.setHours(dateSpinner.getHours());
-		loadListAvailableBookable((TypeBookable)cboType.getSelectedItem(), dateBooking);
+		dateBooking=Timestamp.valueOf(fecha);
+		try {
+			loadListAvailableBookable((TypeBookable)cboType.getSelectedItem(), dateBooking);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "No hay elementos disponibles para esa fecha y hora");
+		}
 	}
 	
 	private void loadListTypeBookables(){
@@ -192,13 +177,13 @@ public class ABMCReservation extends JInternalFrame {
 		}
 	}
 
-	private void loadListAvailableBookable(TypeBookable type, Timestamp dateBooking) {
-		try{
-			this.cboBookables.setModel(new DefaultComboBoxModel(ctrlBook.getAllAvailable(type,dateBooking).toArray()));
-			this.cboBookables.setSelectedIndex(-1);
-		} catch (Exception e){
-			JOptionPane.showMessageDialog(this,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+	private void loadListAvailableBookable(TypeBookable type, Timestamp dateBooking) throws Exception {
+		ArrayList<Bookable> bookables = ctrlBook.getAllAvailable(type,dateBooking);
+		if (bookables.isEmpty()){
+			throw new Exception();
 		}
+		this.cboBookables.setModel(new DefaultComboBoxModel(bookables.toArray()));
+		this.cboBookables.setSelectedIndex(-1);
 	}
 
 	public String convertDateToString(Date date) {
@@ -221,5 +206,5 @@ public class ABMCReservation extends JInternalFrame {
 		r.setDate(dateBooking);
 		r.setPerson(Application.getInstancia().getActivePerson());
 		return r;
-		}
+	}
 }

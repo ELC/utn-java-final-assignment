@@ -1,7 +1,5 @@
 package ui.desktop;
 
-import java.awt.EventQueue;
-
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,6 +22,10 @@ import javax.swing.JSpinner;
 import javax.swing.JFrame;
 
 public class ABMCType_Bookable extends JInternalFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ControllerABMCTypeBookable ctrlType= new ControllerABMCTypeBookable();
 	private JTextField IDTypeBookable;
 	private JTextField NameTypeBookable;
@@ -136,9 +138,7 @@ public class ABMCType_Bookable extends JInternalFrame {
 			ctrlType.RegisterTypeBookable(this.mapearDeForm());
 			showTypeBookable(ctrlType.getByName(this.mapearDeForm()));
 			JOptionPane.showMessageDialog(null,"Tipo de Elemento Agregado con exito");
-
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(this,"Error al agregar un tipo de elemento");
 		}
 	}

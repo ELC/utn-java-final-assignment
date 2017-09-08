@@ -1,11 +1,12 @@
 package logic;
 
+import entities.AccessLevel;
 import entities.Person;
 
 public class Application {
 	private static Application instancia;
 	
-	private static Person activePerson;
+	private Person activePerson;
 	
 	public Person getActivePerson() {
 		return activePerson;
@@ -15,14 +16,20 @@ public class Application {
 		this.activePerson = activePerson;
 	}
 	
-	public void LogOutPerson(){
+	public void LogOutPerson() throws Exception{
 		isLoggedIn();
-		activePerson =null;
+		activePerson = null;
 	}
 
-	public void isLoggedIn(){
+	public void isLoggedIn() throws Exception{
 		if(activePerson==null){
-			//lanzo exepción
+			throw new Exception();
+		}
+	}
+	
+	public void hasPermission(AccessLevel permission) throws Exception{
+		if(!activePerson.getPrivileges().contains(permission)){
+			throw new Exception();
 		}
 	}
 	
@@ -34,5 +41,4 @@ public class Application {
 		}
 		return Application.instancia;
 	}
-	
 }
