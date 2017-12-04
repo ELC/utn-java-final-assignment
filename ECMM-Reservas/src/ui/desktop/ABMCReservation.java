@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import entities.Bookable;
+import entities.Person;
 import entities.Reservation;
 import entities.TypeBookable;
 import logic.Application;
@@ -169,8 +170,9 @@ public class ABMCReservation extends JInternalFrame {
 	}
 	
 	private void loadListTypeBookables(){
+		Person user= Application.getInstancia().getActivePerson();
 		try {
-			this.cboType.setModel(new DefaultComboBoxModel(ctrlType.getAllByDate(cal.getDate()).toArray()));
+			this.cboType.setModel(new DefaultComboBoxModel(ctrlType.getAllByDate(cal.getDate(),user).toArray()));
 			this.cboType.setSelectedIndex(-1);
 		} catch (Exception e) {
 			e.printStackTrace();

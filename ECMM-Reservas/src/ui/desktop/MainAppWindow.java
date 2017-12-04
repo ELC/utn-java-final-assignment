@@ -214,18 +214,18 @@ public class MainAppWindow extends JFrame {
 			app.hasPermission(AccessLevel.READ_RESERVATION)){
 			mnBooking.setEnabled(true);
 		}
-		if (app.hasPermission(AccessLevel.CREATE_BOOKABLE) || 
-				app.hasPermission(AccessLevel.DELETE_BOOKABLE) ||
+		if (app.hasPermission(AccessLevel.CREATE_BOOKABLE) && 
+				app.hasPermission(AccessLevel.DELETE_BOOKABLE) &&
 				app.hasPermission(AccessLevel.READ_BOOKABLE)){
 				mnBookable.setEnabled(true);
 		}
-		if (app.hasPermission(AccessLevel.CREATE_USER) || 
-				app.hasPermission(AccessLevel.DELETE_USER) ||
+		if (app.hasPermission(AccessLevel.CREATE_USER) && 
+				app.hasPermission(AccessLevel.DELETE_USER) &&
 				app.hasPermission(AccessLevel.READ_USER)){
 				mnPerson.setEnabled(true);
 		}
-		if (app.hasPermission(AccessLevel.CREATE_TYPEBOOKABLE) || 
-				app.hasPermission(AccessLevel.DELETE_TYPEBOOKABLE) ||
+		if (app.hasPermission(AccessLevel.CREATE_TYPEBOOKABLE) && 
+				app.hasPermission(AccessLevel.DELETE_TYPEBOOKABLE) &&
 				app.hasPermission(AccessLevel.READ_TYPEBOOKABLE)){
 				mnTypeBookable.setEnabled(true);
 		}

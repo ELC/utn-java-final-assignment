@@ -20,6 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.JSpinner;
 import javax.swing.JFrame;
+import javax.swing.JCheckBox;
 
 public class ABMCType_Bookable extends JInternalFrame {
 	/**
@@ -30,8 +31,9 @@ public class ABMCType_Bookable extends JInternalFrame {
 	private JTextField IDTypeBookable;
 	private JTextField NameTypeBookable;
 	private JTextField DaysLimit;
-	private JTextField Restriction;
 	private JSpinner spinner;
+	private JSpinner spinnerMaxBookings;
+	private JCheckBox chckbxRestriction;
 
 	public ABMCType_Bookable() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -73,17 +75,6 @@ public class ABMCType_Bookable extends JInternalFrame {
 		getContentPane().add(DaysLimit);
 		DaysLimit.setColumns(10);
 		
-		JLabel lblRestrictions = new JLabel("Restrictions");
-		lblRestrictions.setBounds(10, 182, 74, 14);
-		getContentPane().add(lblRestrictions);
-		
-		Restriction = new JTextField();
-		Restriction.setEnabled(false);
-		Restriction.setEditable(false);
-		Restriction.setBounds(118, 179, 86, 20);
-		getContentPane().add(Restriction);
-		Restriction.setColumns(10);
-		
 		JButton btnAddTypeBookable = new JButton("Add Type Bookable");
 		btnAddTypeBookable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -120,16 +111,24 @@ public class ABMCType_Bookable extends JInternalFrame {
 		btnDeleteTypeBookable.setBounds(260, 137, 144, 23);
 		getContentPane().add(btnDeleteTypeBookable);
 		
-		JLabel lblversinPromocin = new JLabel("(Versi\u00F3n Promoci\u00F3n)");
-		lblversinPromocin.setBounds(235, 182, 129, 14);
-		getContentPane().add(lblversinPromocin);
-		
 		spinner = new JSpinner( new SpinnerDateModel() );
 		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(spinner, "HH:mm");
 		spinner.setEditor(timeEditor);
 		spinner.setValue(new Date());
 		spinner.setBounds(118, 97, 86, 20);
 		getContentPane().add(spinner);
+		
+		JLabel lblMaxbookings = new JLabel("MaxBookings");
+		lblMaxbookings.setBounds(10, 181, 74, 14);
+		getContentPane().add(lblMaxbookings);
+		
+		spinnerMaxBookings = new JSpinner();
+		spinnerMaxBookings.setBounds(118, 178, 86, 20);
+		getContentPane().add(spinnerMaxBookings);
+		
+		chckbxRestriction = new JCheckBox("Restriction");
+		chckbxRestriction.setBounds(260, 177, 97, 23);
+		getContentPane().add(chckbxRestriction);
 
 	}
 	
@@ -182,7 +181,10 @@ public class ABMCType_Bookable extends JInternalFrame {
 		if(!String.valueOf(t.getHourslimit()).isEmpty()) {
 			this.spinner.setValue(this.convertStringToDate(t.getHourslimit()));
 		}
-		//this.Restriction.setText(String.valueOf(t.getRestriction()));
+		this.chckbxRestriction.setSelected(t.getRestriction()==1);
+		
+		this.spinnerMaxBookings.setValue(Integer.valueOf(t.getMaxBookings()));
+	
 	}
 	
 	private TypeBookable mapearDeForm (){ 
@@ -190,14 +192,23 @@ public class ABMCType_Bookable extends JInternalFrame {
 		if(!this.IDTypeBookable.getText().isEmpty()) {
 			t.setId(Integer.parseInt(this.IDTypeBookable.getText()));
 		}
-		t.setName(this.NameTypeBookable.getText());
+		
+		if(!this.NameTypeBookable.getText().isEmpty()) {
+			t.setName(this.NameTypeBookable.getText());
+		}
 		
 		t.setHourslimit(Util.convertTimeToString((java.util.Date)spinner.getValue()));
 			
 		if(!this.DaysLimit.getText().isEmpty()) {
 				t.setDayslimit(Integer.parseInt(this.DaysLimit.getText()));
+				
+		if (this.chckbxRestriction.isSelected()){
+					t.setRestriction(1);
+				} else {t.setRestriction(0);}
 		}
-		//t.setRestriction(Integer.parseInt(this.Restriction.getText()));
+		
+		t.setMaxBookings((Integer)spinnerMaxBookings.getValue());
+		
 		return t;
 	}
 
@@ -215,4 +226,6 @@ public class ABMCType_Bookable extends JInternalFrame {
 	public void showTypeBookable(TypeBookable t){
 		this.mapearAForm(t);
 	}
+
+
 }

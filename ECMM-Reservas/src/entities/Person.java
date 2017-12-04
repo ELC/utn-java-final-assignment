@@ -46,7 +46,7 @@ public class Person {
 		return username;
 	}
 	public void setUsername(String username) {
-		this.username = Util.hash(username);
+		this.username = Util.hash(username.toLowerCase());
 	}
 	public boolean checkUserName(Person p){
 		return Objects.equals(this.getUsername(), Util.hash(p.getUsername()));

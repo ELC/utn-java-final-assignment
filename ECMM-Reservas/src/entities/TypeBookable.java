@@ -9,6 +9,7 @@ public class TypeBookable {
 	private String hourslimit;
 	private int dayslimit;
 	private int restriction;
+	private int maxBookings;
 	
 	public int getId() {
 		return id;
@@ -45,6 +46,13 @@ public class TypeBookable {
 		this.restriction = restriction;
 	}
 
+	public int getMaxBookings() {
+		return maxBookings;
+	}
+	public void setMaxBookings(int maxBookings) {
+		this.maxBookings = maxBookings;
+	}
+	
 	@Override
 	public String toString(){
 		return this.getName();
@@ -59,6 +67,7 @@ public class TypeBookable {
 	public int hashCode(){
 		return ((Integer)this.getId()).hashCode();
 	}
+
 
 	
 	
