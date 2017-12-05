@@ -4,11 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
-
-import com.mysql.jdbc.PreparedStatement;
-
 import entities.UserRole;
+import util.AppDataException;
 
 public class DataUserRoles {
 	
@@ -37,7 +34,7 @@ public class DataUserRoles {
 		return userRoles;
 	}
 	
-	public static UserRole getById(int id){
+	public static UserRole getById(int id)throws AppDataException{
 		UserRole ur = null;
 		java.sql.PreparedStatement stmt=null;
 		ResultSet rs=null;
@@ -50,17 +47,9 @@ public class DataUserRoles {
 				ur = buildUserRole(rs);	
 			}
 		} catch(SQLException e) {
-			e.printStackTrace();			
+			throw new AppDataException(null,"Ha Ocurrido un error en la base de datos");	
 		}
 		return ur;
 	}
 	
-	public static List<UserRole> getAllByPermission(int permission){
-		return null;
-	}
-	
-	public static UserRole getByName(String name){
-		return null;
-	}
-
 }

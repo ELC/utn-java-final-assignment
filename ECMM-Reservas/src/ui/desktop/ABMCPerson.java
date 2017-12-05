@@ -7,6 +7,8 @@ import javax.swing.JTextField;
 
 import entities.Person;
 import logic.ControllerABMCPerson;
+import util.AppDataException;
+
 import java.awt.Color;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
@@ -159,7 +161,11 @@ public class ABMCPerson extends JInternalFrame {
 			ctrlPer.RegisterPerson(this.mapearDeForm());
 			showPerson(ctrlPer.getByDni(this.mapearDeForm()));
 			JOptionPane.showMessageDialog(null, "Persona agregada exitosamente");
-		} catch (Exception e) {
+		} 
+		catch(AppDataException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		} 
+		catch (Exception e) {
 			JOptionPane.showMessageDialog(this,"Error al crear un nuevo usuario");
 		}
 	}
@@ -168,7 +174,7 @@ public class ABMCPerson extends JInternalFrame {
 		try {
 			this.mapearAForm(ctrlPer.getByDni(this.mapearDeForm()));
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this,"Error, usuario Inexistente, por favor, intentelo denuevo");
+			JOptionPane.showMessageDialog(this,"Error, usuario Inexistente, por favor, intentelo nuevamente");
 		}
 	}
 	

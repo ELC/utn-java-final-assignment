@@ -186,7 +186,7 @@ public class MainAppWindow extends JFrame {
 		lblTpJava.setForeground(Color.WHITE);
 		panel.add(lblTpJava);
 		
-		JLabel lblCastaoEzequiel = new JLabel("Casta\u00F1o Ezequiel - Mulassi Mat\u00EDas - Sacchi Priscila");
+		JLabel lblCastaoEzequiel = new JLabel("Casta\u00F1o Ezequiel - Mulassi Mat\u00EDas");
 		lblCastaoEzequiel.setHorizontalAlignment(SwingConstants.LEFT);
 		lblCastaoEzequiel.setForeground(Color.WHITE);
 		lblCastaoEzequiel.setFont(new Font("Tahoma", Font.BOLD, 11));

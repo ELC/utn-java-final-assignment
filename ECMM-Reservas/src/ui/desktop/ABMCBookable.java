@@ -13,6 +13,7 @@ import entities.Bookable;
 import entities.TypeBookable;
 import logic.ControllerABMCBookable;
 import logic.ControllerABMCTypeBookable;
+import util.AppDataException;
 
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -144,8 +145,11 @@ public class ABMCBookable extends JInternalFrame {
 	private void searchClick() {
 		try {
 			this.mapearAForm(ctrlBook.getByName(this.mapearDeForm()));
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this,"No existe un elemento con ese nombre");
+		} catch(AppDataException e) {
+			JOptionPane.showMessageDialog(this,"Ha ocurrido un error en la base de datos, contacte con el administrador");	
+		}	
+			catch (Exception e) {
+			JOptionPane.showMessageDialog(this,"Ha Ocurrido un error al buscar ese elemento");
 		}
 	}
 	
@@ -154,8 +158,11 @@ public class ABMCBookable extends JInternalFrame {
 			ctrlBook.RegisterBookable(this.mapearDeForm());
 			showBookable(ctrlBook.getByName(this.mapearDeForm()));
 			JOptionPane.showMessageDialog(null,"Elemento agregado con exito");
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this,"Ya existe un elemento con ese nombre");
+		} catch(AppDataException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}	
+		catch (Exception e) {
+			JOptionPane.showMessageDialog(this,"Ha ocurrido un error al agregar un nuevo elemento");
 		}
 	}
 	

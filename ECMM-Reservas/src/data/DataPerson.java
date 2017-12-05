@@ -136,7 +136,7 @@ public class DataPerson {
 				if(stmt!=null) stmt.close();
 				FactoryConection.getInstancia().releaseConn();
 			} catch (SQLException e) {	
-				e.printStackTrace();
+				throw e;
 			}
 		}	
 		return pers;
@@ -162,7 +162,7 @@ public class DataPerson {
 				if(stmt!=null)stmt.close();
 				FactoryConection.getInstancia().releaseConn();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				throw e;
 			}
 		}
 		return p;
@@ -189,7 +189,7 @@ public class DataPerson {
 				if(stmt!=null)stmt.close();
 				FactoryConection.getInstancia().releaseConn();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				throw e;
 			}
 		}	
 		return p;
@@ -216,7 +216,7 @@ public class DataPerson {
 				if(stmt!=null)stmt.close();
 				FactoryConection.getInstancia().releaseConn();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				throw e;
 			}
 		}	
 		return p;
@@ -231,7 +231,9 @@ public class DataPerson {
 					"insert into person(dni, name_person,last_name_person, enable_person,user_person,password_person,email) values (?,?,?,?,?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
-			stmt.setString(1, p.getDni());
+			if(!p.getDni().isEmpty()){
+				stmt.setString(1, p.getDni());
+			} else {throw new AppDataException(null,"Ha ocurrido un error en la base de datos");}
 			stmt.setString(2, p.getName());
 			stmt.setString(3, p.getLastName());
 			stmt.setBoolean(4, p.isEnabled());
@@ -251,7 +253,7 @@ public class DataPerson {
 				if(stmt!=null)stmt.close();
 				FactoryConection.getInstancia().releaseConn();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				throw e;
 			}
 		}
 	}
@@ -276,7 +278,7 @@ public class DataPerson {
 				if(stmt!=null)stmt.close();
 				FactoryConection.getInstancia().releaseConn();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				throw e;
 			}
 		}	
 	}
@@ -306,7 +308,7 @@ public class DataPerson {
 				if(stmt!=null)stmt.close();
 				FactoryConection.getInstancia().releaseConn();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				throw e;
 			}
 		}
 	}

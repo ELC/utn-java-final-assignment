@@ -9,15 +9,23 @@ import java.util.ArrayList;
 
 import entities.Bookable;
 import entities.TypeBookable;
+import logic.ControllerABMCTypeBookable;
 import util.AppDataException;
 
 public class DataBookable {
 	
 	public static Bookable buildBookable(ResultSet rs) throws SQLException{
+		ControllerABMCTypeBookable ctrlType= new ControllerABMCTypeBookable();
 		Bookable b= new Bookable();
 		b.setId(rs.getInt("id_bookable"));
 		b.setName(rs.getString("name_bookable"));
-		TypeBookable type_bookable = DataTypeBookable.getById(rs.getInt("id_type_bookable")); 
+		TypeBookable type_bookable=null;
+	    try {
+			type_bookable = ctrlType.getById(rs.getInt("id_type_bookable"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    b.setType(type_bookable); 
 		return b;
 	}
@@ -81,7 +89,10 @@ public class DataBookable {
 		try {
 			stmt= FactoryConection.getInstancia().getConn().prepareStatement(		
 					"select * from bookable bk inner join type_bookable type on bk.id_type_bookable=type.id_type_bookable where name_bookable=?"); 
-			stmt.setString(1, b.getName()); 
+			if(!b.getName().isEmpty()){
+			stmt.setString(1, b.getName());
+			} else { throw new AppDataException(null,"Ha ocurrido un error en la base de datos");
+			  }
 			rs = stmt.executeQuery();
 			if(rs!=null && rs.next()){
 				b.setType(new TypeBookable());
@@ -89,9 +100,9 @@ public class DataBookable {
 				b.getType().setName(rs.getString("name_type_bookable"));
 				b.setId(rs.getInt("id_bookable"));
 				b.setName(rs.getString("name_bookable"));
-			}
-		} catch (Exception e) {
-			throw e;
+			} else {throw new SQLException();}
+		} catch (SQLException e) {
+			throw new AppDataException(null,"Ha ocurrido un error en la base de datos");
 		} finally {	
 			try {
 				if(rs!=null) rs.close();
@@ -167,7 +178,11 @@ public  Bookable getByName(String name) throws Exception{
 			stmt= FactoryConection.getInstancia().getConn().prepareStatement(
 			"insert into bookable (name_bookable, id_type_bookable) values(?,?)",
 			PreparedStatement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, b.getName()); 
+			if(!b.getName().isEmpty()) {
+			stmt.setString(1, b.getName());
+			} 
+			else {throw new AppDataException(null,"Ha ocurrido un error en la base de datos");			
+		    } 
 			stmt.setInt(2, b.getType().getId());
 			stmt.executeUpdate();
 			stmt.getGeneratedKeys();
@@ -178,7 +193,7 @@ public  Bookable getByName(String name) throws Exception{
 			}
 			
 		} catch (SQLException e) {
-			throw e;
+			throw new AppDataException(null,"Ha ocurrido un error en la base de datos");	
 		} finally {
 			try {
 				if(keyResultSet!=null) {keyResultSet.close();}
@@ -247,8 +262,6 @@ public  Bookable getByName(String name) throws Exception{
 	}
 	
 	public ArrayList<Bookable> getAvailableBookable(TypeBookable type,Timestamp date)throws Exception{
-//		long time = date.getTime();
-//		int limit = type.getHourslimit();
 		
 		ArrayList<Bookable> bookables= new ArrayList<Bookable>();
 		
@@ -294,34 +307,5 @@ public  Bookable getByName(String name) throws Exception{
 			}
 		}	
 		return bookables;
-		
-		//		select *
-		//		from bookable
-		//		inner join type_bookable
-		//			on bookable.id_type_bookable = type_bookable.id_type_bookable
-		//		inner join reservation res
-		//			on res.id_bookable = bookable.id_bookable
-		//		where reservas.date <> ? or (reservas.date == ? and (reservas.time + ? < ? or ? + ? < reservas.time))
-		//		where reservas.date <> date_ or (reservas.date == date_ and (reservas.time + limit < time or time + limit < reservas.time))
-				
-				
-		
-		//		select id_bookable, name_bookable
-		//		from bookable
-		//		where bookable.id_type_bookable = ? and (		
-		//			select Count(*)
-		// 			from bookable
-		// 			inner join reservation res
-		//				on res.id_bookable = bookable.id_bookable
-		// 			where bookable.id_type_bookable = ? and (reservas.date == ? and not (reservas.time + ? < ? or ? + ? < reservas.time))
-		//			) = 0
-		
-	
-		// proyector, 10, 13
-		// limite 2
-		// Horario 12
-		
-		//   10 + 2 <= 12 or 12 + 2 < 10 => True
-		//   13 + 2 <= 12 or 12 + 2 < 13 => False
 	}	
 }

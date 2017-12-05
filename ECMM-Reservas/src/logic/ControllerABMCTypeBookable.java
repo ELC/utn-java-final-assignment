@@ -54,4 +54,8 @@ public class ControllerABMCTypeBookable {
 	public TypeBookable getByName(TypeBookable t) throws Exception{
 		return dataTypeBookable.getByName(t);	
 	}	
+	public TypeBookable getById(int id)throws Exception{
+		return dataTypeBookable.getById(id);
+	}
+
 }

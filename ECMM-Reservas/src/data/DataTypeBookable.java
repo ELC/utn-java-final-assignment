@@ -5,9 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
-
-
 import entities.Person;
 import entities.TypeBookable;
 import util.AppDataException;
@@ -56,22 +53,32 @@ public class DataTypeBookable {
 		return typeBookables;
 	}
 	
-	public static TypeBookable getById(int id){
-		return null;
+	public TypeBookable getById(int id) throws Exception{
+		TypeBookable t=null;
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		try {
+			stmt=FactoryConection.getInstancia().getConn().prepareStatement(
+					"select * from type_bookable where id_type_bookable=?");
+			stmt.setInt(1, id);
+			rs=stmt.executeQuery();
+			if(rs!=null && rs.next()){
+				t=buildTypeBookable(rs);
+			}
+			
+		} catch (SQLException e) {
+			throw new AppDataException(null,"An error has occurred in the database, contact the system admin");
+		} finally {
+			try {
+				if(rs!=null)rs.close();
+				if(stmt!=null)stmt.close();
+				FactoryConection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				throw e;
+			}
+		}	
+		return t;
 	}
-	
-	public static List<TypeBookable> getAllByPermission(int restriction){
-		return null;
-	}
-	
-	public static List<TypeBookable> getByHourLimit(int HoursLimit){
-		return null;
-	}
-	
-	public static List<TypeBookable> getByDayLimit(int DaysLimit){
-		return null;
-	}
-	
 	
 	public ArrayList<TypeBookable> getAllByMaxBookings(Person per) throws Exception {
 		PreparedStatement stmt=null;

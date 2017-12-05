@@ -16,7 +16,6 @@ public class DataReservation {
 		DataPerson dataPer= new DataPerson();
 		DataBookable databook=new DataBookable();
 		Reservation re= new Reservation();
-		//re.setId(rs.getInt("id_type_bookable"));
 		re.setPerson(dataPer.getById(rs.getInt("id_person")));
 		re.setBookable(databook.getById(rs.getInt("id_bookable")));
 		re.setDate(rs.getTimestamp("dateTimeReservation"));
@@ -46,7 +45,7 @@ public class DataReservation {
 				if(stmt!=null) stmt.close();
 				FactoryConection.getInstancia().releaseConn();
 			} catch (SQLException e) {	
-				e.printStackTrace();
+				throw e;
 			}
 		}	
 		return res;
@@ -71,14 +70,14 @@ public class DataReservation {
 				re.setId(keyResultSet.getInt(1));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw e;
 		} finally {	
 			try {
 				if(keyResultSet!=null)keyResultSet.close();
 				if(stmt!=null)stmt.close();
 				FactoryConection.getInstancia().releaseConn();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				throw e;
 			}
 		}
 	}
@@ -127,14 +126,9 @@ public class DataReservation {
 				if(stmt!=null)stmt.close();
 				FactoryConection.getInstancia().releaseConn();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				throw e;
 			}
 		}
 	}
 
-	public void update(Reservation r) {}
-
-	public Reservation getByIDRes(int id) {
-		return null;
-	}
 }
