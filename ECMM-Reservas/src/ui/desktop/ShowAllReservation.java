@@ -102,18 +102,20 @@ public class ShowAllReservation extends JInternalFrame {
 			JOptionPane.showMessageDialog(this,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
 	protected void initDataBindings() {
-		JTableBinding<Reservation, List<Reservation>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, bookings, table);
+		JTableBinding<Reservation, List<Reservation>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ_WRITE, bookings, table);
 		//
 		BeanProperty<Reservation, String> reservationBeanProperty = BeanProperty.create("bookable.name");
 		jTableBinding.addColumnBinding(reservationBeanProperty).setColumnName("Bookable");
 		//
-		BeanProperty<Reservation, Timestamp> reservationBeanProperty_1 = BeanProperty.create("date");
-		jTableBinding.addColumnBinding(reservationBeanProperty_1).setColumnName("Date Booking");
+		BeanProperty<Reservation, String> reservationBeanProperty_1 = BeanProperty.create("person.name");
+		jTableBinding.addColumnBinding(reservationBeanProperty_1).setColumnName("Person");
 		//
-		BeanProperty<Reservation, String> reservationBeanProperty_2 = BeanProperty.create("detail");
-		jTableBinding.addColumnBinding(reservationBeanProperty_2).setColumnName("Detail");
+		BeanProperty<Reservation, Timestamp> reservationBeanProperty_2 = BeanProperty.create("date");
+		jTableBinding.addColumnBinding(reservationBeanProperty_2).setColumnName("Date Booking");
+		//
+		BeanProperty<Reservation, String> reservationBeanProperty_3 = BeanProperty.create("detail");
+		jTableBinding.addColumnBinding(reservationBeanProperty_3).setColumnName("Detail");
 		//
 		jTableBinding.bind();
 	}
